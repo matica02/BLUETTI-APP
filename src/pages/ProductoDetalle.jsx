@@ -3,6 +3,7 @@ import products from '../data/products.json'
 import { useCompare } from '../components/CompareContext'
 import SpecsTable from '../components/SpecsTable'
 import HighlightsList from '../components/HighlightsList'
+import ExpansionConfigurator from '../components/ExpansionConfigurator'
 import { CATEGORIA_LABELS, CATEGORIA_COLORS } from '../data/categorias'
 
 export default function ProductoDetalle() {
@@ -85,6 +86,8 @@ export default function ProductoDetalle() {
           </button>
         </div>
       </div>
+
+      <ExpansionConfigurator product={product} />
 
       <section className="mb-12">
         <h2 className="text-xl font-bold text-white mb-4">Casos de uso</h2>

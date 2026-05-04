@@ -16,26 +16,112 @@ const ELECTRODOMESTICOS = [
 ]
 
 const MODELOS = [
-  { id: 'es125x', nombre: 'ES125 X', capacidad: 241, potenciaMax: 125000 },
-  { id: 'ep2000', nombre: 'EP2000', capacidad: 14.7, potenciaMax: 10500 },
-  { id: 'ep760', nombre: 'EP760', capacidad: 4.96, potenciaMax: 7600 },
-  { id: 'apex300', nombre: 'APEX 300', capacidad: 2.764, potenciaMax: 3840 },
-  { id: 'ac200pl', nombre: 'AC200P L', capacidad: 2.304, potenciaMax: 2400 },
-  { id: 'rv5', nombre: 'RV5', capacidad: null, potenciaMax: 5000 },
+  { id: 'es125x', nombre: 'ES125 X' },
+  { id: 'ep2000', nombre: 'EP2000' },
+  { id: 'ep760', nombre: 'EP760' },
+  { id: 'apex300', nombre: 'APEX 300' },
+  { id: 'ac200pl', nombre: 'AC200P L' },
+  { id: 'rv5', nombre: 'RV5' },
 ]
 
-function colorHoras(horas) {
-  if (horas === null) return 'border-gray-600 bg-gray-800/40'
-  if (horas >= 8) return 'border-green-500 bg-green-900/20'
-  if (horas >= 2) return 'border-yellow-500 bg-yellow-900/20'
-  return 'border-red-500 bg-red-900/20'
+const BASE = {
+  es125x: { kWh: 241, kW: 125 },
+  rv5: { kWh: 0, kW: 5 },
+  ep2000: { kWh: 2 * 7.168, kW: 10.5 },
+  ep760: { kWh: 4.96, kW: 7.6 },
+  apex300: { kWh: 2.764, kW: 3.84 },
+  ac200pl: { kWh: 2.304, kW: 2.4 },
 }
 
-function textoHoras(horas) {
-  if (horas === null) return { label: 'Requiere batería externa', color: 'text-gray-400' }
-  if (horas >= 8) return { label: `Cubre ${horas.toFixed(1)} horas`, color: 'text-green-400' }
-  if (horas >= 2) return { label: `Cubre parcialmente (${horas.toFixed(1)} h)`, color: 'text-yellow-400' }
-  return { label: `Insuficiente (${horas.toFixed(1)} h)`, color: 'text-red-400' }
+// Returns { kWh, kW, unidades, baterias, tipo } or null if insufficient
+function findMinConfig(modelId, needKwh, needKw) {
+  const sat = (kWh, kW) => kWh >= needKwh && kW >= needKw
+
+  switch (modelId) {
+    case 'es125x': {
+      for (let u = 1; u <= 6; u++) {
+        const kWh = u * 241, kW = u * 125
+        if (sat(kWh, kW)) return { kWh, kW, unidades: u, baterias: null, tipo: null }
+      }
+      return null
+    }
+    case 'rv5': {
+      // Use B4810 (4.8 kWh, max 6) — highest capacity per slot
+      if (5 < needKw) return null
+      for (let b = 0; b <= 6; b++) {
+        const kWh = b * 4.8
+        if (kWh >= needKwh) return { kWh, kW: 5, unidades: 1, baterias: b, tipo: 'B4810' }
+      }
+      return null
+    }
+    case 'ep2000': {
+      for (let u = 1; u <= 3; u++) {
+        for (let b = 2; b <= 7; b++) {
+          const kWh = u * b * 7.168, kW = u * 10.5
+          if (sat(kWh, kW)) return { kWh, kW, unidades: u, baterias: b, tipo: 'B700' }
+        }
+      }
+      return null
+    }
+    case 'ep760': {
+      if (7.6 < needKw) return null
+      for (let b = 1; b <= 4; b++) {
+        const kWh = b * 4.96
+        if (kWh >= needKwh) return { kWh, kW: 7.6, unidades: 1, baterias: b, tipo: 'B500' }
+      }
+      return null
+    }
+    case 'apex300': {
+      if (3.84 < needKw) return null
+      for (let b = 0; b <= 6; b++) {
+        const kWh = 2.764 + b * 3.072
+        if (kWh >= needKwh) return { kWh, kW: 3.84, unidades: 1, baterias: b, tipo: 'B300K' }
+      }
+      return null
+    }
+    case 'ac200pl': {
+      if (2.4 < needKw) return null
+      // Use B300 (3.072 kWh) — highest capacity per slot
+      for (let b = 0; b <= 2; b++) {
+        const kWh = 2.304 + b * 3.072
+        if (kWh >= needKwh) return { kWh, kW: 2.4, unidades: 1, baterias: b, tipo: 'B300' }
+      }
+      return null
+    }
+    default: return null
+  }
+}
+
+function isBaseResult(modelId, r) {
+  if (!r) return false
+  switch (modelId) {
+    case 'es125x': return r.unidades === 1
+    case 'rv5': return r.baterias === 0
+    case 'ep2000': return r.unidades === 1 && r.baterias === 2
+    case 'ep760': return r.baterias === 1
+    case 'apex300': return r.baterias === 0
+    case 'ac200pl': return r.baterias === 0
+    default: return false
+  }
+}
+
+function configLabel(modelId, r) {
+  if (!r) return ''
+  switch (modelId) {
+    case 'es125x':
+      return r.unidades === 1 ? '1 unidad' : `${r.unidades} unidades en paralelo`
+    case 'rv5':
+      return r.baterias === 0 ? 'Sin baterías externas' : `${r.baterias} bater${r.baterias === 1 ? 'ía' : 'ías'} ${r.tipo}`
+    case 'ep2000':
+      return `${r.unidades} unidad${r.unidades > 1 ? 'es' : ''} + ${r.baterias} baterías ${r.tipo} por unidad`
+    case 'ep760':
+      return `${r.baterias} bater${r.baterias === 1 ? 'ía' : 'ías'} ${r.tipo}`
+    case 'apex300':
+      return r.baterias === 0 ? 'Solo unidad base' : `${r.baterias} baterías ${r.tipo}`
+    case 'ac200pl':
+      return r.baterias === 0 ? 'Solo unidad base' : `${r.baterias} bater${r.baterias === 1 ? 'ía' : 'ías'} ${r.tipo}`
+    default: return ''
+  }
 }
 
 export default function Calculadora() {
@@ -74,7 +160,7 @@ export default function Calculadora() {
       </p>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        {/* Columna izquierda: lista disponible */}
+        {/* Columna izquierda */}
         <div>
           <h2 className="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-4">
             Electrodomésticos disponibles
@@ -108,7 +194,7 @@ export default function Calculadora() {
           </div>
         </div>
 
-        {/* Columna derecha: seleccionados + resultado */}
+        {/* Columna derecha */}
         <div className="space-y-6">
           <div>
             <h2 className="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-4">
@@ -159,7 +245,7 @@ export default function Calculadora() {
             )}
           </div>
 
-          {/* Resultado */}
+          {/* Panel de resultados */}
           <div className="bg-bluetti-card border border-bluetti-border rounded-xl p-5">
             <div className="flex items-baseline justify-between mb-2">
               <span className="text-gray-400 text-sm">Consumo total estimado</span>
@@ -184,52 +270,61 @@ export default function Calculadora() {
               </p>
             ) : (
               <div className="space-y-3">
-                <p className="text-xs text-gray-500 uppercase tracking-wider mb-3">Cobertura por modelo</p>
+                <p className="text-xs text-gray-500 uppercase tracking-wider mb-3">
+                  Configuración recomendada por modelo
+                </p>
                 {MODELOS.map(modelo => {
-                  const horas = modelo.capacidad !== null
-                    ? modelo.capacidad / totalKwh * 24
-                    : null
-                  const potenciaOk = totalWatts <= modelo.potenciaMax
-                  const { label: labelHoras, color: colorH } = textoHoras(horas)
+                  const result = findMinConfig(modelo.id, totalKwh, totalWatts / 1000)
+                  const base = isBaseResult(modelo.id, result)
+                  const horas = result ? ((result.kWh / totalKwh) * 24).toFixed(1) : null
 
-                  const bordeColor = !potenciaOk
-                    ? 'border-red-500 bg-red-900/20'
-                    : colorHoras(horas)
+                  if (!result) {
+                    return (
+                      <div key={modelo.id} className="rounded-lg border border-red-500 bg-red-900/20 px-4 py-3">
+                        <div className="flex items-center justify-between mb-1">
+                          <span className="text-white text-sm font-medium">{modelo.nombre}</span>
+                          <span className="text-xs font-bold px-2 py-0.5 rounded bg-red-900 text-red-300">
+                            Insuficiente
+                          </span>
+                        </div>
+                        <p className="text-xs text-red-400/80">
+                          Insuficiente incluso en configuración máxima
+                        </p>
+                      </div>
+                    )
+                  }
+
+                  if (base) {
+                    return (
+                      <div key={modelo.id} className="rounded-lg border border-green-500 bg-green-900/20 px-4 py-3">
+                        <div className="flex items-center justify-between mb-1">
+                          <span className="text-white text-sm font-medium">{modelo.nombre}</span>
+                          <span className="text-xs font-bold px-2 py-0.5 rounded bg-green-900 text-green-300">
+                            Base suficiente
+                          </span>
+                        </div>
+                        <p className="text-xs text-bluetti-cyan">{configLabel(modelo.id, result)}</p>
+                        <p className="text-xs text-bluetti-lime mt-1">
+                          Autonomía estimada: {horas} horas
+                        </p>
+                      </div>
+                    )
+                  }
 
                   return (
-                    <div
-                      key={modelo.id}
-                      className={`rounded-lg border px-4 py-3 ${bordeColor}`}
-                    >
-                      <div className="flex items-center justify-between mb-2">
+                    <div key={modelo.id} className="rounded-lg border border-yellow-500 bg-yellow-900/20 px-4 py-3">
+                      <div className="flex items-center justify-between mb-1">
                         <span className="text-white text-sm font-medium">{modelo.nombre}</span>
+                        <span className="text-xs font-bold px-2 py-0.5 rounded bg-yellow-900 text-yellow-300">
+                          Requiere expansión
+                        </span>
                       </div>
-
-                      {/* Indicador autonomía */}
-                      <div className="flex items-center justify-between text-xs mb-1">
-                        <span className="text-gray-500 uppercase tracking-wide">Autonomía</span>
-                        <span className={`font-semibold ${colorH}`}>{labelHoras}</span>
-                      </div>
-
-                      {/* Indicador potencia */}
-                      <div className="flex items-center justify-between text-xs">
-                        <span className="text-gray-500 uppercase tracking-wide">Potencia</span>
-                        {potenciaOk ? (
-                          <span className="font-semibold text-green-400">
-                            OK ({((modelo.potenciaMax - totalWatts) / 1000).toFixed(1)} kW disponibles)
-                          </span>
-                        ) : (
-                          <span className="font-semibold text-red-400">
-                            Insuficiente (necesitás {(totalWatts / 1000).toFixed(1)} kW, entrega {(modelo.potenciaMax / 1000).toFixed(1)} kW)
-                          </span>
-                        )}
-                      </div>
-
-                      {!potenciaOk && (
-                        <p className="text-red-400/70 text-xs mt-2 border-t border-red-500/20 pt-2">
-                          Este modelo no puede alimentar todos estos aparatos al mismo tiempo.
-                        </p>
-                      )}
+                      <p className="text-xs text-bluetti-cyan">
+                        Config. recomendada: {configLabel(modelo.id, result)}
+                      </p>
+                      <p className="text-xs text-bluetti-lime mt-1">
+                        Autonomía estimada: {horas} horas
+                      </p>
                     </div>
                   )
                 })}
