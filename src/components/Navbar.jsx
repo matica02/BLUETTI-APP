@@ -10,13 +10,13 @@ export default function Navbar() {
         <Link to="/" className="flex items-center gap-3">
           <img src="/images/logo-naval.png" alt="Naval Motor" className="h-8 object-contain" />
           <span className="text-gray-500 text-sm">×</span>
-          <img src="/images/Bluetti.png.webp" alt="BLUETTI" className="h-8 object-contain" />
+          <img src="/images/Bluetti.png.webp" alt="BLUETTI" className="h-10 object-contain" />
         </Link>
 
         <div className="flex items-center gap-4">
           <Link
             to="/calculadora"
-            className="text-sm text-gray-400 hover:text-white transition-colors hidden sm:block"
+            className="hidden sm:block bg-bluetti-cyan text-bluetti-bg font-semibold text-sm px-4 py-2 rounded-lg hover:brightness-110 transition-all"
           >
             Calculadora
           </Link>
