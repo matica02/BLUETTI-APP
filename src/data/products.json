@@ -1,0 +1,389 @@
+[
+  {
+    "id": "es125x",
+    "nombre": "ES125 X",
+    "tagline": "Sistema de Almacenamiento Industrial Todo-en-Uno",
+    "descripcion": "El ES125 X es un sistema de almacenamiento de energía de gran escala diseñado para aplicaciones industriales, comerciales y agrícolas. Combina inversor fotovoltaico, STS, transformador de aislamiento y batería en una sola unidad, con conmutación automática entre red y modo off-grid.",
+    "categoria": "Industrial / Comercial",
+    "imagen": "es125x.png",
+    "perfilUsuario": "Empresas industriales, granjas solares, comercios de alto consumo, edificios comerciales o instalaciones críticas que necesitan respaldo total de energía a escala.",
+    "casosDeUso": [
+      {
+        "etiqueta": "Industrial",
+        "descripcion": "Alimenta instalaciones industriales de gran consumo con potencia trifásica de 125 kW continua."
+      },
+      {
+        "etiqueta": "Granja / Agricultura",
+        "descripcion": "Ideal para granjas y explotaciones agrícolas con alta demanda energética y conexión solar."
+      },
+      {
+        "etiqueta": "Comercio / Empresa",
+        "descripcion": "Perfecto para pequeñas y medianas empresas que necesitan backup y autoconsumo solar."
+      },
+      {
+        "etiqueta": "Off-Grid Crítico",
+        "descripcion": "Conmutación automática red/off-grid en menos de 10 ms. Para instalaciones donde no puede haber cortes."
+      },
+      {
+        "etiqueta": "Autoconsumo Solar",
+        "descripcion": "Maximiza el aprovechamiento de paneles solares con hasta 120 kW de entrada FV."
+      }
+    ],
+    "specs": {
+      "capacidadBateria": "241 kWh",
+      "potenciaSalidaAC": "125 kW (on-grid / off-grid)",
+      "potenciaMaxSalida": "137 kW",
+      "entradaSolarMax": "120 kW",
+      "tipoBateria": "LiFePO4",
+      "ciclosVida": "8,000+",
+      "expandible": true,
+      "notaExpansion": "Hasta 6 unidades en paralelo (on-grid) / 4 unidades (off-grid)",
+      "conexionSolar": true,
+      "fase": "Trifásica (3P+N+PE)",
+      "proteccion": "IP55",
+      "refrigeracion": "Aire forzado",
+      "peso": "~3,500 kg",
+      "dimensiones": "1,800 × 1,200 × 2,300 mm",
+      "conectividad": "EMS WiFi / Bluetooth",
+      "switchoverUPS": "≤10 ms",
+      "instalacion": "Fija (outdoor)",
+      "temperaturaOperacion": "-25°C a 55°C",
+      "certificaciones": "IEC 62619, EN/IEC 62109-1, EN/IEC 62109-2, UN 38.3"
+    },
+    "highlights": [
+      "Solución todo-en-uno: inversor FV + STS + transformador de aislamiento + batería en un solo gabinete",
+      "Conmutación automática red/off-grid en ≤10 ms sin interrupciones",
+      "Doble protección contra incendios con sistema de supresión por aerosol automático",
+      "Monitoreo EMS en tiempo real vía nube con control inteligente",
+      "Tecnología VSG Sync: soporte para hasta 4 unidades off-grid en paralelo sincronizadas",
+      "Diseño modular: fácil expansión, mantenimiento y reemplazo de componentes"
+    ],
+    "accesoriosCompatibles": []
+  },
+  {
+    "id": "rv5",
+    "nombre": "RV5",
+    "tagline": "Hub de Energía 5 en 1 para Autocaravanas y Uso Móvil",
+    "descripcion": "El RV5 es un hub de energía 5 en 1 diseñado para autocaravanas, barcos y sistemas off-grid móviles. Integra inversor, controlador MPPT solar, convertidor DC-DC, cargador por alternador y módulo de protección en una sola unidad compacta. No incluye batería: es compatible con las baterías BLUETTI B4810, B1210, B1232, B300 y baterías de plomo-ácido.",
+    "categoria": "Movilidad / RV / Off-Grid",
+    "imagen": "rv5.png",
+    "perfilUsuario": "Propietarios de autocaravanas, barcos o cabañas off-grid que quieren un sistema de energía silencioso, eficiente y sin generador. Ideal para quienes quieren independencia total de campings o enchufes.",
+    "casosDeUso": [
+      {
+        "etiqueta": "Autocaravana / RV",
+        "descripcion": "Sistema completo de energía para autocaravanas. Alimenta aire acondicionado, microondas, cafetera y todos los electrodomésticos del RV."
+      },
+      {
+        "etiqueta": "Barco",
+        "descripcion": "Diseñado para instalación fija en embarcaciones con sistema de energía 48V."
+      },
+      {
+        "etiqueta": "Cabaña / Off-Grid",
+        "descripcion": "Ideal para cabañas o viviendas off-grid que necesitan alimentación AC y DC continua sin generador."
+      },
+      {
+        "etiqueta": "Camping / Aventura",
+        "descripcion": "Operación silenciosa, sin combustible. Recarga por solar, alternador o red eléctrica."
+      }
+    ],
+    "specs": {
+      "capacidadBateria": "Sin batería incluida (requiere batería externa)",
+      "potenciaSalidaAC": "5,000 W (120VAC, 42A)",
+      "salidaDC": "12V / 24V — hasta 1,620W",
+      "entradaSolarMax": "1,800 W (PV1+PV2, 12–50V)",
+      "cargaPorAlternador": "Sí (PV2 port, 600W a 12V / 1,200W a 24V)",
+      "bypass": "50A Max",
+      "cargaMaxAC": "5,000 W (120VAC) / entrada 208V/240V también soportada",
+      "switchoverUPS": "≤20 ms",
+      "sistemaTension": "48V",
+      "tipoBateria": "Compatible LiFePO4 y plomo-ácido",
+      "bateriaCompatible": "B4810, B1210, B1232, B300 series, lead-acid",
+      "expandible": true,
+      "notaExpansion": "Hasta 4 packs B300. Capacidad depende de la batería conectada.",
+      "conexionSolar": true,
+      "peso": "16 kg",
+      "dimensiones": "450 × 500 × 160 mm",
+      "conectividad": "WiFi / Bluetooth",
+      "instalacion": "Fija en vehículo o cabaña",
+      "temperaturaOperacion": "-20°C a 55°C",
+      "certificaciones": "UL 458, CSA C22.2 No.107.1, UL 1741, FCC Part 15B"
+    },
+    "highlights": [
+      "5 en 1: inversor + controlador MPPT + DC-DC + cargador alternador + protección en un solo equipo",
+      "Operación 100% silenciosa — sin generador, sin combustible",
+      "Compatible con paneles solares, alternador del vehículo, red eléctrica y generador",
+      "Salida DC 12V/24V para electrodomésticos del RV",
+      "Sistema 48V de alta eficiencia — menos pérdidas, más rendimiento",
+      "Kit completo disponible: RV5 + B4810 + Epad + Epanel + PV100 FX solar"
+    ],
+    "accesoriosCompatibles": [
+      "B4810 (batería LiFePO4 48V 100Ah)",
+      "Epad (pantalla de control central)",
+      "Epanel (panel de distribución inteligente)",
+      "PV100 FX (panel solar flexible 100W)"
+    ]
+  },
+  {
+    "id": "ep2000",
+    "nombre": "EP2000",
+    "tagline": "Sistema ESS Trifásico para Toda la Casa",
+    "descripcion": "El EP2000 es el sistema de almacenamiento de energía trifásico más potente de BLUETTI para uso residencial y pequeñas empresas. Integra un inversor solar híbrido con baterías de alta capacidad B700, permitiendo alimentar toda la vivienda incluyendo bomba de calor, cargador de vehículo eléctrico y todos los electrodomésticos.",
+    "categoria": "Residencial / Comercial — Alta Potencia",
+    "imagen": "ep2000.png",
+    "perfilUsuario": "Propietarios de viviendas grandes, villas, pequeñas empresas o granjas con alta demanda eléctrica y sistema trifásico. Ideal para quienes quieren autoconsumo solar total y backup completo de la casa.",
+    "casosDeUso": [
+      {
+        "etiqueta": "Backup Total del Hogar",
+        "descripcion": "Alimenta toda la casa durante cortes de luz: bomba de calor, nevera, lavavajillas, cargador EV y más. Conmutación en menos de 10 ms."
+      },
+      {
+        "etiqueta": "Autoconsumo Solar",
+        "descripcion": "Maximiza el autoconsumo con hasta 30 kW de entrada solar. Perfecto para zonas con alta irradiación y tarifas eléctricas elevadas."
+      },
+      {
+        "etiqueta": "Villa / Casa Grande",
+        "descripcion": "Con 20 kW de potencia y hasta 51.6 kWh de capacidad, alimenta cualquier vivienda grande con autonomía de días."
+      },
+      {
+        "etiqueta": "Pequeña Empresa / Granja",
+        "descripcion": "Hasta 3 EP2000 en paralelo = 60 kW / 154.8 kWh. Ideal para talleres, granjas o pequeños comercios."
+      },
+      {
+        "etiqueta": "Gestión Tarifaria (ToU)",
+        "descripcion": "Carga en horas de tarifa baja y descarga en horas pico para máximo ahorro en la factura eléctrica."
+      }
+    ],
+    "specs": {
+      "capacidadBateria": "14.7 kWh – 51.6 kWh (con 2–7 baterías B700)",
+      "potenciaSalidaAC": "10.5 kW (2 B700) / 15.5 kW (3 B700) / 20 kW (4–7 B700)",
+      "potenciaMaxConSolar": "20 kW",
+      "entradaSolarMax": "30 kW",
+      "tipoBateria": "LiFePO4",
+      "capacidadPorBateria": "7.37 kWh por B700",
+      "expandible": true,
+      "notaExpansion": "2–7 baterías B700. Paralelo de hasta 3 EP2000 = 60 kW / 154.8 kWh",
+      "conexionSolar": true,
+      "fase": "Trifásica (3L/N/PE)",
+      "proteccion": "IP65",
+      "peso": "60 kg (inversor) + 72 kg por B700",
+      "dimensiones": "670 × 280 × 460 mm (inversor solo)",
+      "conectividad": "WiFi / Bluetooth",
+      "switchoverUPS": "<10 ms",
+      "eficiencia": "97.6%",
+      "instalacion": "Fija (interior o exterior IP65)",
+      "temperaturaOperacion": "-20°C a 60°C",
+      "garantia": "10 años"
+    },
+    "highlights": [
+      "20 kW de potencia AC y 30 kW de entrada solar — una unidad alimenta toda la casa incluyendo bomba de calor y cargador EV",
+      "Expandible de 14.7 kWh a 51.6 kWh con 2–7 baterías B700",
+      "Paralelo de hasta 3 unidades para 60 kW / 154.8 kWh en uso comercial",
+      "4 modos de operación vía app: Autoconsumo, Backup, Gestión tarifaria y Modo personalizado",
+      "Eficiencia del 97.6% — menor pérdida de energía del sector",
+      "Instalación plug-and-play modular: 50% más rápida que la generación anterior"
+    ],
+    "accesoriosCompatibles": [
+      "B700 (batería de expansión 7.37 kWh)",
+      "HV800 (controlador de baterías de alta tensión)"
+    ]
+  },
+  {
+    "id": "ep760",
+    "nombre": "EP760",
+    "tagline": "Sistema ESS Monofásico para el Hogar",
+    "descripcion": "El EP760 es el sistema de almacenamiento de energía residencial monofásico de BLUETTI. Combina inversor híbrido y batería modular en un diseño todo-en-uno elegante, ideal para hogares europeos, del Reino Unido y Australia con electricidad monofásica. Compatible con instalaciones solares existentes (AC coupling) o nuevas (DC coupling).",
+    "categoria": "Residencial — Monofásico",
+    "imagen": "ep760.png",
+    "perfilUsuario": "Propietarios de viviendas unifamiliares o pequeñas villas en zonas con electricidad monofásica (UK, Europa, Australia) que quieren instalar o ampliar su sistema solar con almacenamiento.",
+    "casosDeUso": [
+      {
+        "etiqueta": "Backup del Hogar",
+        "descripcion": "Proporciona energía de respaldo con conmutación en menos de 10 ms durante cortes de luz."
+      },
+      {
+        "etiqueta": "Autoconsumo Solar",
+        "descripcion": "Almacena la energía solar del día para consumirla de noche. Compatible con instalaciones solares existentes vía AC coupling."
+      },
+      {
+        "etiqueta": "Casa Monofásica",
+        "descripcion": "Diseñado específicamente para redes eléctricas monofásicas: UK, gran parte de Europa y Australia."
+      },
+      {
+        "etiqueta": "Granja / Villa Pequeña",
+        "descripcion": "Con hasta 19.84 kWh de capacidad y 7.6 kW de potencia, cubre las necesidades de una vivienda familiar o pequeña granja."
+      },
+      {
+        "etiqueta": "Off-Grid con Generador",
+        "descripcion": "En cortes prolongados, carga la batería con generador durante el día y alimenta la casa por la noche."
+      }
+    ],
+    "specs": {
+      "capacidadBateria": "4.96 kWh – 19.84 kWh (1–4 baterías B500)",
+      "potenciaSalidaAC_onGrid": "7,600 W (con solar) / 5,000 W (sin solar)",
+      "potenciaSalidaAC_offGrid": "7,600 W (con solar) / 3,680 W (sin solar)",
+      "entradaSolarMax": "9,000 W (3 MPPT independientes de 3 kW c/u)",
+      "tipoBateria": "LiFePO4",
+      "capacidadPorBateria": "4.96 kWh por B500",
+      "expandible": true,
+      "notaExpansion": "1–4 baterías B500 (4.96 kWh cada una)",
+      "conexionSolar": true,
+      "fase": "Monofásica (L/N/PE)",
+      "proteccion": "IP65",
+      "peso": "46 kg (inversor)",
+      "dimensiones": "636 × 325 × 370 mm (inversor)",
+      "conectividad": "WiFi / Bluetooth",
+      "switchoverUPS": "<10 ms",
+      "instalacion": "Fija (interior o exterior IP65)",
+      "temperaturaOperacion": "-20°C a 50°C",
+      "mercado": "UK, Europa monofásica, Australia",
+      "garantia": "10 años"
+    },
+    "highlights": [
+      "Hasta 7,600 W de salida AC — cubre el 95% de los electrodomésticos del hogar",
+      "Compatible con instalaciones solares existentes (AC coupling) y nuevas (DC coupling)",
+      "Capacidad modular de 4.96 a 19.84 kWh con 1–4 baterías B500",
+      "Instalación en pocas horas gracias al diseño plug-and-play todo-en-uno",
+      "Diseño elegante para instalación en pared interior o exterior IP65",
+      "3 entradas MPPT independientes de 3 kW cada una para máxima flexibilidad solar"
+    ],
+    "accesoriosCompatibles": [
+      "B500 (batería de expansión 4.96 kWh)"
+    ]
+  },
+  {
+    "id": "apex300",
+    "nombre": "APEX 300",
+    "tagline": "Estación de Energía Versátil y Escalable",
+    "descripcion": "El APEX 300 es la estación de energía portátil más versátil de BLUETTI. Arranca como unidad independiente de 2,764.8 Wh y puede escalar hasta 58 kWh con expansión de baterías. Con 9 formas de carga, salidas 120V/240V duales y compatibilidad con RV, backup del hogar y vida off-grid, es la solución más flexible del portfolio.",
+    "categoria": "Portátil / Versátil / Escalable",
+    "imagen": "apex300.png",
+    "perfilUsuario": "Usuarios que necesitan flexibilidad: desde backup de emergencia del hogar hasta uso en RV, camping o trabajo off-grid. Ideal para quienes quieren empezar con una unidad y escalar gradualmente.",
+    "casosDeUso": [
+      {
+        "etiqueta": "Backup del Hogar",
+        "descripcion": "Con el AT1 Smart Distribution Panel, se convierte en backup completo del hogar con conmutación automática."
+      },
+      {
+        "etiqueta": "RV / Autocaravana",
+        "descripcion": "4 salidas AC + Hub D1 para DC. Alimenta aires, hornos, cafeteras y todos los dispositivos del RV."
+      },
+      {
+        "etiqueta": "Off-Grid / Cabaña",
+        "descripcion": "Hasta 58 kWh con expansión. Potencia herramientas industriales (3,840W), sierra, compresor de aire y más."
+      },
+      {
+        "etiqueta": "Emergencias",
+        "descripcion": "UPS de 20ms (0ms en configuración especial). Siempre listo para cortes de luz inesperados."
+      },
+      {
+        "etiqueta": "Carga Solar Rápida",
+        "descripcion": "Con SolarX 4K, llega a 4 kW–30 kW de entrada solar. Integra paneles existentes de techo vía AC coupling."
+      }
+    ],
+    "specs": {
+      "capacidadBateria": "2,764.8 Wh (base)",
+      "capacidadMaxConExpansion": "58 kWh (con múltiples B300K)",
+      "potenciaSalidaAC": "3,840 W (7,680 W en Power Lifting Mode)",
+      "potenciaMaxParalelo": "11.52 kW (3 unidades + Hub A1)",
+      "entradaSolarBase": "2,400 W (2 × XT60PM, 12–60V, 20A max)",
+      "entradaSolarConSolarX4K": "Hasta 30 kW",
+      "tipoBateria": "LiFePO4 (Lithium Iron Phosphate)",
+      "ciclosVida": "6,000+ al 80%",
+      "expandible": true,
+      "notaExpansion": "Hasta 6× B300K, 6× B300S, 4× B300",
+      "conexionSolar": true,
+      "voltajeDual": "120V y 240V simultáneos",
+      "salidaAC": "4× 120V/20A + 1× NEMA TT-30 (30A) + 1× L14-50R (240V/50A)",
+      "peso": "38 kg",
+      "dimensiones": "525 × 327 × 320 mm",
+      "conectividad": "Bluetooth (app BLUETTI)",
+      "switchoverUPS": "20 ms (0 ms en configuración especial)",
+      "instalacion": "Portátil (con trolley opcional)",
+      "temperaturaOperacion": "0°C a 40°C (carga) / -20°C a 40°C (descarga)",
+      "garantia": "5 años"
+    },
+    "highlights": [
+      "La solución más flexible del portfolio: portátil, escalable y multiuso (hogar, RV, off-grid, emergencias)",
+      "9 formas de carga: solar, red AC, generador, estación EV, alternador, y más",
+      "Salidas 120V y 240V simultáneas para alimentar bomba de piscina y cargador EV al mismo tiempo",
+      "Escala de 2.7 kWh a 58 kWh según necesidades, sin reemplazar la unidad base",
+      "Retorno de inversión estimado en 2 años gracias al ahorro en electricidad",
+      "Con AT1 Smart Distribution Panel: backup total del hogar en 5 minutos de instalación"
+    ],
+    "accesoriosCompatibles": [
+      "B300K (batería de expansión 2,764.8 Wh)",
+      "B300 / B300S (baterías de expansión alternativas)",
+      "Hub A1 (conexión en paralelo de hasta 3 APEX 300)",
+      "AT1 Smart Distribution Panel (backup total del hogar)",
+      "Hub D1 (salidas DC para RV)",
+      "SolarX 4K (amplía entrada solar hasta 4–30 kW)",
+      "S1 Smart Plug (automatización de cargas)",
+      "Trolley plegable (transporte)",
+      "Charger 1 (carga por alternador del vehículo)"
+    ]
+  },
+  {
+    "id": "ac200pl",
+    "nombre": "AC200P L",
+    "tagline": "Estación de Energía Portátil Compacta y Completa",
+    "descripcion": "La AC200P L es la estación de energía portátil más completa y compacta del portfolio BLUETTI. Con 2,304 Wh de batería LiFePO4, 2,400 W de salida AC y una amplia variedad de puertos de salida, es la solución ideal para camping, trabajo remoto, backup básico del hogar y emergencias. Expandible con baterías adicionales B300 o B210P.",
+    "categoria": "Portátil / Compacto",
+    "imagen": "ac200pl.png",
+    "perfilUsuario": "Personas que buscan una solución portátil completa para camping, viajes, trabajo en exteriores o backup básico del hogar. También ideal para pequeños negocios que necesitan energía de respaldo sin instalación permanente.",
+    "casosDeUso": [
+      {
+        "etiqueta": "Camping / Outdoor",
+        "descripcion": "Alimenta nevera portátil, luces, proyector y dispositivos electrónicos durante días de camping."
+      },
+      {
+        "etiqueta": "Trabajo Remoto / Exteriores",
+        "descripcion": "Potencia herramientas, laptops, cámaras y equipos de trabajo en lugares sin electricidad."
+      },
+      {
+        "etiqueta": "Backup de Emergencia",
+        "descripcion": "Conmutación UPS en ≤20 ms para proteger dispositivos sensibles durante cortes de luz."
+      },
+      {
+        "etiqueta": "Backup del Hogar Básico",
+        "descripcion": "Con B300 adicional, llega a más de 5 kWh para mantener nevera, luces y cargadores durante una noche completa."
+      },
+      {
+        "etiqueta": "Carga Solar",
+        "descripcion": "Entrada solar de hasta 1,200 W (12–145V). Totalmente autónoma con paneles solares."
+      }
+    ],
+    "specs": {
+      "capacidadBateria": "2,304 Wh",
+      "capacidadMaxConExpansion": "~7,000 Wh (con 2× B300)",
+      "potenciaSalidaAC": "2,400 W (2,500 W sin red)",
+      "potenciaSobrecarga": "hasta 3,600 W por 0.5s",
+      "entradaSolarMax": "1,200 W (12–145 VDC, conector MC4)",
+      "tipoBateria": "LiFePO4",
+      "expandible": true,
+      "notaExpansion": "Hasta 2× B300 o 2× B210P o 1× B230",
+      "conexionSolar": true,
+      "salidaAC": "120VAC / 20A / 60Hz",
+      "salidaDC": "USB-A ×2 (18W c/u), USB-C ×2 (100W c/u), 48VDC ×1, Cigarrera ×1 (12V/10A), Carga inalámbrica ×2 (15W c/u)",
+      "peso": "28.3 kg",
+      "dimensiones": "420 × 280 × 366.5 mm",
+      "conectividad": "WiFi / Bluetooth (app BLUETTI)",
+      "switchoverUPS": "≤20 ms",
+      "instalacion": "Portátil",
+      "temperaturaOperacion": "0°C a 40°C (carga) / -20°C a 40°C (descarga)",
+      "garantia": "No especificada en documentos disponibles"
+    },
+    "highlights": [
+      "La más completa en puertos: AC, USB-A, USB-C, 48V DC, encendedor de autos y carga inalámbrica ×2",
+      "Batería LiFePO4 de máxima seguridad y larga duración",
+      "Expandible con hasta 2 baterías adicionales B300 para más de 7 kWh de autonomía",
+      "Entrada solar de 1,200 W — recarga completa con paneles en pocas horas de sol",
+      "UPS integrado: conmutación en ≤20 ms para proteger equipos sensibles",
+      "Control y monitoreo completo desde la app BLUETTI vía WiFi o Bluetooth"
+    ],
+    "accesoriosCompatibles": [
+      "B300 (batería de expansión 3,072 Wh)",
+      "B210P (batería de expansión)",
+      "B230 (batería de expansión)"
+    ]
+  }
+]
