@@ -8,9 +8,9 @@ export default function Navbar() {
     <nav className="bg-bluetti-card border-b border-bluetti-border sticky top-0 z-40">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         <Link to="/" className="flex items-center gap-3">
-          <span className="text-bluetti-cyan font-bold text-lg tracking-wide">Naval Motor</span>
-          <span className="text-gray-500 text-sm hidden sm:block">×</span>
-          <span className="text-white font-semibold text-sm hidden sm:block">Productos BLUETTI</span>
+          <img src="/images/logo-naval.png" alt="Naval Motor" className="h-8 object-contain" />
+          <span className="text-gray-500 text-sm">×</span>
+          <img src="/images/Bluetti.png.webp" alt="BLUETTI" className="h-8 object-contain" />
         </Link>
 
         <div className="flex items-center gap-4">
