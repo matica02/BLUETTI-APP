@@ -13,17 +13,25 @@ export default function Navbar() {
           <span className="text-white font-semibold text-sm hidden sm:block">Productos BLUETTI</span>
         </Link>
 
-        {selectedIds.length > 0 && (
+        <div className="flex items-center gap-4">
           <Link
-            to="/comparar"
-            className="flex items-center gap-2 text-sm text-bluetti-cyan hover:text-white transition-colors"
+            to="/calculadora"
+            className="text-sm text-gray-400 hover:text-white transition-colors hidden sm:block"
           >
-            <span className="bg-bluetti-cyan text-bluetti-bg text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
-              {selectedIds.length}
-            </span>
-            <span className="hidden sm:block">Comparando</span>
+            Calculadora
           </Link>
-        )}
+          {selectedIds.length > 0 && (
+            <Link
+              to="/comparar"
+              className="flex items-center gap-2 text-sm text-bluetti-cyan hover:text-white transition-colors"
+            >
+              <span className="bg-bluetti-cyan text-bluetti-bg text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
+                {selectedIds.length}
+              </span>
+              <span className="hidden sm:block">Comparando</span>
+            </Link>
+          )}
+        </div>
       </div>
     </nav>
   )
