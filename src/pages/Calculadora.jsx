@@ -16,12 +16,12 @@ const ELECTRODOMESTICOS = [
 ]
 
 const MODELOS = [
-  { id: 'es125x', nombre: 'ES125 X', capacidad: 241 },
-  { id: 'ep2000', nombre: 'EP2000', capacidad: 14.7 },
-  { id: 'ep760', nombre: 'EP760', capacidad: 4.96 },
-  { id: 'apex300', nombre: 'APEX 300', capacidad: 2.764 },
-  { id: 'ac200pl', nombre: 'AC200P L', capacidad: 2.304 },
-  { id: 'rv5', nombre: 'RV5', capacidad: null },
+  { id: 'es125x', nombre: 'ES125 X', capacidad: 241, potenciaMax: 125000 },
+  { id: 'ep2000', nombre: 'EP2000', capacidad: 14.7, potenciaMax: 10500 },
+  { id: 'ep760', nombre: 'EP760', capacidad: 4.96, potenciaMax: 7600 },
+  { id: 'apex300', nombre: 'APEX 300', capacidad: 2.764, potenciaMax: 3840 },
+  { id: 'ac200pl', nombre: 'AC200P L', capacidad: 2.304, potenciaMax: 2400 },
+  { id: 'rv5', nombre: 'RV5', capacidad: null, potenciaMax: 5000 },
 ]
 
 function colorHoras(horas) {
@@ -56,6 +56,11 @@ export default function Calculadora() {
 
   const totalKwh = useMemo(() =>
     agregados.reduce((sum, e) => sum + (e.watts * e.horas) / 1000, 0),
+    [agregados]
+  )
+
+  const totalWatts = useMemo(() =>
+    agregados.reduce((sum, e) => sum + e.watts, 0),
     [agregados]
   )
 
@@ -156,13 +161,22 @@ export default function Calculadora() {
 
           {/* Resultado */}
           <div className="bg-bluetti-card border border-bluetti-border rounded-xl p-5">
-            <div className="flex items-baseline justify-between mb-5">
+            <div className="flex items-baseline justify-between mb-2">
               <span className="text-gray-400 text-sm">Consumo total estimado</span>
               <span className="text-bluetti-cyan text-3xl font-bold">
                 {totalKwh.toFixed(2)}
                 <span className="text-sm font-normal text-gray-400 ml-1">kWh/día</span>
               </span>
             </div>
+            {totalWatts > 0 && (
+              <div className="flex items-baseline justify-between mb-5">
+                <span className="text-gray-400 text-sm">Potencia simultánea</span>
+                <span className="text-gray-300 text-lg font-semibold">
+                  {(totalWatts / 1000).toFixed(2)}
+                  <span className="text-sm font-normal text-gray-500 ml-1">kW</span>
+                </span>
+              </div>
+            )}
 
             {totalKwh === 0 ? (
               <p className="text-gray-500 text-sm text-center py-4">
@@ -175,14 +189,47 @@ export default function Calculadora() {
                   const horas = modelo.capacidad !== null
                     ? modelo.capacidad / totalKwh * 24
                     : null
-                  const { label, color } = textoHoras(horas)
+                  const potenciaOk = totalWatts <= modelo.potenciaMax
+                  const { label: labelHoras, color: colorH } = textoHoras(horas)
+
+                  const bordeColor = !potenciaOk
+                    ? 'border-red-500 bg-red-900/20'
+                    : colorHoras(horas)
+
                   return (
                     <div
                       key={modelo.id}
-                      className={`flex items-center justify-between rounded-lg border px-4 py-3 ${colorHoras(horas)}`}
+                      className={`rounded-lg border px-4 py-3 ${bordeColor}`}
                     >
-                      <span className="text-white text-sm font-medium">{modelo.nombre}</span>
-                      <span className={`text-sm font-semibold ${color}`}>{label}</span>
+                      <div className="flex items-center justify-between mb-2">
+                        <span className="text-white text-sm font-medium">{modelo.nombre}</span>
+                      </div>
+
+                      {/* Indicador autonomía */}
+                      <div className="flex items-center justify-between text-xs mb-1">
+                        <span className="text-gray-500 uppercase tracking-wide">Autonomía</span>
+                        <span className={`font-semibold ${colorH}`}>{labelHoras}</span>
+                      </div>
+
+                      {/* Indicador potencia */}
+                      <div className="flex items-center justify-between text-xs">
+                        <span className="text-gray-500 uppercase tracking-wide">Potencia</span>
+                        {potenciaOk ? (
+                          <span className="font-semibold text-green-400">
+                            OK ({((modelo.potenciaMax - totalWatts) / 1000).toFixed(1)} kW disponibles)
+                          </span>
+                        ) : (
+                          <span className="font-semibold text-red-400">
+                            Insuficiente (necesitás {(totalWatts / 1000).toFixed(1)} kW, entrega {(modelo.potenciaMax / 1000).toFixed(1)} kW)
+                          </span>
+                        )}
+                      </div>
+
+                      {!potenciaOk && (
+                        <p className="text-red-400/70 text-xs mt-2 border-t border-red-500/20 pt-2">
+                          Este modelo no puede alimentar todos estos aparatos al mismo tiempo.
+                        </p>
+                      )}
                     </div>
                   )
                 })}
