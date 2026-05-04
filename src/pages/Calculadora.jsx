@@ -39,7 +39,7 @@ function findMinConfig(modelId, needKwh, needKw) {
 
   switch (modelId) {
     case 'es125x': {
-      for (let u = 1; u <= 6; u++) {
+      for (let u = 1; u <= 4; u++) {
         const kWh = u * 241, kW = u * 125
         if (sat(kWh, kW)) return { kWh, kW, unidades: u, baterias: null, tipo: null }
       }
@@ -48,7 +48,7 @@ function findMinConfig(modelId, needKwh, needKw) {
     case 'rv5': {
       // Use B4810 (4.8 kWh, max 6) — highest capacity per slot
       if (5 < needKw) return null
-      for (let b = 0; b <= 6; b++) {
+      for (let b = 0; b <= 24; b++) {
         const kWh = b * 4.8
         if (kWh >= needKwh) return { kWh, kW: 5, unidades: 1, baterias: b, tipo: 'B4810' }
       }

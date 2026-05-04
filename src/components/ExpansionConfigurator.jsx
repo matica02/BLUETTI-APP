@@ -2,15 +2,15 @@ import { useState, useMemo } from 'react'
 
 const CFG = {
   es125x: {
-    paralelo: { min: 1, max: 6, nota: 'Hasta 4 unidades en modo off-grid' },
+    paralelo: { min: 1, max: 4 },
     baterias: null,
   },
   rv5: {
     paralelo: null,
     baterias: {
       tipos: [
-        { id: 'b4810', nombre: 'B4810', kWh: 4.8, max: 6 },
-        { id: 'b300', nombre: 'B300', kWh: 3.072, max: 16 },
+        { id: 'b4810', nombre: 'B4810', kWh: 4.8, max: 24 },
+        { id: 'b300', nombre: 'B300', kWh: 3.072, max: 24 },
       ],
       min: 0,
     },
