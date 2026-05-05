@@ -6,6 +6,19 @@ import HighlightsList from '../components/HighlightsList'
 import ExpansionConfigurator from '../components/ExpansionConfigurator'
 import { CATEGORIA_LABELS, CATEGORIA_COLORS } from '../data/categorias'
 
+const installationVideos = {
+  rv5: [
+    { title: 'Video de Instalación', url: 'https://player.vimeo.com/video/1189375532' },
+  ],
+  ep760: [
+    { title: 'Video de Instalación', url: 'https://www.youtube.com/embed/P8oKL9gz8mQ' },
+  ],
+  ep2000: [
+    { title: 'Video de Instalación - Parte 1', url: 'https://www.youtube.com/embed/g_HmDfoobi8' },
+    { title: 'Video de Instalación - Parte 2', url: 'https://www.youtube.com/embed/zSF0B4rQJGw' },
+  ],
+}
+
 export default function ProductoDetalle() {
   const { id } = useParams()
   const navigate = useNavigate()
@@ -34,6 +47,7 @@ export default function ProductoDetalle() {
   const colorClass = CATEGORIA_COLORS[label] ?? 'bg-gray-800 text-gray-300 border border-gray-700'
   const selected = isSelected(product.id)
   const disabled = isFull() && !selected
+  const instVideos = installationVideos[product.id]
 
   function handleCompare() {
     if (selected) {
@@ -129,6 +143,30 @@ export default function ProductoDetalle() {
           </video>
         </div>
       </section>
+
+      {instVideos && (
+        <section className="mb-12">
+          <h2 className="text-xl font-bold text-white mb-4">Video de Instalación</h2>
+          <div className={`grid grid-cols-1 gap-6 ${instVideos.length > 1 ? 'md:grid-cols-2' : ''}`}>
+            {instVideos.map(video => (
+              <div key={video.url} className="bg-bluetti-card rounded-2xl overflow-hidden border border-bluetti-border">
+                {instVideos.length > 1 && (
+                  <p className="text-gray-300 text-sm font-medium px-4 pt-4">{video.title}</p>
+                )}
+                <div className="relative w-full" style={{ paddingBottom: '56.25%' }}>
+                  <iframe
+                    src={video.url}
+                    title={video.title}
+                    className="absolute inset-0 w-full h-full"
+                    allow="autoplay; fullscreen"
+                    allowFullScreen
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
 
       {product.accesoriosCompatibles.length > 0 && (
         <section className="mb-12">
