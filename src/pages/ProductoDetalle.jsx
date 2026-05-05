@@ -69,11 +69,11 @@ export default function ProductoDetalle() {
       </button>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 mb-12">
-        <div className="bg-black/30 rounded-2xl flex items-center justify-center p-8 min-h-64">
+        <div className="bg-black/30 rounded-2xl flex items-center justify-center p-4 min-h-96">
           <img
             src={`/images/${product.imagen}`}
             alt={product.nombre}
-            className="max-h-72 max-w-full object-contain"
+            className="w-full max-h-[480px] object-contain"
             onError={e => { e.target.style.display = 'none' }}
           />
         </div>
