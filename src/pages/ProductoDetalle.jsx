@@ -6,6 +6,8 @@ import HighlightsList from '../components/HighlightsList'
 import ExpansionConfigurator from '../components/ExpansionConfigurator'
 import { CATEGORIA_LABELS, CATEGORIA_COLORS } from '../data/categorias'
 
+const modelsWithManual = ['rv5', 'ep2000', 'ep760', 'apex300', 'ac200pl']
+
 const installationVideos = {
   rv5: [
     { title: 'Video de Instalación', url: 'https://player.vimeo.com/video/1189375532' },
@@ -140,6 +142,29 @@ export default function ProductoDetalle() {
               </li>
             ))}
           </ul>
+        </section>
+      )}
+
+      {modelsWithManual.includes(product.id) && (
+        <section className="mb-12">
+          <h2 className="text-xl font-bold text-white mb-4">Manual de Usuario</h2>
+          <div className="bg-bluetti-card border border-bluetti-border rounded-2xl p-6 flex flex-col items-start gap-3">
+            <a
+              href={`/pdf/${product.id}.pdf`}
+              download
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-3 border border-bluetti-cyan text-bluetti-cyan font-semibold px-6 py-3 rounded-xl hover:bg-bluetti-cyan hover:text-bluetti-bg transition-all"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                <polyline points="7 10 12 15 17 10" />
+                <line x1="12" y1="15" x2="12" y2="3" />
+              </svg>
+              Descargar Manual de Usuario
+            </a>
+            <p className="text-gray-500 text-sm">Archivo PDF · Manual oficial del fabricante</p>
+          </div>
         </section>
       )}
 
