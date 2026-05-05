@@ -53,7 +53,7 @@ function calcTotals(id, unidades, cant, tipoKwh) {
   switch (id) {
     case 'es125x': return { kWh: unidades * 241, kW: unidades * 125 }
     case 'rv5': return { kWh: cant * tipoKwh, kW: 5 }
-    case 'ep2000': return { kWh: unidades * cant * 7.168, kW: unidades * 10.5 }
+    case 'ep2000': return { kWh: unidades * cant * 7.168, kW: unidades * 20 }
     case 'ep760': return { kWh: cant * 4.96, kW: 7.6 }
     case 'apex300': return { kWh: 2.764 + cant * 3.072, kW: 3.84 }
     case 'ac200pl': return { kWh: 2.304 + cant * tipoKwh, kW: 2.4 }
