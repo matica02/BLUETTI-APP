@@ -116,6 +116,20 @@ export default function ProductoDetalle() {
         <SpecsTable specs={product.specs} />
       </section>
 
+      <section className="mb-12">
+        <h2 className="text-xl font-bold text-white mb-4">Video del producto</h2>
+        <div className="rounded-2xl overflow-hidden border border-bluetti-border">
+          <video
+            key={product.id}
+            controls
+            className="w-full"
+            poster={`/images/${product.imagen}`}
+          >
+            <source src={`/videos/${product.id}.mp4`} type="video/mp4" />
+          </video>
+        </div>
+      </section>
+
       {product.accesoriosCompatibles.length > 0 && (
         <section className="mb-12">
           <h2 className="text-xl font-bold text-white mb-4">Accesorios compatibles</h2>
