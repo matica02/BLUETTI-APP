@@ -41,7 +41,7 @@ export default function Comparar() {
             key={product.id}
             className="bg-bluetti-card border border-bluetti-border rounded-xl p-4 text-center"
           >
-            <div className="bg-black/30 rounded-lg flex items-center justify-center h-36 mb-3 p-2">
+            <div className="bg-black/30 rounded-lg flex items-center justify-center h-56 mb-3 p-2">
               <img
                 src={`/images/${product.imagen}`}
                 alt={product.nombre}
