@@ -27,7 +27,7 @@ const MODELOS = [
 const BASE = {
   es125x: { kWh: 241, kW: 125 },
   rv5: { kWh: 0, kW: 5 },
-  ep2000: { kWh: 2 * 7.168, kW: 10.5 },
+  ep2000: { kWh: 2 * 7.168, kW: 20 },
   ep760: { kWh: 4.96, kW: 7.6 },
   apex300: { kWh: 2.764, kW: 3.84 },
   ac200pl: { kWh: 2.304, kW: 2.4 },
@@ -57,7 +57,7 @@ function findMinConfig(modelId, needKwh, needKw) {
     case 'ep2000': {
       for (let u = 1; u <= 3; u++) {
         for (let b = 2; b <= 7; b++) {
-          const kWh = u * b * 7.168, kW = u * 10.5
+          const kWh = u * b * 7.168, kW = u * 20
           if (sat(kWh, kW)) return { kWh, kW, unidades: u, baterias: b, tipo: 'B700' }
         }
       }
