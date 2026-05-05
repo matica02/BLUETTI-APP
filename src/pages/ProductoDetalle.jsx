@@ -130,6 +130,19 @@ export default function ProductoDetalle() {
         <SpecsTable specs={product.specs} />
       </section>
 
+      {product.accesoriosCompatibles.length > 0 && (
+        <section className="mb-12">
+          <h2 className="text-xl font-bold text-white mb-4">Accesorios compatibles</h2>
+          <ul className="space-y-2">
+            {product.accesoriosCompatibles.map(acc => (
+              <li key={acc} className="flex items-center gap-3 text-gray-300 text-sm">
+                <span className="text-bluetti-cyan">→</span> {acc}
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+
       <section className="mb-12">
         <h2 className="text-xl font-bold text-white mb-4">Video del producto</h2>
         <div className="rounded-2xl overflow-hidden border border-bluetti-border">
@@ -168,18 +181,6 @@ export default function ProductoDetalle() {
         </section>
       )}
 
-      {product.accesoriosCompatibles.length > 0 && (
-        <section className="mb-12">
-          <h2 className="text-xl font-bold text-white mb-4">Accesorios compatibles</h2>
-          <ul className="space-y-2">
-            {product.accesoriosCompatibles.map(acc => (
-              <li key={acc} className="flex items-center gap-3 text-gray-300 text-sm">
-                <span className="text-bluetti-cyan">→</span> {acc}
-              </li>
-            ))}
-          </ul>
-        </section>
-      )}
     </div>
   )
 }
