@@ -12,7 +12,7 @@ const CFG = {
         { id: 'b4810', nombre: 'B4810', kWh: 4.8, max: 24 },
         { id: 'b300', nombre: 'B300', kWh: 3.072, max: 24 },
       ],
-      min: 0,
+      min: 2,
     },
   },
   ep2000: {
@@ -64,7 +64,7 @@ function calcTotals(id, unidades, cant, tipoKwh) {
 function isBase(id, unidades, cant) {
   switch (id) {
     case 'es125x': return unidades === 1
-    case 'rv5': return cant === 0
+    case 'rv5': return cant === 2
     case 'ep2000': return unidades === 1 && cant === 2
     case 'ep760': return cant === 1
     case 'apex300': return unidades === 1 && cant === 0
