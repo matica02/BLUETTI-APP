@@ -30,7 +30,7 @@ const CFG = {
     },
   },
   apex300: {
-    paralelo: null,
+    paralelo: { min: 1, max: 3 },
     baterias: {
       tipos: [{ id: 'b300k', nombre: 'B300K', kWh: 3.072, max: 6 }],
       min: 0,
@@ -55,7 +55,7 @@ function calcTotals(id, unidades, cant, tipoKwh) {
     case 'rv5': return { kWh: cant * tipoKwh, kW: 5 }
     case 'ep2000': return { kWh: unidades * cant * 7.168, kW: unidades * 20 }
     case 'ep760': return { kWh: cant * 4.96, kW: 7.6 }
-    case 'apex300': return { kWh: 2.764 + cant * 3.072, kW: 3.84 }
+    case 'apex300': return { kWh: unidades * (2.764 + cant * 3.072), kW: unidades * 3.84 }
     case 'ac200pl': return { kWh: 2.304 + cant * tipoKwh, kW: 2.4 }
     default: return { kWh: 0, kW: 0 }
   }
@@ -67,7 +67,7 @@ function isBase(id, unidades, cant) {
     case 'rv5': return cant === 0
     case 'ep2000': return unidades === 1 && cant === 2
     case 'ep760': return cant === 1
-    case 'apex300': return cant === 0
+    case 'apex300': return unidades === 1 && cant === 0
     case 'ac200pl': return cant === 0
     default: return true
   }
