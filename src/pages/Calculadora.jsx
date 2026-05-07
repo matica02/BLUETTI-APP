@@ -134,12 +134,20 @@ export default function Calculadora() {
   const [agregados, setAgregados] = useState([])
 
   function agregar(electro) {
-    if (agregados.find(e => e.id === electro.id)) return
-    setAgregados(prev => [...prev, { ...electro, horas: 4 }])
+    setAgregados(prev => {
+      const existe = prev.find(e => e.id === electro.id)
+      if (existe) return prev.map(e => e.id === electro.id ? { ...e, cantidad: e.cantidad + 1 } : e)
+      return [...prev, { ...electro, horas: 4, cantidad: 1 }]
+    })
   }
 
   function quitar(id) {
     setAgregados(prev => prev.filter(e => e.id !== id))
+  }
+
+  function setCantidad(id, nueva) {
+    if (nueva <= 0) return quitar(id)
+    setAgregados(prev => prev.map(e => e.id === id ? { ...e, cantidad: nueva } : e))
   }
 
   function setHoras(id, horas) {
@@ -147,16 +155,16 @@ export default function Calculadora() {
   }
 
   const totalKwh = useMemo(() =>
-    agregados.reduce((sum, e) => sum + (e.watts * e.horas) / 1000, 0),
+    agregados.reduce((sum, e) => sum + (e.watts * e.cantidad * e.horas) / 1000, 0),
     [agregados]
   )
 
   const totalWatts = useMemo(() =>
-    agregados.reduce((sum, e) => sum + e.watts, 0),
+    agregados.reduce((sum, e) => sum + e.watts * e.cantidad, 0),
     [agregados]
   )
 
-  const idsAgregados = new Set(agregados.map(e => e.id))
+  const cantidadPorId = Object.fromEntries(agregados.map(e => [e.id, e.cantidad]))
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -173,7 +181,7 @@ export default function Calculadora() {
           </h2>
           <div className="space-y-2">
             {ELECTRODOMESTICOS.map(e => {
-              const yaAgregado = idsAgregados.has(e.id)
+              const cantidad = cantidadPorId[e.id] ?? 0
               return (
                 <div
                   key={e.id}
@@ -183,17 +191,19 @@ export default function Calculadora() {
                     <span className="text-white text-sm">{e.nombre}</span>
                     <span className="text-gray-500 text-xs ml-2">{e.watts}W</span>
                   </div>
-                  <button
-                    onClick={() => agregar(e)}
-                    disabled={yaAgregado}
-                    className={`w-8 h-8 rounded-lg font-bold text-lg flex items-center justify-center transition-all ${
-                      yaAgregado
-                        ? 'bg-bluetti-cyan/20 text-bluetti-cyan cursor-default'
-                        : 'bg-bluetti-border hover:bg-bluetti-cyan hover:text-bluetti-bg text-gray-300'
-                    }`}
-                  >
-                    {yaAgregado ? '✓' : '+'}
-                  </button>
+                  <div className="flex items-center gap-2">
+                    {cantidad > 0 && (
+                      <span className="text-bluetti-cyan text-xs font-bold min-w-[20px] text-center">
+                        ×{cantidad}
+                      </span>
+                    )}
+                    <button
+                      onClick={() => agregar(e)}
+                      className="w-8 h-8 rounded-lg font-bold text-lg flex items-center justify-center transition-all bg-bluetti-border hover:bg-bluetti-cyan hover:text-bluetti-bg text-gray-300"
+                    >
+                      +
+                    </button>
+                  </div>
                 </div>
               )
             })}
@@ -229,6 +239,22 @@ export default function Calculadora() {
                         ×
                       </button>
                     </div>
+                    <div className="flex items-center gap-2 mb-2">
+                      <span className="text-gray-400 text-xs">Cantidad:</span>
+                      <button
+                        onClick={() => setCantidad(e.id, e.cantidad - 1)}
+                        className="w-6 h-6 rounded bg-bluetti-border hover:bg-red-900/40 text-gray-300 hover:text-red-400 text-sm font-bold flex items-center justify-center transition-all"
+                      >
+                        −
+                      </button>
+                      <span className="text-bluetti-cyan font-bold text-sm w-4 text-center">{e.cantidad}</span>
+                      <button
+                        onClick={() => setCantidad(e.id, e.cantidad + 1)}
+                        className="w-6 h-6 rounded bg-bluetti-border hover:bg-bluetti-cyan hover:text-bluetti-bg text-gray-300 text-sm font-bold flex items-center justify-center transition-all"
+                      >
+                        +
+                      </button>
+                    </div>
                     <div className="flex items-center gap-3">
                       <input
                         type="range"
@@ -243,7 +269,7 @@ export default function Calculadora() {
                       </span>
                     </div>
                     <div className="text-gray-500 text-xs mt-1">
-                      {e.watts}W × {e.horas}h = {((e.watts * e.horas) / 1000).toFixed(2)} kWh/día
+                      {e.watts}W × {e.cantidad} × {e.horas}h = {((e.watts * e.cantidad * e.horas) / 1000).toFixed(2)} kWh/día
                     </div>
                   </div>
                 ))}
