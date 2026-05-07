@@ -110,8 +110,6 @@ export default function ProductoDetalle() {
               )
             )}
           </div>
-          <p className="text-gray-500 text-sm">{product.perfilUsuario}</p>
-
           <button
             onClick={handleCompare}
             disabled={disabled}
