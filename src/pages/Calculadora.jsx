@@ -132,6 +132,8 @@ function configLabel(modelId, r) {
 
 export default function Calculadora() {
   const [agregados, setAgregados] = useState([])
+  const [customNombre, setCustomNombre] = useState('')
+  const [customWatts, setCustomWatts] = useState('')
 
   function agregar(electro) {
     setAgregados(prev => {
@@ -207,6 +209,41 @@ export default function Calculadora() {
                 </div>
               )
             })}
+          </div>
+
+          <div className="mt-4 bg-bluetti-card border border-dashed border-bluetti-border rounded-xl p-4">
+            <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">
+              Agregar electrodoméstico personalizado
+            </p>
+            <div className="flex gap-2">
+              <input
+                type="text"
+                placeholder="Nombre"
+                value={customNombre}
+                onChange={e => setCustomNombre(e.target.value)}
+                className="flex-1 bg-black/30 border border-bluetti-border rounded-lg px-3 py-2 text-white text-sm placeholder-gray-600 focus:outline-none focus:border-bluetti-cyan"
+              />
+              <input
+                type="number"
+                placeholder="Watts"
+                min={1}
+                value={customWatts}
+                onChange={e => setCustomWatts(e.target.value)}
+                className="w-24 bg-black/30 border border-bluetti-border rounded-lg px-3 py-2 text-white text-sm placeholder-gray-600 focus:outline-none focus:border-bluetti-cyan"
+              />
+              <button
+                onClick={() => {
+                  const w = parseInt(customWatts)
+                  if (!customNombre.trim() || !w || w <= 0) return
+                  agregar({ id: `custom-${Date.now()}`, nombre: customNombre.trim(), watts: w })
+                  setCustomNombre('')
+                  setCustomWatts('')
+                }}
+                className="w-10 h-10 rounded-lg font-bold text-lg flex items-center justify-center bg-bluetti-border hover:bg-bluetti-cyan hover:text-bluetti-bg text-gray-300 transition-all shrink-0"
+              >
+                +
+              </button>
+            </div>
           </div>
         </div>
 
