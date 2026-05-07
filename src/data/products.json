@@ -64,16 +64,16 @@
   {
     "id": "rv5",
     "nombre": "RV5",
-    "tagline": "Hub de Energía 5 en 1 para Autocaravanas y Uso Móvil",
+    "tagline": "Hub de Energía 5 en 1 para Casas Rodantes y Uso Móvil",
     "subtitulo": "Estación de Energía para Vehículos",
     "descripcion": "Convertir un motorhome o van en un hogar rodante autosuficiente implica coordinar múltiples componentes de energía (inversor, controlador solar, cargador de alternador, conversor DC) que generalmente requieren instalación profesional compleja y costosa.\nEl RV5 resuelve esto con un Power Hub 5-en-1 que unifica todos esos componentes en un solo equipo de 5 kW, combinado con la batería LiFePO4 B4810 (51,2 V / 100 Ah = 5,12 kWh), certificación IP65 y pantalla táctil Epad HD para monitoreo completo.\nEl sistema incluye autocalentamiento hasta –20 °C, 100 A de salida DC a 12 V para accesorios de vehículo y una instalación DIY estimada en un día. Ideal para motorhomes, camper vans, botes y cualquier vehículo de vida off-grid.",
     "categoria": "Movilidad / RV / Off-Grid",
     "imagen": "rv5.png",
-    "perfilUsuario": "Propietarios de autocaravanas, barcos o cabañas off-grid que quieren un sistema de energía silencioso, eficiente y sin generador. Ideal para quienes quieren independencia total de campings o enchufes.",
+    "perfilUsuario": "Propietarios de casas rodantes, barcos o cabañas off-grid que quieren un sistema de energía silencioso, eficiente y sin generador. Ideal para quienes quieren independencia total de campings o enchufes.",
     "casosDeUso": [
       {
-        "etiqueta": "Autocaravana / RV",
-        "descripcion": "Sistema completo de energía para autocaravanas. Alimenta aire acondicionado, microondas, cafetera y todos los electrodomésticos del RV."
+        "etiqueta": "Casa Rodante / RV",
+        "descripcion": "Sistema completo de energía para casas rodantes. Alimenta aire acondicionado, microondas, cafetera y todos los electrodomésticos del RV."
       },
       {
         "etiqueta": "Barco",
