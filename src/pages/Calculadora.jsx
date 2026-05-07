@@ -373,9 +373,10 @@ export default function Calculadora() {
                           </span>
                         </div>
                         <p className="text-xs text-bluetti-cyan">{configLabel(modelo.id, result)}</p>
-                        <p className="text-xs text-bluetti-lime mt-1">
-                          Autonomía estimada: {horas} horas
-                        </p>
+                        <div className="flex items-baseline gap-1 mt-2">
+                          <span className="text-bluetti-lime text-2xl font-bold leading-none">{horas}</span>
+                          <span className="text-bluetti-lime text-sm font-semibold">hs de autonomía</span>
+                        </div>
                       </div>
                     )
                   }
@@ -391,9 +392,10 @@ export default function Calculadora() {
                       <p className="text-xs text-bluetti-cyan">
                         Config. recomendada: {configLabel(modelo.id, result)}
                       </p>
-                      <p className="text-xs text-bluetti-lime mt-1">
-                        Autonomía estimada: {horas} horas
-                      </p>
+                      <div className="flex items-baseline gap-1 mt-2">
+                        <span className="text-bluetti-lime text-2xl font-bold leading-none">{horas}</span>
+                        <span className="text-bluetti-lime text-sm font-semibold">hs de autonomía</span>
+                      </div>
                     </div>
                   )
                 })}
