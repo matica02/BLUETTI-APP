@@ -83,8 +83,32 @@ export default function ProductoDetalle() {
             {label}
           </span>
           <h1 className="text-4xl font-bold text-white">{product.nombre}</h1>
-          <p className="text-bluetti-cyan text-lg font-medium">{product.tagline}</p>
-          <p className="text-gray-400 leading-relaxed">{product.descripcion}</p>
+          {product.subtitulo && (
+            <p className="text-bluetti-cyan text-sm font-medium">{product.subtitulo}</p>
+          )}
+          <div className="flex flex-col gap-2">
+            {product.descripcion.split('\n').reduce((acc, line, i) => {
+              if (line.startsWith('* ')) {
+                const prev = acc[acc.length - 1]
+                if (prev && prev.type === 'ul') {
+                  prev.items.push(line.slice(2))
+                } else {
+                  acc.push({ type: 'ul', items: [line.slice(2)], key: i })
+                }
+              } else if (line.trim()) {
+                acc.push({ type: 'p', text: line, key: i })
+              }
+              return acc
+            }, []).map(block =>
+              block.type === 'ul' ? (
+                <ul key={block.key} className="list-disc list-inside text-gray-400 leading-relaxed space-y-1 ml-1">
+                  {block.items.map((item, j) => <li key={j}>{item}</li>)}
+                </ul>
+              ) : (
+                <p key={block.key} className="text-gray-400 leading-relaxed">{block.text}</p>
+              )
+            )}
+          </div>
           <p className="text-gray-500 text-sm">{product.perfilUsuario}</p>
 
           <button
