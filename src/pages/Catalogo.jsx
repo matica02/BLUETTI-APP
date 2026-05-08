@@ -37,6 +37,27 @@ export default function Catalogo() {
           ))}
         </div>
       )}
+
+      <section className="mt-12 mb-4">
+        <h2 className="text-xl font-bold text-white mb-4">Manual para APP Bluetti</h2>
+        <div className="bg-bluetti-card border border-bluetti-border rounded-2xl p-6 flex flex-col items-start gap-3">
+          <a
+            href="/pdf/manual-app.pdf"
+            download
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-3 border border-bluetti-cyan text-bluetti-cyan font-semibold px-6 py-3 rounded-xl hover:bg-bluetti-cyan hover:text-bluetti-bg transition-all"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+              <polyline points="7 10 12 15 17 10" />
+              <line x1="12" y1="15" x2="12" y2="3" />
+            </svg>
+            Descargar Manual para APP Bluetti
+          </a>
+          <p className="text-gray-500 text-sm">Archivo PDF · Manual de uso de la aplicación</p>
+        </div>
+      </section>
     </div>
   )
 }
