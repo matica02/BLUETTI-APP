@@ -23,6 +23,9 @@ const installationVideos = {
     { title: 'Video de Instalación - Parte 1', url: 'https://www.youtube.com/embed/g_HmDfoobi8' },
     { title: 'Video de Instalación - Parte 2', url: 'https://www.youtube.com/embed/zSF0B4rQJGw' },
   ],
+  apex300: [
+    { title: 'Video de Instalación', url: 'https://www.youtube.com/embed/VkjOMDpjMso?si=2kg8nQCwv0_L38Ni' },
+  ],
 }
 
 export default function ProductoDetalle() {
