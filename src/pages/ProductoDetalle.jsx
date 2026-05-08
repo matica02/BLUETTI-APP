@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { useParams, Link, useNavigate } from 'react-router-dom'
 import products from '../data/products.json'
 import { useCompare } from '../components/CompareContext'
@@ -27,6 +28,14 @@ export default function ProductoDetalle() {
   const navigate = useNavigate()
   const product = products.find(p => p.id === id)
   const { addToCompare, removeFromCompare, isSelected, isFull } = useCompare()
+  const allImages = product ? [product.imagen, ...(product.imagenes || [])] : []
+  const [selectedImage, setSelectedImage] = useState(0)
+  // Reset selected image when product changes
+  const [lastId, setLastId] = useState(id)
+  if (id !== lastId) {
+    setLastId(id)
+    setSelectedImage(0)
+  }
 
   if (!product) {
     return (
@@ -70,13 +79,35 @@ export default function ProductoDetalle() {
       </button>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 mb-12">
-        <div className="bg-black/30 rounded-2xl flex items-center justify-center p-4 min-h-64 sm:min-h-96">
-          <img
-            src={`/images/${product.imagen}`}
-            alt={product.nombre}
-            className="w-full max-h-72 sm:max-h-[480px] object-contain"
-            onError={e => { e.target.style.display = 'none' }}
-          />
+        <div className="flex flex-col gap-3">
+          <div className="bg-black/30 rounded-2xl flex items-center justify-center p-4 min-h-64 sm:min-h-96">
+            <img
+              src={`/images/${allImages[selectedImage]}`}
+              alt={product.nombre}
+              className="w-full max-h-72 sm:max-h-[480px] object-contain"
+              onError={e => { e.target.style.display = 'none' }}
+            />
+          </div>
+          {allImages.length > 1 && (
+            <div className="flex gap-2 justify-center">
+              {allImages.map((img, i) => (
+                <button
+                  key={img}
+                  onClick={() => setSelectedImage(i)}
+                  className={`w-16 h-16 rounded-lg border-2 overflow-hidden bg-black/30 transition-all ${
+                    selectedImage === i ? 'border-bluetti-cyan' : 'border-bluetti-border hover:border-gray-500'
+                  }`}
+                >
+                  <img
+                    src={`/images/${img}`}
+                    alt={`${product.nombre} vista ${i + 1}`}
+                    className="w-full h-full object-contain p-1"
+                    onError={e => { e.target.style.display = 'none' }}
+                  />
+                </button>
+              ))}
+            </div>
+          )}
         </div>
 
         <div className="flex flex-col justify-center gap-4">
