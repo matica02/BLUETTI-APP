@@ -1,5 +1,6 @@
 import { useState, useMemo } from 'react'
 import { Link } from 'react-router-dom'
+import SimuladorSolar from '../components/SimuladorSolar'
 
 const ELECTRODOMESTICOS = [
   // Climatización
@@ -526,6 +527,8 @@ export default function Calculadora() {
           </div>
         </div>
       </div>
+
+      <SimuladorSolar />
     </div>
   )
 }
