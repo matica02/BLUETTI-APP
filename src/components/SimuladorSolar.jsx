@@ -6,7 +6,7 @@ const MODELOS = [
   { id: 'ep760',   nombre: 'EP760',     maxUnidades: 1, tieneBaterias: true, maxBaterias: 4,  batNombre: 'B500',   kwhBase: 0,     kwhBat: 4.96   },
   { id: 'apex300', nombre: 'APEX 300',  maxUnidades: 3, tieneBaterias: true, maxBaterias: 6,  batNombre: 'B300K',  kwhBase: 2.764, kwhBat: 3.072  },
   { id: 'ac200pl', nombre: 'AC200P L',  maxUnidades: 1, tieneBaterias: true, maxBaterias: 2,  batNombre: 'B300',   kwhBase: 2.304, kwhBat: 3.072  },
-  { id: 'rv5',     nombre: 'RV5',       maxUnidades: 1, tieneBaterias: true, maxBaterias: 24, batNombre: 'B4810',  kwhBase: 0,     kwhBat: 4.8    },
+  { id: 'rv5',     nombre: 'RV5',       maxUnidades: 1, tieneBaterias: true, maxBaterias: 24, minBaterias: 2, batNombre: 'B4810',  kwhBase: 0,     kwhBat: 4.8    },
 ]
 
 const MAX_SOLAR_W = {
@@ -41,9 +41,10 @@ export default function SimuladorSolar() {
   const modelo = MODELOS.find(m => m.id === modelId)
 
   function handleModelChange(id) {
+    const m = MODELOS.find(m => m.id === id)
     setModelId(id)
     setUnidades(1)
-    setBaterias(MODELOS.find(m => m.id === id)?.tieneBaterias ? 0 : 0)
+    setBaterias(m?.minBaterias ?? 0)
   }
 
   const resultado = useMemo(() => {
@@ -120,7 +121,7 @@ export default function SimuladorSolar() {
               </p>
               <div className="flex items-center gap-3">
                 <button
-                  onClick={() => setBaterias(b => Math.max(0, b - 1))}
+                  onClick={() => setBaterias(b => Math.max(modelo.minBaterias ?? 0, b - 1))}
                   className="w-8 h-8 rounded-lg bg-bluetti-border hover:bg-red-900/40 text-gray-300 hover:text-red-400 font-bold flex items-center justify-center transition-all"
                 >−</button>
                 <span className="text-bluetti-cyan font-bold text-lg w-6 text-center">{baterias}</span>
