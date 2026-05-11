@@ -64,13 +64,7 @@ export default function SimuladorSolar() {
   }, [modelo, modelId, unidades, baterias, panelW, horasSol])
 
   return (
-    <div className="bg-bluetti-card border border-bluetti-border rounded-2xl p-6 mt-8">
-      <h2 className="text-xl font-bold text-white mb-1">Simulador de Paneles Solares</h2>
-      <p className="text-gray-400 text-sm mb-6">
-        Calculá cuántos paneles solares necesitás para recargar tu equipo BLUETTI en un día.
-      </p>
-
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Configuración */}
         <div className="space-y-6">
           {/* Modelo */}
@@ -217,7 +211,6 @@ export default function SimuladorSolar() {
             Estimación con eficiencia del 80% por pérdidas de conversión e inclinación.
           </p>
         </div>
-      </div>
     </div>
   )
 }

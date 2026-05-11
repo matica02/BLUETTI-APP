@@ -6,6 +6,7 @@ import Catalogo from './pages/Catalogo'
 import ProductoDetalle from './pages/ProductoDetalle'
 import Comparar from './pages/Comparar'
 import Calculadora from './pages/Calculadora'
+import SimuladorSolarPage from './pages/SimuladorSolarPage'
 
 export default function App() {
   return (
@@ -19,6 +20,7 @@ export default function App() {
               <Route path="/producto/:id" element={<ProductoDetalle />} />
               <Route path="/comparar" element={<Comparar />} />
               <Route path="/calculadora" element={<Calculadora />} />
+              <Route path="/simulador-solar" element={<SimuladorSolarPage />} />
             </Routes>
           </main>
           <CompareBar />
