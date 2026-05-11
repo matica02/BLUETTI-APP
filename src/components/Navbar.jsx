@@ -15,7 +15,7 @@ export default function Navbar() {
         <div className="flex items-center gap-3">
           <Link
             to="/simulador-solar"
-            className="text-gray-300 hover:text-bluetti-cyan font-medium text-xs sm:text-sm px-2 sm:px-3 py-2 transition-all hidden sm:block"
+            className="bg-bluetti-cyan text-bluetti-bg font-semibold text-xs sm:text-sm px-3 sm:px-4 py-2 rounded-lg hover:brightness-110 transition-all"
           >
             Simulador Solar
           </Link>
