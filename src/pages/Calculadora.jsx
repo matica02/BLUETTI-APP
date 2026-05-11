@@ -47,10 +47,13 @@ const PERFILES = [
     nombre: 'Casa',
     items: [
       { id: 'heladera', cantidad: 1, horas: 24 },
+      { id: 'freezer', cantidad: 1, horas: 24 },
       { id: 'tv', cantidad: 1, horas: 6 },
       { id: 'led', cantidad: 1, horas: 8 },
       { id: 'wifi', cantidad: 1, horas: 24 },
       { id: 'celular', cantidad: 2, horas: 2 },
+      { id: 'pava', cantidad: 1, horas: 1 },
+      { id: 'notebook', cantidad: 1, horas: 4 },
     ],
   },
   {
@@ -59,8 +62,9 @@ const PERFILES = [
     items: [
       { id: 'heladera', cantidad: 1, horas: 24 },
       { id: 'led', cantidad: 1, horas: 6 },
-      { id: 'celular', cantidad: 2, horas: 2 },
-      { id: 'wifi', cantidad: 1, horas: 8 },
+      { id: 'celular', cantidad: 3, horas: 2 },
+      { id: 'ventilador', cantidad: 1, horas: 8 },
+      { id: 'pava', cantidad: 1, horas: 1 },
     ],
   },
   {
@@ -71,15 +75,18 @@ const PERFILES = [
       { id: 'led', cantidad: 2, horas: 10 },
       { id: 'wifi', cantidad: 1, horas: 24 },
       { id: 'pc', cantidad: 1, horas: 8 },
+      { id: 'alarma', cantidad: 1, horas: 24 },
+      { id: 'camara', cantidad: 2, horas: 24 },
     ],
   },
   {
     id: 'obra',
     nombre: 'Obra',
     items: [
-      { id: 'herramientas', cantidad: 1, horas: 4 },
-      { id: 'led', cantidad: 1, horas: 4 },
-      { id: 'celular', cantidad: 2, horas: 1 },
+      { id: 'herramientas', cantidad: 2, horas: 4 },
+      { id: 'led', cantidad: 1, horas: 6 },
+      { id: 'celular', cantidad: 3, horas: 1 },
+      { id: 'bomba', cantidad: 1, horas: 2 },
     ],
   },
 ]
