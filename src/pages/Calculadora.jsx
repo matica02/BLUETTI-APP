@@ -286,37 +286,7 @@ export default function Calculadora() {
           <h2 className="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-4">
             Electrodomésticos disponibles
           </h2>
-          <div className="space-y-2">
-            {ELECTRODOMESTICOS.map(e => {
-              const cantidad = cantidadPorId[e.id] ?? 0
-              return (
-                <div
-                  key={e.id}
-                  className="flex items-center justify-between bg-bluetti-card border border-bluetti-border rounded-xl px-4 py-3"
-                >
-                  <div>
-                    <span className="text-white text-sm">{e.nombre}</span>
-                    <span className="text-gray-500 text-xs ml-2">{e.watts}W</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    {cantidad > 0 && (
-                      <span className="text-bluetti-cyan text-xs font-bold min-w-[20px] text-center">
-                        ×{cantidad}
-                      </span>
-                    )}
-                    <button
-                      onClick={() => agregar(e)}
-                      className="w-8 h-8 rounded-lg font-bold text-lg flex items-center justify-center transition-all bg-bluetti-border hover:bg-bluetti-cyan hover:text-bluetti-bg text-gray-300"
-                    >
-                      +
-                    </button>
-                  </div>
-                </div>
-              )
-            })}
-          </div>
-
-          <div className="mt-4 bg-bluetti-card border border-dashed border-bluetti-border rounded-xl p-4">
+          <div className="mb-4 bg-bluetti-card border border-dashed border-bluetti-border rounded-xl p-4">
             <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">
               Agregar electrodoméstico personalizado
             </p>
@@ -350,6 +320,37 @@ export default function Calculadora() {
               </button>
             </div>
           </div>
+
+          <div className="space-y-2">
+            {ELECTRODOMESTICOS.map(e => {
+              const cantidad = cantidadPorId[e.id] ?? 0
+              return (
+                <div
+                  key={e.id}
+                  className="flex items-center justify-between bg-bluetti-card border border-bluetti-border rounded-xl px-4 py-3"
+                >
+                  <div>
+                    <span className="text-white text-sm">{e.nombre}</span>
+                    <span className="text-gray-500 text-xs ml-2">{e.watts}W</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    {cantidad > 0 && (
+                      <span className="text-bluetti-cyan text-xs font-bold min-w-[20px] text-center">
+                        ×{cantidad}
+                      </span>
+                    )}
+                    <button
+                      onClick={() => agregar(e)}
+                      className="w-8 h-8 rounded-lg font-bold text-lg flex items-center justify-center transition-all bg-bluetti-border hover:bg-bluetti-cyan hover:text-bluetti-bg text-gray-300"
+                    >
+                      +
+                    </button>
+                  </div>
+                </div>
+              )
+            })}
+          </div>
+
         </div>
 
         {/* Columna derecha */}
