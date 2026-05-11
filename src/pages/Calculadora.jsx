@@ -1,4 +1,5 @@
 import { useState, useMemo } from 'react'
+import { Link } from 'react-router-dom'
 
 const ELECTRODOMESTICOS = [
   { id: 'heladera', nombre: 'Heladera', watts: 150 },
@@ -13,6 +14,49 @@ const ELECTRODOMESTICOS = [
   { id: 'celular', nombre: 'Cargador de celular', watts: 10 },
   { id: 'heladera_comercial', nombre: 'Heladera comercial', watts: 400 },
   { id: 'herramientas', nombre: 'Herramientas eléctricas', watts: 800 },
+]
+
+const PERFILES = [
+  {
+    id: 'casa',
+    nombre: 'Casa',
+    items: [
+      { id: 'heladera', cantidad: 1, horas: 24 },
+      { id: 'tv', cantidad: 1, horas: 6 },
+      { id: 'led', cantidad: 1, horas: 8 },
+      { id: 'wifi', cantidad: 1, horas: 24 },
+      { id: 'celular', cantidad: 2, horas: 2 },
+    ],
+  },
+  {
+    id: 'camping',
+    nombre: 'Camping',
+    items: [
+      { id: 'heladera', cantidad: 1, horas: 24 },
+      { id: 'led', cantidad: 1, horas: 6 },
+      { id: 'celular', cantidad: 2, horas: 2 },
+      { id: 'wifi', cantidad: 1, horas: 8 },
+    ],
+  },
+  {
+    id: 'comercio',
+    nombre: 'Comercio',
+    items: [
+      { id: 'heladera_comercial', cantidad: 1, horas: 24 },
+      { id: 'led', cantidad: 2, horas: 10 },
+      { id: 'wifi', cantidad: 1, horas: 24 },
+      { id: 'pc', cantidad: 1, horas: 8 },
+    ],
+  },
+  {
+    id: 'obra',
+    nombre: 'Obra',
+    items: [
+      { id: 'herramientas', cantidad: 1, horas: 4 },
+      { id: 'led', cantidad: 1, horas: 4 },
+      { id: 'celular', cantidad: 2, horas: 1 },
+    ],
+  },
 ]
 
 const MODELOS = [
@@ -166,6 +210,14 @@ export default function Calculadora() {
     [agregados]
   )
 
+  function aplicarPerfil(perfil) {
+    const nuevos = perfil.items.map(item => {
+      const electro = ELECTRODOMESTICOS.find(e => e.id === item.id)
+      return { ...electro, cantidad: item.cantidad, horas: item.horas }
+    })
+    setAgregados(nuevos)
+  }
+
   const cantidadPorId = Object.fromEntries(agregados.map(e => [e.id, e.cantidad]))
 
   return (
@@ -174,6 +226,27 @@ export default function Calculadora() {
       <p className="text-gray-400 text-sm mb-8">
         Seleccioná los electrodomésticos que querés alimentar y calculá cuánto tiempo te dura cada modelo BLUETTI.
       </p>
+
+      <div className="flex flex-wrap gap-2 mb-8">
+        <span className="text-gray-500 text-sm self-center mr-1">Perfil de uso:</span>
+        {PERFILES.map(perfil => (
+          <button
+            key={perfil.id}
+            onClick={() => aplicarPerfil(perfil)}
+            className="px-4 py-2 rounded-xl border border-bluetti-border text-sm font-medium text-gray-300 hover:border-bluetti-cyan hover:text-bluetti-cyan transition-all"
+          >
+            {perfil.nombre}
+          </button>
+        ))}
+        {agregados.length > 0 && (
+          <button
+            onClick={() => setAgregados([])}
+            className="px-4 py-2 rounded-xl border border-red-800 text-sm font-medium text-red-400 hover:bg-red-900/20 transition-all ml-auto"
+          >
+            Limpiar
+          </button>
+        )}
+      </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Columna izquierda */}
@@ -373,9 +446,17 @@ export default function Calculadora() {
                           </span>
                         </div>
                         <p className="text-xs text-bluetti-cyan">{configLabel(modelo.id, result)}</p>
-                        <div className="flex items-baseline gap-1 mt-2">
-                          <span className="text-bluetti-lime text-2xl font-bold leading-none">{horas}</span>
-                          <span className="text-bluetti-lime text-sm font-semibold">hs de autonomía</span>
+                        <div className="flex items-center justify-between mt-2">
+                          <div className="flex items-baseline gap-1">
+                            <span className="text-bluetti-lime text-2xl font-bold leading-none">{horas}</span>
+                            <span className="text-bluetti-lime text-sm font-semibold">hs de autonomía</span>
+                          </div>
+                          <Link
+                            to={`/producto/${modelo.id}`}
+                            className="text-xs text-gray-400 hover:text-bluetti-cyan underline underline-offset-2 transition-colors"
+                          >
+                            Ver producto
+                          </Link>
                         </div>
                       </div>
                     )
@@ -392,9 +473,17 @@ export default function Calculadora() {
                       <p className="text-xs text-bluetti-cyan">
                         Config. recomendada: {configLabel(modelo.id, result)}
                       </p>
-                      <div className="flex items-baseline gap-1 mt-2">
-                        <span className="text-bluetti-lime text-2xl font-bold leading-none">{horas}</span>
-                        <span className="text-bluetti-lime text-sm font-semibold">hs de autonomía</span>
+                      <div className="flex items-center justify-between mt-2">
+                        <div className="flex items-baseline gap-1">
+                          <span className="text-bluetti-lime text-2xl font-bold leading-none">{horas}</span>
+                          <span className="text-bluetti-lime text-sm font-semibold">hs de autonomía</span>
+                        </div>
+                        <Link
+                          to={`/producto/${modelo.id}`}
+                          className="text-xs text-gray-400 hover:text-bluetti-cyan underline underline-offset-2 transition-colors"
+                        >
+                          Ver producto
+                        </Link>
                       </div>
                     </div>
                   )
