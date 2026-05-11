@@ -2,17 +2,42 @@ import { useState, useMemo } from 'react'
 import { Link } from 'react-router-dom'
 
 const ELECTRODOMESTICOS = [
-  { id: 'heladera', nombre: 'Heladera', watts: 150 },
+  // Climatización
   { id: 'aire', nombre: 'Aire acondicionado (split 3000 frigs.)', watts: 900 },
-  { id: 'lavarropas', nombre: 'Lavarropas', watts: 500 },
+  { id: 'aire_grande', nombre: 'Aire acondicionado (split 5000 frigs.)', watts: 1500 },
+  { id: 'ventilador', nombre: 'Ventilador de pie', watts: 60 },
+  { id: 'calefactor', nombre: 'Calefactor eléctrico', watts: 1500 },
+  // Cocina
+  { id: 'heladera', nombre: 'Heladera', watts: 150 },
+  { id: 'freezer', nombre: 'Freezer', watts: 150 },
+  { id: 'heladera_comercial', nombre: 'Heladera comercial', watts: 400 },
   { id: 'microondas', nombre: 'Microondas', watts: 1000 },
+  { id: 'horno', nombre: 'Horno eléctrico', watts: 1200 },
+  { id: 'pava', nombre: 'Pava eléctrica', watts: 1500 },
+  { id: 'cafetera', nombre: 'Cafetera', watts: 900 },
+  { id: 'tostadora', nombre: 'Tostadora', watts: 850 },
+  { id: 'licuadora', nombre: 'Licuadora', watts: 400 },
+  // Entretenimiento
   { id: 'tv', nombre: 'TV 55"', watts: 120 },
-  { id: 'pc', nombre: 'Computadora + monitor', watts: 200 },
-  { id: 'led', nombre: 'Iluminación LED (10 luces)', watts: 100 },
-  { id: 'bomba', nombre: 'Bomba de agua', watts: 750 },
+  { id: 'tv_32', nombre: 'TV 32"', watts: 60 },
+  { id: 'consola', nombre: 'Consola de videojuegos', watts: 150 },
+  { id: 'proyector', nombre: 'Proyector', watts: 250 },
+  // Trabajo y conectividad
+  { id: 'pc', nombre: 'Computadora de escritorio + monitor', watts: 200 },
+  { id: 'notebook', nombre: 'Notebook / Laptop', watts: 65 },
   { id: 'wifi', nombre: 'Router WiFi', watts: 15 },
   { id: 'celular', nombre: 'Cargador de celular', watts: 10 },
-  { id: 'heladera_comercial', nombre: 'Heladera comercial', watts: 400 },
+  // Iluminación
+  { id: 'led', nombre: 'Iluminación LED (10 luces)', watts: 100 },
+  // Electrodomésticos del hogar
+  { id: 'lavarropas', nombre: 'Lavarropas', watts: 500 },
+  { id: 'plancha', nombre: 'Plancha de ropa', watts: 1200 },
+  { id: 'aspiradora', nombre: 'Aspiradora', watts: 1200 },
+  // Seguridad y servicios
+  { id: 'camara', nombre: 'Cámara de seguridad', watts: 15 },
+  { id: 'alarma', nombre: 'Alarma del hogar', watts: 20 },
+  { id: 'bomba', nombre: 'Bomba de agua', watts: 750 },
+  // Trabajo y herramientas
   { id: 'herramientas', nombre: 'Herramientas eléctricas', watts: 800 },
 ]
 
