@@ -8,7 +8,7 @@ export default function Navbar() {
     <nav className="bg-bluetti-nav border-b border-bluetti-border sticky top-0 z-40">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         <Link to="/" className="flex items-center gap-4 sm:gap-6">
-          <img src="/images/logo-naval.png" alt="Naval Motor" className="h-8 sm:h-10 object-contain mt-2" />
+          <img src="/images/logo-naval.png" alt="Naval Motor" className="h-8 sm:h-10 object-contain mt-3" />
 <img src="/images/bluetti-logo.png.webp" alt="BLUETTI" className="h-7 sm:h-10 object-contain" />
         </Link>
 
