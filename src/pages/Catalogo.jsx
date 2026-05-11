@@ -39,6 +39,17 @@ export default function Catalogo() {
       )}
 
       <section className="mt-12 mb-8">
+        <video
+          src="/videos/catalogo-video.mp4"
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="w-full rounded-2xl"
+        />
+      </section>
+
+      <section className="mb-8">
         <h2 className="text-xl font-bold text-white mb-4">Descargá la APP Bluetti</h2>
         <div className="bg-bluetti-card border border-bluetti-border rounded-2xl p-6 flex flex-col sm:flex-row items-center gap-6">
           <img
