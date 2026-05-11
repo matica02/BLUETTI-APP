@@ -218,14 +218,14 @@
       }
     ],
     "specs": {
-      "capacidadBateria": "4.96 kWh – 19.84 kWh (1–4 baterías B500)",
+      "capacidadBateria": "9.92 kWh – 19.84 kWh (2–4 baterías B500)",
       "potenciaSalidaAC_onGrid": "7,600 W (con solar) / 5,000 W (sin solar)",
       "potenciaSalidaAC_offGrid": "7,600 W (con solar) / 3,680 W (sin solar)",
       "entradaSolarMax": "9,000 W (3 MPPT independientes de 3 kW c/u)",
       "tipoBateria": "LiFePO4",
       "capacidadPorBateria": "4.96 kWh por B500",
       "expandible": true,
-      "notaExpansion": "1–4 baterías B500 (4.96 kWh cada una)",
+      "notaExpansion": "2–4 baterías B500 (4.96 kWh cada una)",
       "conexionSolar": true,
       "fase": "Monofásica (L/N/PE)",
       "proteccion": "IP65",
@@ -241,7 +241,7 @@
     "highlights": [
       "Hasta 7,600 W de salida AC — cubre el 95% de los electrodomésticos del hogar",
       "Compatible con instalaciones solares existentes (AC coupling) y nuevas (DC coupling)",
-      "Capacidad modular de 4.96 a 19.84 kWh con 1–4 baterías B500",
+      "Capacidad modular de 9.92 a 19.84 kWh con 2–4 baterías B500",
       "Instalación en pocas horas gracias al diseño plug-and-play todo-en-uno",
       "Diseño elegante para instalación en pared interior o exterior IP65",
       "3 entradas MPPT independientes de 3 kW cada una para máxima flexibilidad solar"

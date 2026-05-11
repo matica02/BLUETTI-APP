@@ -104,7 +104,7 @@ const BASE = {
   es125x: { kWh: 241, kW: 125 },
   rv5: { kWh: 9.6, kW: 5 },
   ep2000: { kWh: 2 * 7.168, kW: 20 },
-  ep760: { kWh: 4.96, kW: 7.6 },
+  ep760: { kWh: 9.92, kW: 7.6 },
   apex300: { kWh: 2.764, kW: 3.84 },
   ac200pl: { kWh: 2.304, kW: 2.4 },
 }
@@ -140,7 +140,7 @@ function findMinConfig(modelId, needKwh, needKw) {
     }
     case 'ep760': {
       if (7.6 < needKw) return null
-      for (let b = 1; b <= 4; b++) {
+      for (let b = 2; b <= 4; b++) {
         const kWh = b * 4.96
         if (kWh >= needKwh) return { kWh, kW: 7.6, unidades: 1, baterias: b, tipo: 'B500' }
       }
@@ -176,7 +176,7 @@ function isBaseResult(modelId, r) {
     case 'es125x': return r.unidades === 1
     case 'rv5': return r.baterias === 2
     case 'ep2000': return r.unidades === 1 && r.baterias === 2
-    case 'ep760': return r.baterias === 1
+    case 'ep760': return r.baterias === 2
     case 'apex300': return r.unidades === 1 && r.baterias === 0
     case 'ac200pl': return r.baterias === 0
     default: return false
@@ -193,7 +193,7 @@ function configLabel(modelId, r) {
     case 'ep2000':
       return `${r.unidades} unidad${r.unidades > 1 ? 'es' : ''} + ${r.baterias} baterías ${r.tipo} por unidad`
     case 'ep760':
-      return `${r.baterias} bater${r.baterias === 1 ? 'ía' : 'ías'} ${r.tipo}`
+      return r.baterias === 2 ? '2 baterías B500 (base incluida)' : `${r.baterias} baterías ${r.tipo}`
     case 'apex300': {
       const batLabel = r.baterias === 0 ? 'sin baterías extra' : `${r.baterias} baterías ${r.tipo} por unidad`
       return r.unidades === 1
