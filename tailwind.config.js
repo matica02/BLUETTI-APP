@@ -10,7 +10,7 @@ export default {
         bluetti: {
           bg: '#0a0a0f',
           card: '#111827',
-          nav: '#1e2a3a',
+          nav: '#141e2d',
           cyan: '#00d4ff',
           lime: '#a3e635',
           border: '#1f2937',
