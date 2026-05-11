@@ -26,7 +26,7 @@ const CFG = {
     paralelo: null,
     baterias: {
       tipos: [{ id: 'b500', nombre: 'B500', kWh: 4.96, max: 4 }],
-      min: 1,
+      min: 2,
     },
   },
   apex300: {
@@ -66,7 +66,7 @@ function isBase(id, unidades, cant) {
     case 'es125x': return unidades === 1
     case 'rv5': return cant === 2
     case 'ep2000': return unidades === 1 && cant === 2
-    case 'ep760': return cant === 1
+    case 'ep760': return cant === 2
     case 'apex300': return unidades === 1 && cant === 0
     case 'ac200pl': return cant === 0
     default: return true
