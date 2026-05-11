@@ -9,6 +9,9 @@ const SLIDES = [
   { type: 'image', src: '/images/catalogo-foto-4.png' },
   { type: 'image', src: '/images/catalogo-foto-5.png' },
   { type: 'image', src: '/images/catalogo-foto-6.png' },
+  { type: 'image', src: '/images/catalogo-foto-7.png' },
+  { type: 'image', src: '/images/catalogo-foto-8.png' },
+  { type: 'video', src: '/videos/catalogo-video-3.mp4' },
 ]
 
 export default function CatalogoCarousel() {
