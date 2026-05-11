@@ -3,6 +3,7 @@ import products from '../data/products.json'
 import { CATEGORIA_LABELS } from '../data/categorias'
 import ProductCard from '../components/ProductCard'
 import FilterBar from '../components/FilterBar'
+import CatalogoCarousel from '../components/CatalogoCarousel'
 
 export default function Catalogo() {
   const [activeFilter, setActiveFilter] = useState('Todos')
@@ -39,14 +40,7 @@ export default function Catalogo() {
       )}
 
       <section className="mt-12 mb-8">
-        <video
-          src="/videos/catalogo-video.mp4"
-          autoPlay
-          loop
-          muted
-          playsInline
-          className="w-full rounded-2xl"
-        />
+        <CatalogoCarousel />
       </section>
 
       <section className="mb-8">
