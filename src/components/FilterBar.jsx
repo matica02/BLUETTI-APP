@@ -7,7 +7,7 @@ export default function FilterBar({ activeFilter, onFilterChange }) {
         <button
           key={cat}
           onClick={() => onFilterChange(cat)}
-          className={`px-2 py-1 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-medium transition-all border ${
+          className={`px-2 py-1 sm:px-4 sm:py-2 rounded-full text-[10px] sm:text-sm font-medium transition-all border ${
             activeFilter === cat
               ? 'bg-bluetti-cyan text-bluetti-bg border-bluetti-cyan'
               : 'bg-transparent text-bluetti-cyan border-bluetti-border hover:border-bluetti-cyan/50 hover:text-white'
