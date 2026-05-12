@@ -10,7 +10,7 @@ export default function FilterBar({ activeFilter, onFilterChange }) {
           className={`flex-shrink-0 px-4 py-2 rounded-full text-sm font-medium transition-all border ${
             activeFilter === cat
               ? 'bg-bluetti-cyan text-bluetti-bg border-bluetti-cyan'
-              : 'bg-transparent text-gray-400 border-bluetti-border hover:border-bluetti-cyan/50 hover:text-white'
+              : 'bg-transparent text-bluetti-cyan border-bluetti-border hover:border-bluetti-cyan/50 hover:text-white'
           }`}
         >
           {cat}

@@ -7,7 +7,7 @@ export default function ProductCard({ product }) {
   const { addToCompare, removeFromCompare, isSelected, isFull } = useCompare()
 
   const label = CATEGORIA_LABELS[product.categoria] ?? product.categoria
-  const colorClass = CATEGORIA_COLORS[label] ?? 'bg-gray-800 text-gray-300 border border-gray-700'
+  const colorClass = CATEGORIA_COLORS[label] ?? 'bg-gray-800 text-bluetti-cyan/80 border border-gray-700'
   const selected = isSelected(product.id)
   const disabled = isFull() && !selected
 
@@ -99,7 +99,7 @@ export default function ProductCard({ product }) {
         <div className="flex items-start justify-between gap-2">
           <div className="min-w-0">
             <h3 className="text-white font-bold text-lg leading-tight">{product.nombre}</h3>
-            <p className="text-gray-400 text-sm mt-1 line-clamp-2">{product.tagline}</p>
+            <p className="text-bluetti-cyan text-sm mt-1 line-clamp-2">{product.tagline}</p>
           </div>
           <span className={`text-xs px-2 py-1 rounded-full font-medium flex-shrink-0 ${colorClass}`}>
             {label}
@@ -121,7 +121,7 @@ export default function ProductCard({ product }) {
                 ? 'bg-bluetti-cyan/20 border-bluetti-cyan text-bluetti-cyan'
                 : disabled
                 ? 'border-gray-700 text-gray-600 cursor-not-allowed'
-                : 'border-bluetti-border text-gray-400 hover:border-bluetti-cyan hover:text-bluetti-cyan'
+                : 'border-bluetti-border text-bluetti-cyan hover:border-bluetti-cyan hover:text-bluetti-cyan'
             }`}
             aria-label={
               selected

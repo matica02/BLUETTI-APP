@@ -18,7 +18,7 @@ export default function Catalogo() {
         <h1 className="text-3xl font-bold text-white mb-2">
           Productos <span className="text-bluetti-cyan">BLUETTI</span>
         </h1>
-        <p className="text-gray-400">
+        <p className="text-bluetti-cyan">
           Sistemas de almacenamiento de energía para cada necesidad
         </p>
       </div>
@@ -28,7 +28,7 @@ export default function Catalogo() {
       </div>
 
       {filteredProducts.length === 0 ? (
-        <p className="text-gray-500 text-center py-16">
+        <p className="text-bluetti-cyan/70 text-center py-16">
           No hay productos en esta categoría.
         </p>
       ) : (
@@ -52,7 +52,7 @@ export default function Catalogo() {
             className="w-24 h-24 rounded-2xl object-cover shrink-0"
           />
           <div className="flex flex-col gap-3 w-full">
-            <p className="text-gray-400 text-sm">Controlá y monitoreá tus equipos BLUETTI desde tu celular.</p>
+            <p className="text-bluetti-cyan text-sm">Controlá y monitoreá tus equipos BLUETTI desde tu celular.</p>
             <div className="flex flex-col sm:flex-row gap-3">
               <a
                 href="https://apps.apple.com/ar/app/bluetti/id1550568336?l=en-GB"
@@ -98,7 +98,7 @@ export default function Catalogo() {
             </svg>
             Descargar Manual para APP Bluetti
           </a>
-          <p className="text-gray-500 text-sm">Archivo PDF · Manual de uso de la aplicación</p>
+          <p className="text-bluetti-cyan/70 text-sm">Archivo PDF · Manual de uso de la aplicación</p>
         </div>
       </section>
     </div>

@@ -47,7 +47,7 @@ export default function ProductoDetalle() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 text-center">
         <p className="text-5xl mb-4">🔋</p>
         <h2 className="text-2xl font-bold text-white mb-2">Producto no encontrado</h2>
-        <p className="text-gray-400 mb-8">
+        <p className="text-bluetti-cyan mb-8">
           El producto que buscás no existe o fue eliminado.
         </p>
         <Link
@@ -61,7 +61,7 @@ export default function ProductoDetalle() {
   }
 
   const label = CATEGORIA_LABELS[product.categoria] ?? product.categoria
-  const colorClass = CATEGORIA_COLORS[label] ?? 'bg-gray-800 text-gray-300 border border-gray-700'
+  const colorClass = CATEGORIA_COLORS[label] ?? 'bg-gray-800 text-bluetti-cyan/80 border border-gray-700'
   const selected = isSelected(product.id)
   const disabled = isFull() && !selected
   const instVideos = installationVideos[product.id]
@@ -78,7 +78,7 @@ export default function ProductoDetalle() {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <button
         onClick={() => navigate(-1)}
-        className="text-gray-400 hover:text-white text-sm mb-6 flex items-center gap-2 transition-colors"
+        className="text-bluetti-cyan hover:text-white text-sm mb-6 flex items-center gap-2 transition-colors"
       >
         ← Volver
       </button>
@@ -138,11 +138,11 @@ export default function ProductoDetalle() {
               return acc
             }, []).map(block =>
               block.type === 'ul' ? (
-                <ul key={block.key} className="list-disc list-inside text-gray-400 leading-relaxed space-y-1 ml-1">
+                <ul key={block.key} className="list-disc list-inside text-bluetti-cyan leading-relaxed space-y-1 ml-1">
                   {block.items.map((item, j) => <li key={j}>{item}</li>)}
                 </ul>
               ) : (
-                <p key={block.key} className="text-gray-400 leading-relaxed">{block.text}</p>
+                <p key={block.key} className="text-bluetti-cyan leading-relaxed">{block.text}</p>
               )
             )}
           </div>
@@ -154,7 +154,7 @@ export default function ProductoDetalle() {
                 ? 'bg-bluetti-cyan/20 border-bluetti-cyan text-bluetti-cyan'
                 : disabled
                 ? 'border-gray-700 text-gray-600 cursor-not-allowed'
-                : 'border-bluetti-border text-gray-300 hover:border-bluetti-cyan hover:text-bluetti-cyan'
+                : 'border-bluetti-border text-bluetti-cyan/80 hover:border-bluetti-cyan hover:text-bluetti-cyan'
             }`}
           >
             {selected ? '✓ En comparación' : '+ Agregar a comparación'}
@@ -175,7 +175,7 @@ export default function ProductoDetalle() {
               <span className="text-bluetti-lime text-xs font-bold uppercase tracking-wider">
                 {caso.etiqueta}
               </span>
-              <p className="text-gray-300 text-sm mt-2 leading-relaxed">{caso.descripcion}</p>
+              <p className="text-bluetti-cyan/80 text-sm mt-2 leading-relaxed">{caso.descripcion}</p>
             </div>
           ))}
         </div>
@@ -196,7 +196,7 @@ export default function ProductoDetalle() {
           <h2 className="text-xl font-bold text-white mb-4">Accesorios compatibles</h2>
           <ul className="space-y-2">
             {product.accesoriosCompatibles.map(acc => (
-              <li key={acc} className="flex items-center gap-3 text-gray-300 text-sm">
+              <li key={acc} className="flex items-center gap-3 text-bluetti-cyan/80 text-sm">
                 <span className="text-bluetti-cyan">→</span> {acc}
               </li>
             ))}
@@ -222,7 +222,7 @@ export default function ProductoDetalle() {
               </svg>
               Descargar Manual de Usuario
             </a>
-            <p className="text-gray-500 text-sm">Archivo PDF · Manual oficial del fabricante</p>
+            <p className="text-bluetti-cyan/70 text-sm">Archivo PDF · Manual oficial del fabricante</p>
           </div>
         </section>
       )}
@@ -245,7 +245,7 @@ export default function ProductoDetalle() {
               </svg>
               Descargar Flyer / Datasheet
             </a>
-            <p className="text-gray-500 text-sm">Archivo PDF · Ficha técnica del producto</p>
+            <p className="text-bluetti-cyan/70 text-sm">Archivo PDF · Ficha técnica del producto</p>
           </div>
         </section>
       )}
@@ -268,7 +268,7 @@ export default function ProductoDetalle() {
               </svg>
               Descargar Manual para APP Bluetti
             </a>
-            <p className="text-gray-500 text-sm">Archivo PDF · Manual de uso de la aplicación</p>
+            <p className="text-bluetti-cyan/70 text-sm">Archivo PDF · Manual de uso de la aplicación</p>
           </div>
         </section>
       )}
@@ -291,7 +291,7 @@ export default function ProductoDetalle() {
               </svg>
               Descargar Guía de Instalación
             </a>
-            <p className="text-gray-500 text-sm">Archivo PDF · Guía de instalación del producto</p>
+            <p className="text-bluetti-cyan/70 text-sm">Archivo PDF · Guía de instalación del producto</p>
           </div>
         </section>
       )}
@@ -317,7 +317,7 @@ export default function ProductoDetalle() {
             {instVideos.map(video => (
               <div key={video.url} className="bg-bluetti-card rounded-2xl overflow-hidden border border-bluetti-border">
                 {instVideos.length > 1 && (
-                  <p className="text-gray-300 text-sm font-medium px-4 pt-4">{video.title}</p>
+                  <p className="text-bluetti-cyan/80 text-sm font-medium px-4 pt-4">{video.title}</p>
                 )}
                 <div className="relative w-full" style={{ paddingBottom: '56.25%' }}>
                   <iframe

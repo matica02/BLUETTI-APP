@@ -69,7 +69,7 @@ export default function SimuladorSolar() {
         <div className="space-y-6">
           {/* Modelo */}
           <div>
-            <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">Modelo BLUETTI</p>
+            <p className="text-xs font-semibold text-bluetti-cyan uppercase tracking-wider mb-3">Modelo BLUETTI</p>
             <div className="flex flex-wrap gap-2">
               {MODELOS.map(m => (
                 <button
@@ -78,7 +78,7 @@ export default function SimuladorSolar() {
                   className={`px-3 py-2 rounded-xl text-sm font-medium border transition-all ${
                     modelId === m.id
                       ? 'border-bluetti-cyan bg-bluetti-cyan/10 text-bluetti-cyan'
-                      : 'border-bluetti-border text-gray-400 hover:border-bluetti-cyan hover:text-bluetti-cyan'
+                      : 'border-bluetti-border text-bluetti-cyan hover:border-bluetti-cyan hover:text-bluetti-cyan'
                   }`}
                 >
                   {m.nombre}
@@ -90,18 +90,18 @@ export default function SimuladorSolar() {
           {/* Unidades */}
           {modelo.maxUnidades > 1 && (
             <div>
-              <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">
+              <p className="text-xs font-semibold text-bluetti-cyan uppercase tracking-wider mb-3">
                 Unidades en paralelo
               </p>
               <div className="flex items-center gap-3">
                 <button
                   onClick={() => setUnidades(u => Math.max(1, u - 1))}
-                  className="w-8 h-8 rounded-lg bg-bluetti-border hover:bg-red-900/40 text-gray-300 hover:text-red-400 font-bold flex items-center justify-center transition-all"
+                  className="w-8 h-8 rounded-lg bg-bluetti-border hover:bg-red-900/40 text-bluetti-cyan/80 hover:text-red-400 font-bold flex items-center justify-center transition-all"
                 >−</button>
                 <span className="text-bluetti-cyan font-bold text-lg w-6 text-center">{unidades}</span>
                 <button
                   onClick={() => setUnidades(u => Math.min(modelo.maxUnidades, u + 1))}
-                  className="w-8 h-8 rounded-lg bg-bluetti-border hover:bg-bluetti-cyan hover:text-bluetti-bg text-gray-300 font-bold flex items-center justify-center transition-all"
+                  className="w-8 h-8 rounded-lg bg-bluetti-border hover:bg-bluetti-cyan hover:text-bluetti-bg text-bluetti-cyan/80 font-bold flex items-center justify-center transition-all"
                 >+</button>
               </div>
             </div>
@@ -110,18 +110,18 @@ export default function SimuladorSolar() {
           {/* Baterías */}
           {modelo.tieneBaterias && (
             <div>
-              <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">
+              <p className="text-xs font-semibold text-bluetti-cyan uppercase tracking-wider mb-3">
                 Baterías {modelo.batNombre} por unidad
               </p>
               <div className="flex items-center gap-3">
                 <button
                   onClick={() => setBaterias(b => Math.max(modelo.minBaterias ?? 0, b - 1))}
-                  className="w-8 h-8 rounded-lg bg-bluetti-border hover:bg-red-900/40 text-gray-300 hover:text-red-400 font-bold flex items-center justify-center transition-all"
+                  className="w-8 h-8 rounded-lg bg-bluetti-border hover:bg-red-900/40 text-bluetti-cyan/80 hover:text-red-400 font-bold flex items-center justify-center transition-all"
                 >−</button>
                 <span className="text-bluetti-cyan font-bold text-lg w-6 text-center">{baterias}</span>
                 <button
                   onClick={() => setBaterias(b => Math.min(modelo.maxBaterias, b + 1))}
-                  className="w-8 h-8 rounded-lg bg-bluetti-border hover:bg-bluetti-cyan hover:text-bluetti-bg text-gray-300 font-bold flex items-center justify-center transition-all"
+                  className="w-8 h-8 rounded-lg bg-bluetti-border hover:bg-bluetti-cyan hover:text-bluetti-bg text-bluetti-cyan/80 font-bold flex items-center justify-center transition-all"
                 >+</button>
               </div>
             </div>
@@ -129,7 +129,7 @@ export default function SimuladorSolar() {
 
           {/* Panel wattage */}
           <div>
-            <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">Potencia del panel</p>
+            <p className="text-xs font-semibold text-bluetti-cyan uppercase tracking-wider mb-3">Potencia del panel</p>
             <div className="flex gap-2">
               {PANEL_OPTIONS.map(w => (
                 <button
@@ -138,7 +138,7 @@ export default function SimuladorSolar() {
                   className={`px-4 py-2 rounded-xl text-sm font-medium border transition-all ${
                     panelW === w
                       ? 'border-bluetti-cyan bg-bluetti-cyan/10 text-bluetti-cyan'
-                      : 'border-bluetti-border text-gray-400 hover:border-bluetti-cyan hover:text-bluetti-cyan'
+                      : 'border-bluetti-border text-bluetti-cyan hover:border-bluetti-cyan hover:text-bluetti-cyan'
                   }`}
                 >
                   {w}W
@@ -149,7 +149,7 @@ export default function SimuladorSolar() {
 
           {/* Horas de sol */}
           <div>
-            <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">
+            <p className="text-xs font-semibold text-bluetti-cyan uppercase tracking-wider mb-3">
               Horas de sol por día
             </p>
             <div className="flex items-center gap-3">
@@ -173,31 +173,31 @@ export default function SimuladorSolar() {
         {/* Resultados */}
         <div className="bg-black/20 rounded-xl p-5 flex flex-col gap-4">
           <div>
-            <p className="text-xs text-gray-500 uppercase tracking-wider mb-1">Capacidad a recargar</p>
+            <p className="text-xs text-bluetti-cyan/70 uppercase tracking-wider mb-1">Capacidad a recargar</p>
             <p className="text-3xl font-bold text-white">
               {resultado.kwh.toFixed(2)}
-              <span className="text-sm font-normal text-gray-400 ml-1">kWh</span>
+              <span className="text-sm font-normal text-bluetti-cyan ml-1">kWh</span>
             </p>
           </div>
 
           <div className="border-t border-bluetti-border pt-4 space-y-4">
             <div className="flex justify-between items-center">
-              <span className="text-gray-400 text-sm">Paneles necesarios</span>
+              <span className="text-bluetti-cyan text-sm">Paneles necesarios</span>
               <span className="text-bluetti-cyan text-2xl font-bold">{resultado.panelesFinal}</span>
             </div>
             <div className="flex justify-between items-center">
-              <span className="text-gray-400 text-sm">Potencia del array</span>
+              <span className="text-bluetti-cyan text-sm">Potencia del array</span>
               <span className="text-white font-semibold">{resultado.arrayFinal.toFixed(1)} kW</span>
             </div>
             <div className="flex justify-between items-center">
-              <span className="text-gray-400 text-sm">Tiempo de recarga estimado</span>
+              <span className="text-bluetti-cyan text-sm">Tiempo de recarga estimado</span>
               <span className="text-bluetti-lime font-bold text-lg">
                 {resultado.recargaHoras.toFixed(1)}hs
               </span>
             </div>
             <div className="flex justify-between items-center">
-              <span className="text-gray-400 text-sm">Entrada solar máxima del equipo</span>
-              <span className="text-gray-300 text-sm">{resultado.maxSolar / 1000} kW</span>
+              <span className="text-bluetti-cyan text-sm">Entrada solar máxima del equipo</span>
+              <span className="text-bluetti-cyan/80 text-sm">{resultado.maxSolar / 1000} kW</span>
             </div>
           </div>
 

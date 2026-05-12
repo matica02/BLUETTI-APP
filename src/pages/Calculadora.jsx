@@ -255,17 +255,17 @@ export default function Calculadora() {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <h1 className="text-2xl font-bold text-white mb-2">Calculadora de Autonomía</h1>
-      <p className="text-gray-400 text-sm mb-8">
+      <p className="text-bluetti-cyan text-sm mb-8">
         Seleccioná los electrodomésticos que querés alimentar y calculá cuánto tiempo te dura cada modelo BLUETTI.
       </p>
 
       <div className="flex flex-wrap gap-2 mb-8">
-        <span className="text-gray-500 text-sm self-center mr-1">Perfil de uso:</span>
+        <span className="text-bluetti-cyan/70 text-sm self-center mr-1">Perfil de uso:</span>
         {PERFILES.map(perfil => (
           <button
             key={perfil.id}
             onClick={() => aplicarPerfil(perfil)}
-            className="px-4 py-2 rounded-xl border border-bluetti-border text-sm font-medium text-gray-300 hover:border-bluetti-cyan hover:text-bluetti-cyan transition-all"
+            className="px-4 py-2 rounded-xl border border-bluetti-border text-sm font-medium text-bluetti-cyan/80 hover:border-bluetti-cyan hover:text-bluetti-cyan transition-all"
           >
             {perfil.nombre}
           </button>
@@ -283,11 +283,11 @@ export default function Calculadora() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Columna izquierda */}
         <div>
-          <h2 className="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-4">
+          <h2 className="text-sm font-semibold text-bluetti-cyan uppercase tracking-wider mb-4">
             Electrodomésticos disponibles
           </h2>
           <div className="mb-4 bg-bluetti-card border border-dashed border-bluetti-border rounded-xl p-4">
-            <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">
+            <p className="text-xs font-semibold text-bluetti-cyan uppercase tracking-wider mb-3">
               Agregar electrodoméstico personalizado
             </p>
             <div className="flex gap-2">
@@ -314,7 +314,7 @@ export default function Calculadora() {
                   setCustomNombre('')
                   setCustomWatts('')
                 }}
-                className="w-10 h-10 rounded-lg font-bold text-lg flex items-center justify-center bg-bluetti-border hover:bg-bluetti-cyan hover:text-bluetti-bg text-gray-300 transition-all shrink-0"
+                className="w-10 h-10 rounded-lg font-bold text-lg flex items-center justify-center bg-bluetti-border hover:bg-bluetti-cyan hover:text-bluetti-bg text-bluetti-cyan/80 transition-all shrink-0"
               >
                 +
               </button>
@@ -331,7 +331,7 @@ export default function Calculadora() {
                 >
                   <div>
                     <span className="text-white text-sm">{e.nombre}</span>
-                    <span className="text-gray-500 text-xs ml-2">{e.watts}W</span>
+                    <span className="text-bluetti-cyan/70 text-xs ml-2">{e.watts}W</span>
                   </div>
                   <div className="flex items-center gap-2">
                     {cantidad > 0 && (
@@ -341,7 +341,7 @@ export default function Calculadora() {
                     )}
                     <button
                       onClick={() => agregar(e)}
-                      className="w-8 h-8 rounded-lg font-bold text-lg flex items-center justify-center transition-all bg-bluetti-border hover:bg-bluetti-cyan hover:text-bluetti-bg text-gray-300"
+                      className="w-8 h-8 rounded-lg font-bold text-lg flex items-center justify-center transition-all bg-bluetti-border hover:bg-bluetti-cyan hover:text-bluetti-bg text-bluetti-cyan/80"
                     >
                       +
                     </button>
@@ -356,13 +356,13 @@ export default function Calculadora() {
         {/* Columna derecha */}
         <div className="space-y-6">
           <div>
-            <h2 className="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-4">
+            <h2 className="text-sm font-semibold text-bluetti-cyan uppercase tracking-wider mb-4">
               Mi instalación
             </h2>
 
             {agregados.length === 0 ? (
               <div className="bg-bluetti-card border border-dashed border-bluetti-border rounded-xl p-8 text-center">
-                <p className="text-gray-500 text-sm">
+                <p className="text-bluetti-cyan/70 text-sm">
                   Agregá electrodomésticos de la lista para calcular la autonomía.
                 </p>
               </div>
@@ -383,17 +383,17 @@ export default function Calculadora() {
                       </button>
                     </div>
                     <div className="flex items-center gap-2 mb-2">
-                      <span className="text-gray-400 text-xs">Cantidad:</span>
+                      <span className="text-bluetti-cyan text-xs">Cantidad:</span>
                       <button
                         onClick={() => setCantidad(e.id, e.cantidad - 1)}
-                        className="w-6 h-6 rounded bg-bluetti-border hover:bg-red-900/40 text-gray-300 hover:text-red-400 text-sm font-bold flex items-center justify-center transition-all"
+                        className="w-6 h-6 rounded bg-bluetti-border hover:bg-red-900/40 text-bluetti-cyan/80 hover:text-red-400 text-sm font-bold flex items-center justify-center transition-all"
                       >
                         −
                       </button>
                       <span className="text-bluetti-cyan font-bold text-sm w-4 text-center">{e.cantidad}</span>
                       <button
                         onClick={() => setCantidad(e.id, e.cantidad + 1)}
-                        className="w-6 h-6 rounded bg-bluetti-border hover:bg-bluetti-cyan hover:text-bluetti-bg text-gray-300 text-sm font-bold flex items-center justify-center transition-all"
+                        className="w-6 h-6 rounded bg-bluetti-border hover:bg-bluetti-cyan hover:text-bluetti-bg text-bluetti-cyan/80 text-sm font-bold flex items-center justify-center transition-all"
                       >
                         +
                       </button>
@@ -411,7 +411,7 @@ export default function Calculadora() {
                         {e.horas}h/día
                       </span>
                     </div>
-                    <div className="text-gray-500 text-xs mt-1">
+                    <div className="text-bluetti-cyan/70 text-xs mt-1">
                       {e.watts}W × {e.cantidad} × {e.horas}h = {((e.watts * e.cantidad * e.horas) / 1000).toFixed(2)} kWh/día
                     </div>
                   </div>
@@ -423,29 +423,29 @@ export default function Calculadora() {
           {/* Panel de resultados */}
           <div className="bg-bluetti-card border border-bluetti-border rounded-xl p-5">
             <div className="flex items-baseline justify-between mb-2">
-              <span className="text-gray-400 text-sm">Consumo total estimado</span>
+              <span className="text-bluetti-cyan text-sm">Consumo total estimado</span>
               <span className="text-bluetti-cyan text-3xl font-bold">
                 {totalKwh.toFixed(2)}
-                <span className="text-sm font-normal text-gray-400 ml-1">kWh/día</span>
+                <span className="text-sm font-normal text-bluetti-cyan ml-1">kWh/día</span>
               </span>
             </div>
             {totalWatts > 0 && (
               <div className="flex items-baseline justify-between mb-5">
-                <span className="text-gray-400 text-sm">Potencia simultánea</span>
-                <span className="text-gray-300 text-lg font-semibold">
+                <span className="text-bluetti-cyan text-sm">Potencia simultánea</span>
+                <span className="text-bluetti-cyan/80 text-lg font-semibold">
                   {(totalWatts / 1000).toFixed(2)}
-                  <span className="text-sm font-normal text-gray-500 ml-1">kW</span>
+                  <span className="text-sm font-normal text-bluetti-cyan/70 ml-1">kW</span>
                 </span>
               </div>
             )}
 
             {totalKwh === 0 ? (
-              <p className="text-gray-500 text-sm text-center py-4">
+              <p className="text-bluetti-cyan/70 text-sm text-center py-4">
                 Agregá electrodomésticos para ver qué modelos BLUETTI te convienen.
               </p>
             ) : (
               <div className="space-y-3">
-                <p className="text-xs text-gray-500 uppercase tracking-wider mb-3">
+                <p className="text-xs text-bluetti-cyan/70 uppercase tracking-wider mb-3">
                   Configuración recomendada por modelo
                 </p>
                 {MODELOS.map(modelo => {
@@ -486,7 +486,7 @@ export default function Calculadora() {
                           </div>
                           <Link
                             to={`/producto/${modelo.id}`}
-                            className="text-xs text-gray-400 hover:text-bluetti-cyan underline underline-offset-2 transition-colors"
+                            className="text-xs text-bluetti-cyan hover:text-bluetti-cyan underline underline-offset-2 transition-colors"
                           >
                             Ver producto
                           </Link>
@@ -513,7 +513,7 @@ export default function Calculadora() {
                         </div>
                         <Link
                           to={`/producto/${modelo.id}`}
-                          className="text-xs text-gray-400 hover:text-bluetti-cyan underline underline-offset-2 transition-colors"
+                          className="text-xs text-bluetti-cyan hover:text-bluetti-cyan underline underline-offset-2 transition-colors"
                         >
                           Ver producto
                         </Link>

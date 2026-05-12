@@ -28,7 +28,7 @@ export default function Comparar() {
         <h1 className="text-2xl font-bold text-white">Comparación de productos</h1>
         <button
           onClick={() => { clearCompare(); navigate('/') }}
-          className="text-sm text-gray-400 hover:text-white border border-bluetti-border hover:border-gray-500 px-4 py-2 rounded-lg transition-all"
+          className="text-sm text-bluetti-cyan hover:text-white border border-bluetti-border hover:border-gray-500 px-4 py-2 rounded-lg transition-all"
         >
           Limpiar comparación
         </button>
@@ -50,7 +50,7 @@ export default function Comparar() {
               />
             </div>
             <h2 className="text-white font-bold text-lg">{product.nombre}</h2>
-            <p className="text-gray-400 text-xs mt-1">{product.tagline}</p>
+            <p className="text-bluetti-cyan text-xs mt-1">{product.tagline}</p>
             <Link
               to={`/producto/${product.id}`}
               className="inline-block mt-3 text-bluetti-cyan text-xs hover:underline"
@@ -74,7 +74,7 @@ export default function Comparar() {
                 i % 2 === 0 ? 'bg-bluetti-card' : 'bg-bluetti-bg'
               } ${differ ? 'border-l-2 border-bluetti-cyan' : ''}`}
             >
-              <span className="text-gray-400 font-medium">{formatKey(key)}</span>
+              <span className="text-bluetti-cyan font-medium">{formatKey(key)}</span>
               {[v1, v2].map((val, j) => (
                 <span
                   key={j}
@@ -99,7 +99,7 @@ export default function Comparar() {
       </div>
 
       <div className="mt-8 flex justify-center">
-        <Link to="/" className="text-sm text-gray-400 hover:text-white transition-colors">
+        <Link to="/" className="text-sm text-bluetti-cyan hover:text-white transition-colors">
           ← Volver al catálogo
         </Link>
       </div>

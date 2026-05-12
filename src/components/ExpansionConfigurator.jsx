@@ -116,7 +116,7 @@ export default function ExpansionConfigurator({ product }) {
         {cfg.paralelo && (
           <div>
             <div className="flex justify-between text-sm mb-2">
-              <span className="text-gray-400">Unidades en paralelo</span>
+              <span className="text-bluetti-cyan">Unidades en paralelo</span>
               <span className="text-bluetti-cyan font-bold">
                 {unidades} unidad{unidades > 1 ? 'es' : ''}
               </span>
@@ -130,14 +130,14 @@ export default function ExpansionConfigurator({ product }) {
               className="w-full accent-bluetti-cyan"
             />
             {cfg.paralelo.nota && (
-              <p className="text-xs text-gray-500 mt-1">{cfg.paralelo.nota}</p>
+              <p className="text-xs text-bluetti-cyan/70 mt-1">{cfg.paralelo.nota}</p>
             )}
           </div>
         )}
 
         {cfg.baterias && cfg.baterias.tipos.length > 1 && (
           <div>
-            <p className="text-sm text-gray-400 mb-3">Tipo de batería</p>
+            <p className="text-sm text-bluetti-cyan mb-3">Tipo de batería</p>
             <div className="flex flex-wrap gap-2">
               {cfg.baterias.tipos.map(tipo => (
                 <button
@@ -146,7 +146,7 @@ export default function ExpansionConfigurator({ product }) {
                   className={`px-4 py-2 rounded-lg text-sm font-medium border transition-all ${
                     tipoBat === tipo.id
                       ? 'bg-bluetti-cyan/20 border-bluetti-cyan text-bluetti-cyan'
-                      : 'border-bluetti-border text-gray-400 hover:border-gray-500'
+                      : 'border-bluetti-border text-bluetti-cyan hover:border-gray-500'
                   }`}
                 >
                   {tipo.nombre} · {tipo.kWh} kWh
@@ -159,7 +159,7 @@ export default function ExpansionConfigurator({ product }) {
         {cfg.baterias && tipoSel && (
           <div>
             <div className="flex justify-between text-sm mb-2">
-              <span className="text-gray-400">
+              <span className="text-bluetti-cyan">
                 Baterías {tipoSel.nombre}
                 {cfg.baterias.min > 0 ? ` (mín. ${cfg.baterias.min})` : ''}
               </span>
@@ -181,17 +181,17 @@ export default function ExpansionConfigurator({ product }) {
 
       <div className="grid grid-cols-2 gap-4">
         <div className="bg-black/30 rounded-xl p-4 border border-bluetti-border">
-          <p className="text-xs text-gray-500 uppercase tracking-wider mb-1">Capacidad Total</p>
+          <p className="text-xs text-bluetti-cyan/70 uppercase tracking-wider mb-1">Capacidad Total</p>
           <p className="text-bluetti-lime text-2xl font-bold">
             {fmtKwh(kWh)}
-            <span className="text-sm font-normal text-gray-400 ml-1">kWh</span>
+            <span className="text-sm font-normal text-bluetti-cyan ml-1">kWh</span>
           </p>
         </div>
         <div className="bg-black/30 rounded-xl p-4 border border-bluetti-border">
-          <p className="text-xs text-gray-500 uppercase tracking-wider mb-1">Potencia Máxima</p>
+          <p className="text-xs text-bluetti-cyan/70 uppercase tracking-wider mb-1">Potencia Máxima</p>
           <p className="text-bluetti-cyan text-2xl font-bold">
             {fmtKw(kW)}
-            <span className="text-sm font-normal text-gray-400 ml-1">kW</span>
+            <span className="text-sm font-normal text-bluetti-cyan ml-1">kW</span>
           </p>
         </div>
       </div>

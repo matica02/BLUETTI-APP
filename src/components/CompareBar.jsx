@@ -29,7 +29,7 @@ export default function CompareBar() {
               </span>
               <button
                 onClick={() => removeFromCompare(product.id)}
-                className="text-gray-400 hover:text-white ml-1 flex-shrink-0 leading-none"
+                className="text-bluetti-cyan hover:text-white ml-1 flex-shrink-0 leading-none"
                 aria-label={`Quitar ${product.nombre} de la comparación`}
               >
                 ✕
@@ -38,7 +38,7 @@ export default function CompareBar() {
           ))}
 
           {selectedIds.length === 1 && (
-            <span className="text-gray-500 text-sm hidden sm:block">
+            <span className="text-bluetti-cyan/70 text-sm hidden sm:block">
               Seleccioná un producto más para comparar
             </span>
           )}

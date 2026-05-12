@@ -7,7 +7,7 @@ export default function SpecsTable({ specs }) {
         <tbody>
           {Object.entries(specs).map(([key, value], i) => (
             <tr key={key} className={i % 2 === 0 ? 'bg-bluetti-card' : 'bg-bluetti-bg'}>
-              <td className="px-4 py-3 text-gray-400 font-medium w-1/2 align-top">
+              <td className="px-4 py-3 text-bluetti-cyan font-medium w-1/2 align-top">
                 {formatKey(key)}
               </td>
               <td className="px-4 py-3 text-white">
