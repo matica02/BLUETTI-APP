@@ -150,7 +150,7 @@ export default function ProductoDetalle() {
             <button
               onClick={handleCompare}
               disabled={disabled}
-              className={`w-fit px-6 py-3 rounded-lg font-bold text-sm border whitespace-nowrap transition-all ${
+              className={`w-fit px-2 sm:px-6 py-1.5 sm:py-3 rounded-lg font-bold text-[10px] sm:text-sm border whitespace-nowrap transition-all ${
                 selected
                   ? 'bg-bluetti-cyan border-bluetti-cyan text-bluetti-bg'
                   : disabled
@@ -167,7 +167,7 @@ export default function ProductoDetalle() {
                   const top = el.getBoundingClientRect().top + window.scrollY - 90
                   window.scrollTo({ top, behavior: 'smooth' })
                 }}
-                className="flex items-center gap-2 bg-bluetti-lime text-bluetti-bg font-bold text-sm pl-6 pr-3 py-3 rounded-lg hover:brightness-110 transition-all"
+                className="flex items-center gap-1 bg-bluetti-lime text-bluetti-bg font-bold text-[10px] sm:text-sm pl-2 sm:pl-6 pr-1.5 sm:pr-3 py-1.5 sm:py-3 rounded-lg hover:brightness-110 transition-all"
               >
                 Descargas
                 <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -181,7 +181,7 @@ export default function ProductoDetalle() {
                 const top = el.getBoundingClientRect().top + window.scrollY - 90
                 window.scrollTo({ top, behavior: 'smooth' })
               }}
-              className="flex items-center gap-2 font-bold text-sm pl-6 pr-3 py-3 rounded-lg hover:brightness-110 transition-all text-bluetti-bg bg-bluetti-lime"
+              className="flex items-center gap-1 font-bold text-[10px] sm:text-sm pl-2 sm:pl-6 pr-1.5 sm:pr-3 py-1.5 sm:py-3 rounded-lg hover:brightness-110 transition-all text-bluetti-bg bg-bluetti-lime"
             >
               Videos
               <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
