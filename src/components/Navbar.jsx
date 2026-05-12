@@ -5,8 +5,9 @@ export default function Navbar() {
   const { selectedIds } = useCompare()
 
   return (
-    <nav className="border-b border-bluetti-border sticky top-0 z-40" style={{ background: 'linear-gradient(135deg, #0d5c9e 0%, #0a0a0f 50%, #3a7a10 100%)' }}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+    <div className="sticky top-0 z-40 px-4 sm:px-6 lg:px-8 py-2">
+      <nav className="max-w-7xl mx-auto border border-bluetti-border rounded-xl" style={{ background: 'linear-gradient(135deg, #0d5c9e 0%, #0a0a0f 50%, #3a7a10 100%)' }}>
+      <div className="px-4 sm:px-6 h-14 flex items-center justify-between">
         <Link to="/" className="flex flex-col sm:flex-row items-center gap-1 sm:gap-6">
           <img src="/images/logo-naval.png" alt="Naval Motor" className="h-4 sm:h-10 object-contain sm:mt-4" />
           <img src="/images/bluetti-logo.png.webp" alt="BLUETTI" className="h-4 sm:h-10 object-contain" />
@@ -40,5 +41,6 @@ export default function Navbar() {
         </div>
       </div>
     </nav>
+    </div>
   )
 }
