@@ -1,16 +1,8 @@
-import { useState } from 'react'
 import products from '../data/products.json'
-import { CATEGORIA_LABELS } from '../data/categorias'
 import ProductCard from '../components/ProductCard'
-import FilterBar from '../components/FilterBar'
 import CatalogoCarousel from '../components/CatalogoCarousel'
 
 export default function Catalogo() {
-  const [activeFilter, setActiveFilter] = useState('Todos')
-
-  const filteredProducts = activeFilter === 'Todos'
-    ? products
-    : products.filter(p => CATEGORIA_LABELS[p.categoria] === activeFilter)
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-1 pb-4">
@@ -69,21 +61,11 @@ export default function Catalogo() {
         </p>
       </div>
 
-      <div className="mb-6">
-        <FilterBar activeFilter={activeFilter} onFilterChange={setActiveFilter} />
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {products.map(product => (
+          <ProductCard key={product.id} product={product} />
+        ))}
       </div>
-
-      {filteredProducts.length === 0 ? (
-        <p className="text-bluetti-cyan/70 text-center py-16">
-          No hay productos en esta categoría.
-        </p>
-      ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredProducts.map(product => (
-            <ProductCard key={product.id} product={product} />
-          ))}
-        </div>
-      )}
 
       <section className="mt-12 mb-8">
         <h2 className="text-xl font-bold text-white mb-4">Descargá la APP Bluetti</h2>
