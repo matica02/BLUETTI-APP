@@ -14,6 +14,10 @@ export default function Catalogo() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <section className="mb-8">
+        <CatalogoCarousel />
+      </section>
+
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-white mb-2">
           Productos <span className="text-bluetti-cyan">BLUETTI</span>
@@ -38,10 +42,6 @@ export default function Catalogo() {
           ))}
         </div>
       )}
-
-      <section className="mt-12 mb-8">
-        <CatalogoCarousel />
-      </section>
 
       <section className="mb-8">
         <h2 className="text-xl font-bold text-white mb-4">Descargá la APP Bluetti</h2>
