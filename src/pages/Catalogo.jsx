@@ -45,7 +45,7 @@ export default function Catalogo() {
 
       <section className="mb-8">
         <h2 className="text-xl font-bold text-white mb-4">Descargá la APP Bluetti</h2>
-        <div className="bg-bluetti-card border border-bluetti-border rounded-2xl p-6 flex flex-col sm:flex-row items-center gap-6">
+        <div className="bg-white/5 backdrop-blur-sm border border-bluetti-border rounded-2xl p-6 flex flex-col sm:flex-row items-center gap-6">
           <img
             src="/images/logo-app-bluetti.png"
             alt="App Bluetti"
@@ -83,7 +83,7 @@ export default function Catalogo() {
 
       <section className="mt-0 mb-4">
         <h2 className="text-xl font-bold text-white mb-4">Manual para APP Bluetti</h2>
-        <div className="bg-bluetti-card border border-bluetti-border rounded-2xl p-6 flex flex-col items-start gap-3">
+        <div className="bg-white/5 backdrop-blur-sm border border-bluetti-border rounded-2xl p-6 flex flex-col items-start gap-3">
           <a
             href="/pdf/manual-app.pdf"
             download
