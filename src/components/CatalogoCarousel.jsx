@@ -33,7 +33,7 @@ export default function CatalogoCarousel() {
   const next = () => setCurrent(i => (i + 1) % SLIDES.length)
 
   return (
-    <div className="relative w-full rounded-2xl overflow-hidden bg-black">
+    <div className="relative w-full rounded-2xl overflow-hidden bg-black transition-transform duration-300 hover:scale-[1.02]">
       <div className="relative w-full" style={{ aspectRatio: '16/9' }}>
         {SLIDES.map((slide, i) => (
           <div
