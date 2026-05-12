@@ -24,7 +24,7 @@ export default function ProductCard({ product }) {
         selected ? 'border-bluetti-cyan' : 'border-bluetti-border'
       }`}
     >
-      <div className="bg-black/30 flex items-center justify-center h-64 sm:h-80 p-4">
+      <div className="bg-black/30 flex items-center justify-center h-48 sm:h-80 p-4">
         <img
           src={`/images/${product.imagen}`}
           alt={product.nombre}
