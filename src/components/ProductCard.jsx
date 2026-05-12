@@ -109,7 +109,7 @@ export default function ProductCard({ product }) {
         <div className="flex gap-2 mt-auto">
           <Link
             to={`/producto/${product.id}`}
-            className="flex-1 text-center bg-bluetti-lime text-bluetti-bg font-semibold text-sm py-2 rounded-lg hover:brightness-110 transition-all"
+            className="flex-1 text-center bg-bluetti-cyan text-bluetti-bg font-semibold text-sm py-2 rounded-lg hover:brightness-110 transition-all"
           >
             Ver detalle
           </Link>
