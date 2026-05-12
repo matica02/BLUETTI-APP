@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react'
 
 const SLIDES = [
+  { type: 'image', src: '/images/catalogo-foto-7.png' },
   { type: 'video', src: '/videos/catalogo-video.mp4' },
   { type: 'video', src: '/videos/catalogo-video-2.mp4' },
   { type: 'image', src: '/images/catalogo-foto.png' },
@@ -9,8 +10,6 @@ const SLIDES = [
   { type: 'image', src: '/images/catalogo-foto-4.png' },
   { type: 'image', src: '/images/catalogo-foto-5.png' },
   { type: 'image', src: '/images/catalogo-foto-6.png' },
-  { type: 'image', src: '/images/catalogo-foto-7.png' },
-
 ]
 
 export default function CatalogoCarousel() {
@@ -62,31 +61,23 @@ export default function CatalogoCarousel() {
 
       <button
         onClick={prev}
-        className="absolute left-3 top-1/2 -translate-y-1/2 z-20 bg-black/50 hover:bg-black/75 text-white rounded-full p-2 transition-all"
+        className="absolute left-3 top-1/2 -translate-y-1/2 z-20 text-white/40 hover:text-white/80 hover:scale-[2] transition-all"
       >
-        <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+        <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
           <polyline points="15 18 9 12 15 6" />
         </svg>
       </button>
 
       <button
         onClick={next}
-        className="absolute right-3 top-1/2 -translate-y-1/2 z-20 bg-black/50 hover:bg-black/75 text-white rounded-full p-2 transition-all"
+        className="absolute right-3 top-1/2 -translate-y-1/2 z-20 text-white/40 hover:text-white/80 hover:scale-[2] transition-all"
       >
-        <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+        <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
           <polyline points="9 18 15 12 9 6" />
         </svg>
       </button>
 
-      <div className="absolute bottom-3 left-1/2 -translate-x-1/2 z-20 flex gap-2">
-        {SLIDES.map((_, i) => (
-          <button
-            key={i}
-            onClick={() => setCurrent(i)}
-            className={`w-2 h-2 rounded-full transition-all ${i === current ? 'bg-white scale-125' : 'bg-white/40'}`}
-          />
-        ))}
-      </div>
+
     </div>
   )
 }

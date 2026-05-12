@@ -14,4 +14,11 @@ export const CATEGORIA_COLORS = {
   Portátil: 'bg-purple-900/50 text-purple-300 border border-purple-700/50',
 }
 
+export const CATEGORIA_BORDER_COLORS = {
+  Industrial: '#f97316',
+  Movilidad: '#60a5fa',
+  Residencial: '#4ade80',
+  Portátil: '#c084fc',
+}
+
 export const TODAS_CATEGORIAS = ['Todos', 'Industrial', 'Residencial', 'Portátil', 'Movilidad']

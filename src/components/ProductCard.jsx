@@ -1,13 +1,14 @@
 import { useState, useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { useCompare } from './CompareContext'
-import { CATEGORIA_LABELS, CATEGORIA_COLORS } from '../data/categorias'
+import { CATEGORIA_LABELS, CATEGORIA_COLORS, CATEGORIA_BORDER_COLORS } from '../data/categorias'
 
 export default function ProductCard({ product }) {
   const { addToCompare, removeFromCompare, isSelected, isFull } = useCompare()
 
   const label = CATEGORIA_LABELS[product.categoria] ?? product.categoria
   const colorClass = CATEGORIA_COLORS[label] ?? 'bg-gray-800 text-bluetti-cyan/80 border border-gray-700'
+  const categoryBorderColor = CATEGORIA_BORDER_COLORS[label] ?? '#00d4ff'
   const selected = isSelected(product.id)
   const disabled = isFull() && !selected
 
@@ -59,12 +60,16 @@ export default function ProductCard({ product }) {
   }
 
   const dotIndex = currentIndex % allImages.length
+  const [hovered, setHovered] = useState(false)
 
   return (
     <div
-      className={`bg-white/5 backdrop-blur-sm border rounded-xl overflow-hidden flex flex-col transition-all duration-200 hover:border-bluetti-lime hover:scale-105 hover:z-10 ${
+      className={`bg-white/5 backdrop-blur-sm border rounded-xl overflow-hidden flex flex-col transition-all duration-200 hover:scale-105 hover:z-10 ${
         selected ? 'border-bluetti-cyan' : 'border-bluetti-border'
       }`}
+      style={hovered ? { borderColor: categoryBorderColor } : {}}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
     >
       <div
         className="relative overflow-hidden h-48 sm:h-80"

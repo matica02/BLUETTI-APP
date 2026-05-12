@@ -8,7 +8,7 @@ export default function Navbar() {
 
   return (
     <div className="sticky top-0 z-40 py-2">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div
           className="rounded-xl p-px transition-all duration-200 hover:scale-[1.03]"
           style={{ background: hovered ? 'linear-gradient(to right, #00d4ff, #a3e635)' : '#1f2937' }}
@@ -23,17 +23,17 @@ export default function Navbar() {
 
             <div className="flex items-center gap-2 sm:gap-3">
               <Link
+                to="/calculadora"
+                className="bg-bluetti-cyan text-bluetti-bg font-semibold text-xs sm:text-sm px-3 sm:px-4 py-2 rounded-lg hover:brightness-110 transition-all"
+              >
+                Calculadora
+              </Link>
+              <Link
                 to="/simulador-solar"
                 className="bg-bluetti-lime text-bluetti-bg font-semibold text-xs sm:text-sm px-3 sm:px-4 py-2 rounded-lg hover:brightness-110 transition-all"
               >
                 <span className="sm:hidden">Simulador</span>
                 <span className="hidden sm:inline">Simulador Solar</span>
-              </Link>
-              <Link
-                to="/calculadora"
-                className="bg-bluetti-cyan text-bluetti-bg font-semibold text-xs sm:text-sm px-3 sm:px-4 py-2 rounded-lg hover:brightness-110 transition-all"
-              >
-                Calculadora
               </Link>
               {selectedIds.length > 0 && (
                 <Link
