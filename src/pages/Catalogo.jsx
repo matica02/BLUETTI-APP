@@ -14,26 +14,18 @@ export default function Catalogo() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <section className="mb-8 py-4 border-b border-bluetti-border flex flex-wrap items-center justify-center sm:justify-between gap-4 text-sm text-bluetti-cyan/80">
-        <div className="flex items-center gap-2">
-          <span className="text-bluetti-lime font-bold">✓</span>
-          <span>Distribuidor oficial BLUETTI</span>
-        </div>
-        <div className="hidden sm:block w-px h-4 bg-bluetti-border" />
-        <div className="flex items-center gap-2">
-          <span className="text-bluetti-lime font-bold">✓</span>
-          <span>Garantía de fábrica</span>
-        </div>
-        <div className="hidden sm:block w-px h-4 bg-bluetti-border" />
-        <div className="flex items-center gap-2">
-          <span className="text-bluetti-lime font-bold">✓</span>
-          <span>Envío a todo el país</span>
-        </div>
-        <div className="hidden sm:block w-px h-4 bg-bluetti-border" />
-        <div className="flex items-center gap-2">
-          <span className="text-bluetti-lime font-bold">✓</span>
-          <span>Soporte técnico</span>
-        </div>
+      <section className="mb-8 grid grid-cols-2 sm:grid-cols-4 gap-3">
+        {[
+          { label: 'Distribuidor oficial BLUETTI' },
+          { label: 'Garantía de fábrica' },
+          { label: 'Envío a todo el país' },
+          { label: 'Soporte técnico' },
+        ].map(item => (
+          <div key={item.label} className="bg-white/5 backdrop-blur-sm border border-bluetti-border rounded-xl px-4 py-3 flex items-center gap-2">
+            <span className="text-bluetti-lime font-bold text-sm shrink-0">✓</span>
+            <span className="text-bluetti-cyan/80 text-xs font-medium">{item.label}</span>
+          </div>
+        ))}
       </section>
 
       <section className="mb-8">
