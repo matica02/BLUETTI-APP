@@ -40,11 +40,23 @@ export default function Catalogo() {
         ))}
       </section>
 
+      <div className="flex justify-center mb-6">
+        <button
+          onClick={() => document.getElementById('productos').scrollIntoView({ behavior: 'smooth' })}
+          className="flex items-center gap-2 bg-bluetti-cyan text-bluetti-bg font-semibold px-6 py-2 rounded-full hover:brightness-110 transition-all hover:scale-105"
+        >
+          Ver productos
+          <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <polyline points="6 9 12 15 18 9" />
+          </svg>
+        </button>
+      </div>
+
       <section className="mb-14">
         <CatalogoCarousel />
       </section>
 
-      <div className="mb-8">
+      <div id="productos" className="mb-8">
         <h1 className="text-3xl font-bold text-white mb-2">
           Productos <span className="text-bluetti-cyan">BLUETTI</span>
         </h1>
