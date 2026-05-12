@@ -93,19 +93,6 @@ export default function ProductCard({ product }) {
             </div>
           ))}
         </div>
-        {hasMultiple && (
-          <div className="absolute bottom-2 left-0 right-0 flex justify-center gap-1.5">
-            {allImages.map((_, i) => (
-              <button
-                key={i}
-                onClick={() => { setAnimated(true); setCurrentIndex(i) }}
-                className={`w-1.5 h-1.5 rounded-full transition-all ${
-                  i === dotIndex ? 'bg-bluetti-cyan scale-125' : 'bg-white/40'
-                }`}
-              />
-            ))}
-          </div>
-        )}
       </div>
 
       <div className="p-4 flex flex-col flex-1 gap-3">
