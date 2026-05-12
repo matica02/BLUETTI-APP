@@ -85,7 +85,7 @@ export default function ProductoDetalle() {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 mb-12">
         <div className="flex flex-col gap-3">
-          <div className="bg-black/30 rounded-2xl flex items-center justify-center p-4 min-h-64 sm:min-h-96">
+          <div className="flex items-center justify-center p-4 min-h-64 sm:min-h-96">
             <img
               src={`/images/${allImages[selectedImage]}`}
               alt={product.nombre}
@@ -334,7 +334,7 @@ export default function ProductoDetalle() {
           <video
             key={product.id}
             controls
-            className="w-full"
+            className="w-full aspect-video object-contain bg-black"
             poster={`/images/${product.imagen}`}
           >
             <source src={`/videos/${product.id}.mp4`} type="video/mp4" />
