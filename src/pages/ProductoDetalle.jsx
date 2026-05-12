@@ -35,7 +35,6 @@ export default function ProductoDetalle() {
   const { addToCompare, removeFromCompare, isSelected, isFull } = useCompare()
   const allImages = product ? [product.imagen, ...(product.imagenes || [])] : []
   const [selectedImage, setSelectedImage] = useState(0)
-  const [descExpanded, setDescExpanded] = useState(false)
   // Reset selected image when product changes
   const [lastId, setLastId] = useState(id)
   if (id !== lastId) {
@@ -124,39 +123,28 @@ export default function ProductoDetalle() {
           {product.subtitulo && (
             <p className="text-bluetti-cyan text-sm font-medium">{product.subtitulo}</p>
           )}
-          <div className="relative">
-            <div className={`flex flex-col gap-2 overflow-hidden sm:max-h-none transition-all duration-300 ${descExpanded ? 'max-h-none' : 'max-h-24 sm:max-h-none'}`}>
-              {product.descripcion.split('\n').reduce((acc, line, i) => {
-                if (line.startsWith('* ')) {
-                  const prev = acc[acc.length - 1]
-                  if (prev && prev.type === 'ul') {
-                    prev.items.push(line.slice(2))
-                  } else {
-                    acc.push({ type: 'ul', items: [line.slice(2)], key: i })
-                  }
-                } else if (line.trim()) {
-                  acc.push({ type: 'p', text: line, key: i })
+          <div className="flex flex-col gap-2">
+            {product.descripcion.split('\n').reduce((acc, line, i) => {
+              if (line.startsWith('* ')) {
+                const prev = acc[acc.length - 1]
+                if (prev && prev.type === 'ul') {
+                  prev.items.push(line.slice(2))
+                } else {
+                  acc.push({ type: 'ul', items: [line.slice(2)], key: i })
                 }
-                return acc
-              }, []).map(block =>
-                block.type === 'ul' ? (
-                  <ul key={block.key} className="list-disc list-inside text-bluetti-cyan leading-relaxed space-y-1 ml-1">
-                    {block.items.map((item, j) => <li key={j}>{item}</li>)}
-                  </ul>
-                ) : (
-                  <p key={block.key} className="text-bluetti-cyan leading-relaxed">{block.text}</p>
-                )
-              )}
-            </div>
-            {!descExpanded && (
-              <div className="absolute bottom-0 left-0 right-0 h-10 bg-gradient-to-t from-[#0a0a0f] to-transparent sm:hidden" />
+              } else if (line.trim()) {
+                acc.push({ type: 'p', text: line, key: i })
+              }
+              return acc
+            }, []).map(block =>
+              block.type === 'ul' ? (
+                <ul key={block.key} className="list-disc list-inside text-bluetti-cyan leading-relaxed space-y-1 ml-1">
+                  {block.items.map((item, j) => <li key={j}>{item}</li>)}
+                </ul>
+              ) : (
+                <p key={block.key} className="text-bluetti-cyan leading-relaxed">{block.text}</p>
+              )
             )}
-            <button
-              onClick={() => setDescExpanded(v => !v)}
-              className="sm:hidden mt-2 text-bluetti-cyan text-sm font-semibold hover:text-white transition-colors"
-            >
-              {descExpanded ? 'Ver menos ▲' : 'Ver más... ▼'}
-            </button>
           </div>
           <button
             onClick={handleCompare}
