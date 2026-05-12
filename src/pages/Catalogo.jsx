@@ -14,6 +14,28 @@ export default function Catalogo() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <section className="mb-8 py-4 border-b border-bluetti-border flex flex-wrap items-center justify-center sm:justify-between gap-4 text-sm text-bluetti-cyan/80">
+        <div className="flex items-center gap-2">
+          <span className="text-bluetti-lime font-bold">✓</span>
+          <span>Distribuidor oficial BLUETTI</span>
+        </div>
+        <div className="hidden sm:block w-px h-4 bg-bluetti-border" />
+        <div className="flex items-center gap-2">
+          <span className="text-bluetti-lime font-bold">✓</span>
+          <span>Garantía de fábrica</span>
+        </div>
+        <div className="hidden sm:block w-px h-4 bg-bluetti-border" />
+        <div className="flex items-center gap-2">
+          <span className="text-bluetti-lime font-bold">✓</span>
+          <span>Envío a todo el país</span>
+        </div>
+        <div className="hidden sm:block w-px h-4 bg-bluetti-border" />
+        <div className="flex items-center gap-2">
+          <span className="text-bluetti-lime font-bold">✓</span>
+          <span>Soporte técnico</span>
+        </div>
+      </section>
+
       <section className="mb-8">
         <CatalogoCarousel />
       </section>
