@@ -13,8 +13,8 @@ export default function Catalogo() {
     : products.filter(p => CATEGORIA_LABELS[p.categoria] === activeFilter)
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <section className="mb-8 grid grid-cols-2 sm:grid-cols-4 gap-3">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-1 pb-4">
+      <section className="mb-1 grid grid-cols-2 sm:grid-cols-4 gap-3">
         {[
           {
             label: 'Distribuidor oficial',
@@ -40,7 +40,7 @@ export default function Catalogo() {
         ))}
       </section>
 
-      <div className="flex justify-center mb-6">
+      <div className="hidden sm:flex justify-center mb-6">
         <button
           onClick={() => {
             const el = document.getElementById('productos')
