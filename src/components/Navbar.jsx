@@ -7,7 +7,7 @@ export default function Navbar() {
   return (
     <div className="sticky top-0 z-40 py-2">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <nav className="border border-bluetti-border rounded-xl transition-transform duration-200 hover:scale-[1.01]" style={{ background: 'linear-gradient(135deg, #0a2a45 0%, #0a0a0f 50%, #1a3a08 100%)' }}>
+      <nav className="border border-bluetti-border rounded-xl transition-transform duration-200 hover:scale-[1.03]" style={{ background: 'linear-gradient(135deg, #0a2a45 0%, #0a0a0f 50%, #1a3a08 100%)' }}>
       <div className="px-4 sm:px-6 h-14 flex items-center justify-between">
         <Link to="/" className="flex flex-col sm:flex-row items-center gap-1 sm:gap-6">
           <img src="/images/logo-naval.png" alt="Naval Motor" className="h-4 sm:h-10 object-contain sm:mt-4" />
