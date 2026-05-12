@@ -146,19 +146,49 @@ export default function ProductoDetalle() {
               )
             )}
           </div>
-          <button
-            onClick={handleCompare}
-            disabled={disabled}
-            className={`mt-2 w-fit px-6 py-3 rounded-lg font-bold text-sm border transition-all ${
-              selected
-                ? 'bg-bluetti-cyan/20 border-bluetti-cyan text-bluetti-cyan'
-                : disabled
-                ? 'border-gray-700 text-gray-600 cursor-not-allowed'
-                : 'border-bluetti-border text-bluetti-cyan/80 hover:border-bluetti-cyan hover:text-bluetti-cyan'
-            }`}
-          >
-            {selected ? '✓ En comparación' : '+ Agregar a comparación'}
-          </button>
+          <div className="flex items-center gap-3 mt-2 flex-wrap">
+            <button
+              onClick={handleCompare}
+              disabled={disabled}
+              className={`w-fit px-6 py-3 rounded-lg font-bold text-sm border transition-all ${
+                selected
+                  ? 'bg-bluetti-cyan border-bluetti-cyan text-bluetti-bg'
+                  : disabled
+                  ? 'border-gray-700 text-gray-600 cursor-not-allowed'
+                  : 'bg-bluetti-cyan border-bluetti-cyan text-bluetti-bg hover:brightness-110'
+              }`}
+            >
+              {selected ? '✓ En comparación' : '+ Agregar a comparación'}
+            </button>
+            {(modelsWithManual.includes(product.id) || modelsWithFlyer.includes(product.id)) && (
+              <button
+                onClick={() => {
+                  const el = document.getElementById('descargas-detalle')
+                  const top = el.getBoundingClientRect().top + window.scrollY - 90
+                  window.scrollTo({ top, behavior: 'smooth' })
+                }}
+                className="flex items-center gap-2 bg-bluetti-lime text-bluetti-bg font-bold text-sm px-6 py-3 rounded-lg hover:brightness-110 transition-all"
+              >
+                Descargas
+                <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <polyline points="6 9 12 15 18 9" />
+                </svg>
+              </button>
+            )}
+            <button
+              onClick={() => {
+                const el = document.getElementById('videos-detalle')
+                const top = el.getBoundingClientRect().top + window.scrollY - 90
+                window.scrollTo({ top, behavior: 'smooth' })
+              }}
+              className="flex items-center gap-2 font-bold text-sm px-6 py-3 rounded-lg hover:brightness-110 transition-all text-bluetti-bg bg-bluetti-lime"
+            >
+              Videos
+              <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="6 9 12 15 18 9" />
+              </svg>
+            </button>
+          </div>
         </div>
       </div>
 
@@ -203,6 +233,8 @@ export default function ProductoDetalle() {
           </ul>
         </section>
       )}
+
+      <div id="descargas-detalle" />
 
       {modelsWithManual.includes(product.id) && (
         <section className="mb-12">
@@ -296,7 +328,7 @@ export default function ProductoDetalle() {
         </section>
       )}
 
-      <section className="mb-12">
+      <section id="videos-detalle" className="mb-12">
         <h2 className="text-xl font-bold text-white mb-4">Video del producto</h2>
         <div className="rounded-2xl overflow-hidden border border-bluetti-border">
           <video
