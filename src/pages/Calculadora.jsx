@@ -1,45 +1,55 @@
 import { useState, useMemo } from 'react'
 import { Link } from 'react-router-dom'
 
-const ELECTRODOMESTICOS = [
-  // Climatización
-  { id: 'aire', nombre: 'Aire acondicionado (split 3000 frigs.)', watts: 900 },
-  { id: 'aire_grande', nombre: 'Aire acondicionado (split 5000 frigs.)', watts: 1500 },
-  { id: 'ventilador', nombre: 'Ventilador de pie', watts: 60 },
-  { id: 'calefactor', nombre: 'Calefactor eléctrico', watts: 1500 },
-  // Cocina
-  { id: 'heladera', nombre: 'Heladera', watts: 150 },
-  { id: 'freezer', nombre: 'Freezer', watts: 150 },
-  { id: 'heladera_comercial', nombre: 'Heladera comercial', watts: 400 },
-  { id: 'microondas', nombre: 'Microondas', watts: 1000 },
-  { id: 'horno', nombre: 'Horno eléctrico', watts: 1200 },
-  { id: 'pava', nombre: 'Pava eléctrica', watts: 1500 },
-  { id: 'cafetera', nombre: 'Cafetera', watts: 900 },
-  { id: 'tostadora', nombre: 'Tostadora', watts: 850 },
-  { id: 'licuadora', nombre: 'Licuadora', watts: 400 },
-  // Entretenimiento
-  { id: 'tv', nombre: 'TV 55"', watts: 120 },
-  { id: 'tv_32', nombre: 'TV 32"', watts: 60 },
-  { id: 'consola', nombre: 'Consola de videojuegos', watts: 150 },
-  { id: 'proyector', nombre: 'Proyector', watts: 250 },
-  // Trabajo y conectividad
-  { id: 'pc', nombre: 'Computadora de escritorio + monitor', watts: 200 },
-  { id: 'notebook', nombre: 'Notebook / Laptop', watts: 65 },
-  { id: 'wifi', nombre: 'Router WiFi', watts: 15 },
-  { id: 'celular', nombre: 'Cargador de celular', watts: 10 },
-  // Iluminación
-  { id: 'led', nombre: 'Iluminación LED (10 luces)', watts: 100 },
-  // Electrodomésticos del hogar
-  { id: 'lavarropas', nombre: 'Lavarropas', watts: 500 },
-  { id: 'plancha', nombre: 'Plancha de ropa', watts: 1200 },
-  { id: 'aspiradora', nombre: 'Aspiradora', watts: 1200 },
-  // Seguridad y servicios
-  { id: 'camara', nombre: 'Cámara de seguridad', watts: 15 },
-  { id: 'alarma', nombre: 'Alarma del hogar', watts: 20 },
-  { id: 'bomba', nombre: 'Bomba de agua', watts: 750 },
-  // Trabajo y herramientas
-  { id: 'herramientas', nombre: 'Herramientas eléctricas', watts: 800 },
+const CATEGORIAS_ELECTRO = [
+  { id: 'climatizacion', nombre: 'Climatización', items: [
+    { id: 'aire', nombre: 'Aire acondicionado (split 3000 frigs.)', watts: 900 },
+    { id: 'aire_grande', nombre: 'Aire acondicionado (split 5000 frigs.)', watts: 1500 },
+    { id: 'ventilador', nombre: 'Ventilador de pie', watts: 60 },
+    { id: 'calefactor', nombre: 'Calefactor eléctrico', watts: 1500 },
+  ]},
+  { id: 'cocina', nombre: 'Cocina', items: [
+    { id: 'heladera', nombre: 'Heladera', watts: 150 },
+    { id: 'freezer', nombre: 'Freezer', watts: 150 },
+    { id: 'heladera_comercial', nombre: 'Heladera comercial', watts: 400 },
+    { id: 'microondas', nombre: 'Microondas', watts: 1000 },
+    { id: 'horno', nombre: 'Horno eléctrico', watts: 1200 },
+    { id: 'pava', nombre: 'Pava eléctrica', watts: 1500 },
+    { id: 'cafetera', nombre: 'Cafetera', watts: 900 },
+    { id: 'tostadora', nombre: 'Tostadora', watts: 850 },
+    { id: 'licuadora', nombre: 'Licuadora', watts: 400 },
+  ]},
+  { id: 'entretenimiento', nombre: 'Entretenimiento', items: [
+    { id: 'tv', nombre: 'TV 55"', watts: 120 },
+    { id: 'tv_32', nombre: 'TV 32"', watts: 60 },
+    { id: 'consola', nombre: 'Consola de videojuegos', watts: 150 },
+    { id: 'proyector', nombre: 'Proyector', watts: 250 },
+  ]},
+  { id: 'trabajo', nombre: 'Trabajo y conectividad', items: [
+    { id: 'pc', nombre: 'Computadora de escritorio + monitor', watts: 200 },
+    { id: 'notebook', nombre: 'Notebook / Laptop', watts: 65 },
+    { id: 'wifi', nombre: 'Router WiFi', watts: 15 },
+    { id: 'celular', nombre: 'Cargador de celular', watts: 10 },
+  ]},
+  { id: 'iluminacion', nombre: 'Iluminación', items: [
+    { id: 'led', nombre: 'Iluminación LED (10 luces)', watts: 100 },
+  ]},
+  { id: 'hogar', nombre: 'Hogar', items: [
+    { id: 'lavarropas', nombre: 'Lavarropas', watts: 500 },
+    { id: 'plancha', nombre: 'Plancha de ropa', watts: 1200 },
+    { id: 'aspiradora', nombre: 'Aspiradora', watts: 1200 },
+  ]},
+  { id: 'seguridad', nombre: 'Seguridad y servicios', items: [
+    { id: 'camara', nombre: 'Cámara de seguridad', watts: 15 },
+    { id: 'alarma', nombre: 'Alarma del hogar', watts: 20 },
+    { id: 'bomba', nombre: 'Bomba de agua', watts: 750 },
+  ]},
+  { id: 'herramientas', nombre: 'Herramientas', items: [
+    { id: 'herramientas', nombre: 'Herramientas eléctricas', watts: 800 },
+  ]},
 ]
+
+const ELECTRODOMESTICOS = CATEGORIAS_ELECTRO.flatMap(c => c.items)
 
 const PERFILES = [
   {
@@ -210,6 +220,11 @@ export default function Calculadora() {
   const [agregados, setAgregados] = useState([])
   const [customNombre, setCustomNombre] = useState('')
   const [customWatts, setCustomWatts] = useState('')
+  const [openCats, setOpenCats] = useState({})
+
+  function toggleCat(id) {
+    setOpenCats(prev => ({ ...prev, [id]: !prev[id] }))
+  }
 
   function agregar(electro) {
     setAgregados(prev => {
@@ -322,30 +337,48 @@ export default function Calculadora() {
           </div>
 
           <div className="space-y-2">
-            {ELECTRODOMESTICOS.map(e => {
-              const cantidad = cantidadPorId[e.id] ?? 0
+            {CATEGORIAS_ELECTRO.map(cat => {
+              const isOpen = !!openCats[cat.id]
               return (
-                <div
-                  key={e.id}
-                  className="flex items-center justify-between bg-bluetti-card border border-bluetti-border rounded-xl px-4 py-3"
-                >
-                  <div>
-                    <span className="text-white text-sm">{e.nombre}</span>
-                    <span className="text-bluetti-cyan/70 text-xs ml-2">{e.watts}W</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    {cantidad > 0 && (
-                      <span className="text-bluetti-cyan text-xs font-bold min-w-[20px] text-center">
-                        ×{cantidad}
-                      </span>
-                    )}
-                    <button
-                      onClick={() => agregar(e)}
-                      className="w-8 h-8 rounded-lg font-bold text-lg flex items-center justify-center transition-all bg-bluetti-border hover:bg-bluetti-cyan hover:text-bluetti-bg text-bluetti-cyan/80"
-                    >
-                      +
-                    </button>
-                  </div>
+                <div key={cat.id} className="border border-bluetti-border rounded-xl overflow-hidden">
+                  <button
+                    onClick={() => toggleCat(cat.id)}
+                    className="w-full flex items-center justify-between px-4 py-3 bg-bluetti-card hover:bg-white/5 transition-colors"
+                  >
+                    <span className="text-sm font-semibold text-white">{cat.nombre}</span>
+                    <span className={`text-bluetti-cyan text-xs transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}>▼</span>
+                  </button>
+                  {isOpen && (
+                    <div className="border-t border-bluetti-border divide-y divide-bluetti-border">
+                      {cat.items.map(e => {
+                        const cantidad = cantidadPorId[e.id] ?? 0
+                        return (
+                          <div
+                            key={e.id}
+                            className="flex items-center justify-between bg-bluetti-card px-4 py-3"
+                          >
+                            <div>
+                              <span className="text-white text-sm">{e.nombre}</span>
+                              <span className="text-bluetti-cyan/70 text-xs ml-2">{e.watts}W</span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                              {cantidad > 0 && (
+                                <span className="text-bluetti-cyan text-xs font-bold min-w-[20px] text-center">
+                                  ×{cantidad}
+                                </span>
+                              )}
+                              <button
+                                onClick={() => agregar(e)}
+                                className="w-8 h-8 rounded-lg font-bold text-lg flex items-center justify-center transition-all bg-bluetti-border hover:bg-bluetti-cyan hover:text-bluetti-bg text-bluetti-cyan/80"
+                              >
+                                +
+                              </button>
+                            </div>
+                          </div>
+                        )
+                      })}
+                    </div>
+                  )}
                 </div>
               )
             })}
