@@ -13,18 +13,42 @@ export default function ProductCard({ product }) {
 
   const allImages = [product.imagen, ...(product.imagenes ?? [])]
   const hasMultiple = allImages.length > 1
+  // Strip with clone of first image at the end for seamless looping
+  const stripImages = hasMultiple ? [...allImages, allImages[0]] : allImages
+
   const [currentIndex, setCurrentIndex] = useState(0)
+  const [animated, setAnimated] = useState(true)
   const paused = useRef(false)
 
   useEffect(() => {
     if (!hasMultiple) return
     const interval = setInterval(() => {
       if (!paused.current) {
-        setCurrentIndex(i => (i + 1) % allImages.length)
+        setAnimated(true)
+        setCurrentIndex(i => i + 1)
       }
     }, 2500)
     return () => clearInterval(interval)
-  }, [hasMultiple, allImages.length])
+  }, [hasMultiple])
+
+  // When we land on the clone (last item), snap silently back to index 0
+  useEffect(() => {
+    if (currentIndex === stripImages.length - 1) {
+      const timeout = setTimeout(() => {
+        setAnimated(false)
+        setCurrentIndex(0)
+      }, 500)
+      return () => clearTimeout(timeout)
+    }
+  }, [currentIndex, stripImages.length])
+
+  // Re-enable animation after snap
+  useEffect(() => {
+    if (!animated) {
+      const timeout = setTimeout(() => setAnimated(true), 50)
+      return () => clearTimeout(timeout)
+    }
+  }, [animated])
 
   function handleCompareClick() {
     if (selected) {
@@ -33,6 +57,8 @@ export default function ProductCard({ product }) {
       addToCompare(product.id)
     }
   }
+
+  const dotIndex = currentIndex % allImages.length
 
   return (
     <div
@@ -46,14 +72,17 @@ export default function ProductCard({ product }) {
         onMouseLeave={() => { paused.current = false }}
       >
         <div
-          className="flex h-full transition-transform duration-500 ease-in-out"
-          style={{ width: `${allImages.length * 100}%`, transform: `translateX(-${currentIndex * (100 / allImages.length)}%)` }}
+          className={animated ? 'flex h-full transition-transform duration-500 ease-in-out' : 'flex h-full'}
+          style={{
+            width: `${stripImages.length * 100}%`,
+            transform: `translateX(-${currentIndex * (100 / stripImages.length)}%)`
+          }}
         >
-          {allImages.map((img, i) => (
+          {stripImages.map((img, i) => (
             <div
               key={i}
               className="h-full flex items-center justify-center p-4 bg-black/30 flex-shrink-0"
-              style={{ width: `${100 / allImages.length}%` }}
+              style={{ width: `${100 / stripImages.length}%` }}
             >
               <img
                 src={`/images/${img}`}
@@ -69,9 +98,9 @@ export default function ProductCard({ product }) {
             {allImages.map((_, i) => (
               <button
                 key={i}
-                onClick={() => setCurrentIndex(i)}
+                onClick={() => { setAnimated(true); setCurrentIndex(i) }}
                 className={`w-1.5 h-1.5 rounded-full transition-all ${
-                  i === currentIndex ? 'bg-bluetti-cyan scale-125' : 'bg-white/40'
+                  i === dotIndex ? 'bg-bluetti-cyan scale-125' : 'bg-white/40'
                 }`}
               />
             ))}
