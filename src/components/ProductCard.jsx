@@ -1,3 +1,4 @@
+import { useState, useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { useCompare } from './CompareContext'
 import { CATEGORIA_LABELS, CATEGORIA_COLORS } from '../data/categorias'
@@ -9,6 +10,21 @@ export default function ProductCard({ product }) {
   const colorClass = CATEGORIA_COLORS[label] ?? 'bg-gray-800 text-gray-300 border border-gray-700'
   const selected = isSelected(product.id)
   const disabled = isFull() && !selected
+
+  const allImages = [product.imagen, ...(product.imagenes ?? [])]
+  const hasMultiple = allImages.length > 1
+  const [currentIndex, setCurrentIndex] = useState(0)
+  const paused = useRef(false)
+
+  useEffect(() => {
+    if (!hasMultiple) return
+    const interval = setInterval(() => {
+      if (!paused.current) {
+        setCurrentIndex(i => (i + 1) % allImages.length)
+      }
+    }, 2500)
+    return () => clearInterval(interval)
+  }, [hasMultiple, allImages.length])
 
   function handleCompareClick() {
     if (selected) {
@@ -24,13 +40,30 @@ export default function ProductCard({ product }) {
         selected ? 'border-bluetti-cyan' : 'border-bluetti-border'
       }`}
     >
-      <div className="bg-black/30 flex items-center justify-center h-48 sm:h-80 p-4">
+      <div
+        className="bg-black/30 flex items-center justify-center h-48 sm:h-80 p-4 relative"
+        onMouseEnter={() => { paused.current = true }}
+        onMouseLeave={() => { paused.current = false }}
+      >
         <img
-          src={`/images/${product.imagen}`}
+          src={`/images/${allImages[currentIndex]}`}
           alt={product.nombre}
-          className="max-h-full max-w-full object-contain"
+          className="max-h-full max-w-full object-contain transition-opacity duration-500"
           onError={e => { e.target.style.display = 'none' }}
         />
+        {hasMultiple && (
+          <div className="absolute bottom-2 left-0 right-0 flex justify-center gap-1.5">
+            {allImages.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => setCurrentIndex(i)}
+                className={`w-1.5 h-1.5 rounded-full transition-all ${
+                  i === currentIndex ? 'bg-bluetti-cyan scale-125' : 'bg-white/40'
+                }`}
+              />
+            ))}
+          </div>
+        )}
       </div>
 
       <div className="p-4 flex flex-col flex-1 gap-3">
