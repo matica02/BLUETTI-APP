@@ -21,23 +21,23 @@ export default function Navbar() {
               <img src="/images/bluetti-logo.png.webp" alt="BLUETTI" className="h-4 sm:h-10 object-contain" />
             </Link>
 
-            <div className="flex items-center gap-2 sm:gap-3">
+            <div className="flex items-center gap-1 sm:gap-3">
               <Link
                 to="/"
-                className="font-semibold text-[10px] sm:text-sm px-2 sm:px-4 py-1 sm:py-2 rounded-lg hover:brightness-125 transition-all text-white"
+                className="font-semibold text-[9px] sm:text-sm px-1.5 sm:px-4 py-1 sm:py-2 rounded-lg hover:brightness-125 transition-all text-white"
                 style={{ background: '#0a2a45' }}
               >
                 Inicio
               </Link>
               <Link
                 to="/calculadora"
-                className="bg-bluetti-cyan text-bluetti-bg font-semibold text-[10px] sm:text-sm px-2 sm:px-4 py-1 sm:py-2 rounded-lg hover:brightness-110 transition-all"
+                className="bg-bluetti-cyan text-bluetti-bg font-semibold text-[9px] sm:text-sm px-1.5 sm:px-4 py-1 sm:py-2 rounded-lg hover:brightness-110 transition-all"
               >
                 Calculadora
               </Link>
               <Link
                 to="/simulador-solar"
-                className="bg-bluetti-lime text-bluetti-bg font-semibold text-[10px] sm:text-sm px-2 sm:px-4 py-1 sm:py-2 rounded-lg hover:brightness-110 transition-all"
+                className="bg-bluetti-lime text-bluetti-bg font-semibold text-[9px] sm:text-sm px-1.5 sm:px-4 py-1 sm:py-2 rounded-lg hover:brightness-110 transition-all"
               >
                 Simulador Solar
               </Link>
