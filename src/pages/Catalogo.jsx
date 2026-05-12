@@ -42,7 +42,11 @@ export default function Catalogo() {
 
       <div className="flex justify-center mb-6">
         <button
-          onClick={() => document.getElementById('productos').scrollIntoView({ behavior: 'smooth' })}
+          onClick={() => {
+            const el = document.getElementById('productos')
+            const top = el.getBoundingClientRect().top + window.scrollY - 90
+            window.scrollTo({ top, behavior: 'smooth' })
+          }}
           className="flex items-center gap-2 bg-bluetti-cyan text-bluetti-bg font-semibold px-6 py-2 rounded-full hover:brightness-110 transition-all hover:scale-105"
         >
           Ver productos
