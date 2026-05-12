@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { CompareProvider } from './components/CompareContext'
 import Navbar from './components/Navbar'
@@ -9,10 +10,18 @@ import Calculadora from './pages/Calculadora'
 import SimuladorSolarPage from './pages/SimuladorSolarPage'
 
 export default function App() {
+  const [showTop, setShowTop] = useState(false)
+
+  useEffect(() => {
+    const onScroll = () => setShowTop(window.scrollY > 300)
+    window.addEventListener('scroll', onScroll)
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+
   return (
     <BrowserRouter>
       <CompareProvider>
-        <div className="min-h-screen text-white" style={{ background: 'linear-gradient(135deg, #0d5c9e 0%, #0a0a0f 50%, #3a7a10 100%)' }}>
+        <div className="min-h-screen text-white">
           <Navbar />
           <main className="pb-24">
             <Routes>
@@ -24,6 +33,18 @@ export default function App() {
             </Routes>
           </main>
           <CompareBar />
+          {showTop && (
+            <button
+              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+              className="fixed bottom-6 right-6 z-50 w-10 h-10 rounded-full flex items-center justify-center shadow-lg hover:brightness-125 transition-all hover:scale-110"
+              style={{ background: '#0a2a45' }}
+              aria-label="Volver al inicio"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="18 15 12 9 6 15" />
+              </svg>
+            </button>
+          )}
         </div>
       </CompareProvider>
     </BrowserRouter>

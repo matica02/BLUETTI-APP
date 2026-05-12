@@ -40,7 +40,7 @@ export default function Catalogo() {
         ))}
       </section>
 
-      <section className="mb-8">
+      <section className="mb-14">
         <CatalogoCarousel />
       </section>
 
