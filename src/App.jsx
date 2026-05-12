@@ -12,7 +12,7 @@ export default function App() {
   return (
     <BrowserRouter>
       <CompareProvider>
-        <div className="min-h-screen text-white" style={{ background: 'linear-gradient(135deg, #0a2540 0%, #0a0a0f 65%)' }}>
+        <div className="min-h-screen text-white" style={{ background: 'linear-gradient(135deg, #0a3d6b 0%, #0a0a0f 70%)' }}>
           <Navbar />
           <main className="pb-24">
             <Routes>
