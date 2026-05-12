@@ -41,16 +41,29 @@ export default function ProductCard({ product }) {
       }`}
     >
       <div
-        className="bg-black/30 flex items-center justify-center h-48 sm:h-80 p-4 relative"
+        className="relative overflow-hidden h-48 sm:h-80"
         onMouseEnter={() => { paused.current = true }}
         onMouseLeave={() => { paused.current = false }}
       >
-        <img
-          src={`/images/${allImages[currentIndex]}`}
-          alt={product.nombre}
-          className="max-h-full max-w-full object-contain transition-opacity duration-500"
-          onError={e => { e.target.style.display = 'none' }}
-        />
+        <div
+          className="flex h-full transition-transform duration-500 ease-in-out"
+          style={{ width: `${allImages.length * 100}%`, transform: `translateX(-${currentIndex * (100 / allImages.length)}%)` }}
+        >
+          {allImages.map((img, i) => (
+            <div
+              key={i}
+              className="h-full flex items-center justify-center p-4 bg-black/30 flex-shrink-0"
+              style={{ width: `${100 / allImages.length}%` }}
+            >
+              <img
+                src={`/images/${img}`}
+                alt={product.nombre}
+                className="max-h-full max-w-full object-contain"
+                onError={e => { e.target.style.display = 'none' }}
+              />
+            </div>
+          ))}
+        </div>
         {hasMultiple && (
           <div className="absolute bottom-2 left-0 right-0 flex justify-center gap-1.5">
             {allImages.map((_, i) => (
