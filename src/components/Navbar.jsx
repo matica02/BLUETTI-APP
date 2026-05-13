@@ -24,14 +24,13 @@ export default function Navbar() {
             <div className="flex items-center gap-1 sm:gap-3">
               <Link
                 to="/"
-                className="font-semibold text-[9px] sm:text-sm px-1.5 sm:px-4 py-1 sm:py-2 rounded-lg hover:brightness-125 transition-all text-white"
-                style={{ background: '#0a2a45' }}
+                className="bg-bluetti-cyan text-bluetti-bg font-semibold text-[9px] sm:text-sm px-1.5 sm:px-4 py-1 sm:py-2 rounded-lg hover:brightness-110 transition-all"
               >
                 Inicio
               </Link>
               <Link
                 to="/calculadora"
-                className="bg-bluetti-cyan text-bluetti-bg font-semibold text-[9px] sm:text-sm px-1.5 sm:px-4 py-1 sm:py-2 rounded-lg hover:brightness-110 transition-all"
+                className="bg-bluetti-lime text-bluetti-bg font-semibold text-[9px] sm:text-sm px-1.5 sm:px-4 py-1 sm:py-2 rounded-lg hover:brightness-110 transition-all"
               >
                 Calculadora
               </Link>
