@@ -61,6 +61,22 @@ export default function Catalogo() {
         </button>
       </div>
 
+      <div className="flex sm:hidden justify-center mb-4">
+        <button
+          onClick={() => {
+            const el = document.getElementById('descargas')
+            const top = el.getBoundingClientRect().top + window.scrollY - 90
+            window.scrollTo({ top, behavior: 'smooth' })
+          }}
+          className="flex items-center gap-1.5 bg-bluetti-lime text-bluetti-bg font-semibold text-xs px-4 py-1.5 rounded-full hover:brightness-110 transition-all hover:scale-105"
+        >
+          Descargas
+          <svg xmlns="http://www.w3.org/2000/svg" className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <polyline points="6 9 12 15 18 9" />
+          </svg>
+        </button>
+      </div>
+
       <section className="mb-14">
         <CatalogoCarousel />
       </section>
