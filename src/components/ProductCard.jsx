@@ -103,8 +103,8 @@ export default function ProductCard({ product }) {
       <div className="p-4 flex flex-col flex-1 gap-3">
         <div className="flex items-start justify-between gap-2">
           <div className="min-w-0">
-            <h3 className="text-white font-bold text-lg leading-tight">{product.nombre}</h3>
-            <p className="text-bluetti-cyan text-sm mt-1 line-clamp-2">{product.tagline}</p>
+            <h3 className="font-bold text-2xl leading-tight" style={{ color: categoryBorderColor }}>{product.nombre}</h3>
+            <p className="text-sm mt-1 line-clamp-2" style={{ color: categoryBorderColor }}>{product.tagline}</p>
           </div>
           <span className={`text-xs px-2 py-1 rounded-full font-medium flex-shrink-0 ${colorClass}`}>
             {label}
@@ -114,7 +114,8 @@ export default function ProductCard({ product }) {
         <div className="flex gap-2 mt-auto">
           <Link
             to={`/producto/${product.id}`}
-            className="flex-1 text-center bg-bluetti-cyan text-bluetti-bg font-semibold text-sm py-2 rounded-lg hover:brightness-110 transition-all"
+            className="flex-1 text-center text-bluetti-bg font-semibold text-sm py-2 rounded-lg hover:brightness-110 transition-all"
+            style={{ backgroundColor: categoryBorderColor }}
           >
             Ver detalle
           </Link>
@@ -122,12 +123,13 @@ export default function ProductCard({ product }) {
             onClick={handleCompareClick}
             disabled={disabled}
             className={`px-3 py-2 rounded-lg text-sm font-semibold border transition-all ${
-              selected
-                ? 'bg-bluetti-cyan/20 border-bluetti-cyan text-bluetti-cyan'
-                : disabled
-                ? 'border-gray-700 text-gray-600 cursor-not-allowed'
-                : 'border-bluetti-border text-bluetti-cyan hover:border-bluetti-cyan hover:text-bluetti-cyan'
+              disabled ? 'border-gray-700 text-gray-600 cursor-not-allowed' : ''
             }`}
+            style={!disabled ? {
+              borderColor: categoryBorderColor,
+              color: selected ? '#0a0f1a' : categoryBorderColor,
+              backgroundColor: selected ? categoryBorderColor : 'transparent',
+            } : {}}
             aria-label={
               selected
                 ? `Quitar ${product.nombre} de comparación`
