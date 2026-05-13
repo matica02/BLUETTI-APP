@@ -10,12 +10,12 @@ export default function Navbar() {
     <div className="sticky top-0 z-40 py-2 pt-4">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div
-          className="rounded-xl p-px transition-all duration-200 hover:scale-[1.03]"
+          className="rounded-xl p-[3px] transition-all duration-200 hover:scale-[1.03]"
           style={{ background: 'linear-gradient(to right, #00d4ff, #a3e635)' }}
           onMouseEnter={() => setHovered(true)}
           onMouseLeave={() => setHovered(false)}
         >
-          <nav className="rounded-xl px-6 sm:px-8 h-16 flex items-center justify-between" style={{ background: 'linear-gradient(135deg, #0a2a45 0%, #0a0a0f 50%, #1a3a08 100%)' }}>
+          <nav className="rounded-xl px-6 sm:px-8 h-16 flex items-center justify-between" style={{ background: '#F5F2EC' }}>
             <Link to="/" className="flex flex-col sm:flex-row items-center gap-1 sm:gap-6">
               <img src="/images/logo-naval.png" alt="Naval Motor" className="h-4 sm:h-10 object-contain sm:mt-4" />
               <img src="/images/bluetti-logo.png.webp" alt="BLUETTI" className="h-4 sm:h-10 object-contain" />
