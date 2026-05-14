@@ -21,7 +21,6 @@ export default function CatalogoCarousel() {
   const [current, setCurrent] = useState(0)
   const [prev, setPrev] = useState(null)
   const [direction, setDirection] = useState('next')
-  const [paused, setPaused] = useState(false)
   const videoRefs = useRef([])
 
   useEffect(() => {
@@ -33,10 +32,18 @@ export default function CatalogoCarousel() {
   }, [current])
 
   useEffect(() => {
-    if (paused) return
-    const id = setInterval(() => goNext(), AUTOPLAY_INTERVAL)
-    return () => clearInterval(id)
-  }, [paused, current])
+    const slide = SLIDES[current]
+    if (slide.type === 'video') {
+      const videoEl = videoRefs.current[current]
+      if (!videoEl) return
+      const onEnded = () => goNext()
+      videoEl.addEventListener('ended', onEnded)
+      return () => videoEl.removeEventListener('ended', onEnded)
+    }
+
+    const id = setTimeout(goNext, AUTOPLAY_INTERVAL)
+    return () => clearTimeout(id)
+  }, [current])
 
   const goNext = () => {
     setDirection('next')
@@ -82,8 +89,6 @@ export default function CatalogoCarousel() {
   return (
     <div
       className="relative w-full rounded-2xl overflow-hidden bg-black transition-transform duration-300 hover:scale-[1.02]"
-      onMouseEnter={() => setPaused(true)}
-      onMouseLeave={() => setPaused(false)}
     >
       <div className="relative w-full" style={{ aspectRatio: '16/9' }}>
         {SLIDES.map((slide, i) => (
@@ -92,7 +97,6 @@ export default function CatalogoCarousel() {
               <video
                 ref={el => videoRefs.current[i] = el}
                 src={slide.src}
-                loop
                 muted
                 playsInline
                 className="w-full h-full object-cover"
