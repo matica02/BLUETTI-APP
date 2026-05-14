@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
+import { motion, useScroll, useTransform } from 'framer-motion'
 import { useParams, Link, useNavigate } from 'react-router-dom'
 import products from '../data/products.json'
 import { useCompare } from '../components/CompareContext'
@@ -6,6 +7,7 @@ import SpecsTable from '../components/SpecsTable'
 import HighlightsList from '../components/HighlightsList'
 import ExpansionConfigurator from '../components/ExpansionConfigurator'
 import { CATEGORIA_LABELS, CATEGORIA_COLORS } from '../data/categorias'
+import { ScrollReveal } from '../components/ScrollReveal'
 
 const modelsWithManual = ['rv5', 'ep2000', 'ep760', 'apex300', 'ac200pl']
 const modelsWithFlyer = ['rv5', 'ep2000', 'ep760', 'apex300', 'ac200pl', 'es125x']
@@ -41,6 +43,13 @@ export default function ProductoDetalle() {
     setLastId(id)
     setSelectedImage(0)
   }
+
+  const heroRef = useRef(null)
+  const { scrollYProgress: heroProgress } = useScroll({
+    target: heroRef,
+    offset: ['start end', 'end start'],
+  })
+  const heroY = useTransform(heroProgress, [0, 1], [-40, 40])
 
   if (!product) {
     return (
@@ -83,12 +92,13 @@ export default function ProductoDetalle() {
         ← Volver
       </button>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 mb-12">
+      <div className="relative grid grid-cols-1 lg:grid-cols-2 gap-10 mb-12">
         <div className="flex flex-col gap-3">
-          <div className="flex items-center justify-center p-4 min-h-64 sm:min-h-96">
-            <img
+          <div ref={heroRef} className="relative flex items-center justify-center p-4 min-h-64 sm:min-h-96 overflow-hidden">
+            <motion.img
               src={`/images/${allImages[selectedImage]}`}
               alt={product.nombre}
+              style={{ y: heroY }}
               className="w-full max-h-72 sm:max-h-[480px] object-contain"
               onError={e => { e.target.style.display = 'none' }}
             />
@@ -194,7 +204,7 @@ export default function ProductoDetalle() {
 
       <ExpansionConfigurator product={product} />
 
-      <section className="mb-12">
+      <ScrollReveal as="section" className="mb-12">
         <h2 className="text-xl font-bold text-white mb-4">Casos de uso</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {product.casosDeUso.map(caso => (
@@ -209,20 +219,20 @@ export default function ProductoDetalle() {
             </div>
           ))}
         </div>
-      </section>
+      </ScrollReveal>
 
-      <section className="mb-12">
+      <ScrollReveal as="section" className="mb-12">
         <h2 className="text-xl font-bold text-white mb-4">Puntos destacados</h2>
         <HighlightsList highlights={product.highlights} />
-      </section>
+      </ScrollReveal>
 
-      <section className="mb-12">
+      <ScrollReveal as="section" className="mb-12">
         <h2 className="text-xl font-bold text-white mb-4">Especificaciones técnicas</h2>
         <SpecsTable specs={product.specs} />
-      </section>
+      </ScrollReveal>
 
       {product.accesoriosCompatibles.length > 0 && (
-        <section className="mb-12">
+        <ScrollReveal as="section" className="mb-12">
           <h2 className="text-xl font-bold text-white mb-4">Accesorios compatibles</h2>
           <ul className="space-y-2">
             {product.accesoriosCompatibles.map(acc => (
@@ -231,13 +241,13 @@ export default function ProductoDetalle() {
               </li>
             ))}
           </ul>
-        </section>
+        </ScrollReveal>
       )}
 
       <div id="descargas-detalle" />
 
       {modelsWithManual.includes(product.id) && (
-        <section className="mb-12">
+        <ScrollReveal as="section" className="mb-12">
           <h2 className="text-xl font-bold text-white mb-4">Manual de Usuario</h2>
           <div className="bg-white/5 backdrop-blur-sm border border-bluetti-border rounded-2xl p-6 flex flex-col items-start gap-3">
             <a
@@ -256,11 +266,11 @@ export default function ProductoDetalle() {
             </a>
             <p className="text-bluetti-cyan/70 text-sm">Archivo PDF · Manual oficial del fabricante</p>
           </div>
-        </section>
+        </ScrollReveal>
       )}
 
       {modelsWithFlyer.includes(product.id) && (
-        <section className="mb-12">
+        <ScrollReveal as="section" className="mb-12">
           <h2 className="text-xl font-bold text-white mb-4">Flyer / Datasheet</h2>
           <div className="bg-white/5 backdrop-blur-sm border border-bluetti-border rounded-2xl p-6 flex flex-col items-start gap-3">
             <a
@@ -279,11 +289,11 @@ export default function ProductoDetalle() {
             </a>
             <p className="text-bluetti-cyan/70 text-sm">Archivo PDF · Ficha técnica del producto</p>
           </div>
-        </section>
+        </ScrollReveal>
       )}
 
       {modelsWithAppManual.includes(product.id) && (
-        <section className="mb-12">
+        <ScrollReveal as="section" className="mb-12">
           <h2 className="text-xl font-bold text-white mb-4">Manual para APP Bluetti</h2>
           <div className="bg-white/5 backdrop-blur-sm border border-bluetti-border rounded-2xl p-6 flex flex-col items-start gap-3">
             <a
@@ -302,11 +312,11 @@ export default function ProductoDetalle() {
             </a>
             <p className="text-bluetti-cyan/70 text-sm">Archivo PDF · Manual de uso de la aplicación</p>
           </div>
-        </section>
+        </ScrollReveal>
       )}
 
       {modelsWithInstallGuide.includes(product.id) && (
-        <section className="mb-12">
+        <ScrollReveal as="section" className="mb-12">
           <h2 className="text-xl font-bold text-white mb-4">Guía de Instalación</h2>
           <div className="bg-white/5 backdrop-blur-sm border border-bluetti-border rounded-2xl p-6 flex flex-col items-start gap-3">
             <a
@@ -325,10 +335,11 @@ export default function ProductoDetalle() {
             </a>
             <p className="text-bluetti-cyan/70 text-sm">Archivo PDF · Guía de instalación del producto</p>
           </div>
-        </section>
+        </ScrollReveal>
       )}
 
-      <section id="videos-detalle" className="mb-12">
+      <div id="videos-detalle" />
+      <ScrollReveal as="section" className="mb-12">
         <h2 className="text-xl font-bold text-white mb-4">Video del producto</h2>
         <div className="rounded-2xl overflow-hidden border border-bluetti-border">
           <video
@@ -340,10 +351,10 @@ export default function ProductoDetalle() {
             <source src={`/videos/${product.id}.mp4`} type="video/mp4" />
           </video>
         </div>
-      </section>
+      </ScrollReveal>
 
       {instVideos && (
-        <section className="mb-12">
+        <ScrollReveal as="section" className="mb-12">
           <h2 className="text-xl font-bold text-white mb-4">Video de Instalación</h2>
           <div className={`grid grid-cols-1 gap-6 ${instVideos.length > 1 ? 'md:grid-cols-2' : ''}`}>
             {instVideos.map(video => (
@@ -363,7 +374,7 @@ export default function ProductoDetalle() {
               </div>
             ))}
           </div>
-        </section>
+        </ScrollReveal>
       )}
 
     </div>

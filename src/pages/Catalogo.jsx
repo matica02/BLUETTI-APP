@@ -1,6 +1,7 @@
 import products from '../data/products.json'
 import ProductCard from '../components/ProductCard'
 import CatalogoCarousel from '../components/CatalogoCarousel'
+import { ScrollReveal, StaggerGroup, StaggerItem } from '../components/ScrollReveal'
 
 export default function Catalogo() {
 
@@ -90,13 +91,16 @@ export default function Catalogo() {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <StaggerGroup className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {products.map(product => (
-          <ProductCard key={product.id} product={product} />
+          <StaggerItem key={product.id}>
+            <ProductCard product={product} />
+          </StaggerItem>
         ))}
-      </div>
+      </StaggerGroup>
 
-      <section id="descargas" className="mt-12 mb-8">
+      <ScrollReveal as="section" className="mt-12 mb-8">
+        <div id="descargas" />
         <h2 className="text-xl font-bold text-white mb-4">Descargá la APP Bluetti</h2>
         <div className="bg-white/5 backdrop-blur-sm border border-bluetti-border rounded-2xl p-6 flex flex-col sm:flex-row items-center gap-6">
           <img
@@ -132,9 +136,9 @@ export default function Catalogo() {
             </div>
           </div>
         </div>
-      </section>
+      </ScrollReveal>
 
-      <section className="mt-0 mb-4">
+      <ScrollReveal as="section" className="mt-0 mb-4">
         <h2 className="text-xl font-bold text-white mb-4">Manual para APP Bluetti</h2>
         <div className="bg-white/5 backdrop-blur-sm border border-bluetti-border rounded-2xl p-6 flex flex-col items-start gap-3">
           <a
@@ -153,7 +157,7 @@ export default function Catalogo() {
           </a>
           <p className="text-bluetti-cyan/70 text-sm">Archivo PDF · Manual de uso de la aplicación</p>
         </div>
-      </section>
+      </ScrollReveal>
     </div>
   )
 }

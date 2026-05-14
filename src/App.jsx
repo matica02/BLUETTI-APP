@@ -9,6 +9,7 @@ function ScrollToTop() {
 import { CompareProvider } from './components/CompareContext'
 import Navbar from './components/Navbar'
 import CompareBar from './components/CompareBar'
+import ScrollProgress from './components/ScrollProgress'
 import Catalogo from './pages/Catalogo'
 import ProductoDetalle from './pages/ProductoDetalle'
 import Comparar from './pages/Comparar'
@@ -29,6 +30,7 @@ export default function App() {
       <CompareProvider>
         <div className="min-h-screen text-white">
           <ScrollToTop />
+          <ScrollProgress />
           <Navbar />
           <main className="pb-24">
             <Routes>

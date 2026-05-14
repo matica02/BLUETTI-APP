@@ -1,4 +1,5 @@
 import { formatKey } from '../utils'
+import AnimatedNumber from './AnimatedNumber'
 
 export default function SpecsTable({ specs }) {
   return (
@@ -11,7 +12,9 @@ export default function SpecsTable({ specs }) {
                 {formatKey(key)}
               </td>
               <td className="px-4 py-3 text-white">
-                {typeof value === 'boolean' ? (value ? 'Sí' : 'No') : String(value)}
+                {typeof value === 'boolean'
+                  ? (value ? 'Sí' : 'No')
+                  : <AnimatedNumber value={value} />}
               </td>
             </tr>
           ))}
