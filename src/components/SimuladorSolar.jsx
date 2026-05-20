@@ -4,7 +4,7 @@ const MODELOS = [
   { id: 'es125x',  nombre: 'ES125 X',   maxUnidades: 4, tieneBaterias: false },
   { id: 'ep2000',  nombre: 'EP2000',    maxUnidades: 3, tieneBaterias: true, maxBaterias: 7,  minBaterias: 2, batNombre: 'B700',   kwhBase: 0,     kwhBat: 7.168  },
   { id: 'ep760',   nombre: 'EP760',     maxUnidades: 1, tieneBaterias: true, maxBaterias: 4,  minBaterias: 2, batNombre: 'B500',   kwhBase: 0,     kwhBat: 4.96   },
-  { id: 'apex300', nombre: 'APEX 300',  maxUnidades: 3, tieneBaterias: true, maxBaterias: 6,  batNombre: 'B300K',  kwhBase: 2.764, kwhBat: 3.072  },
+  { id: 'apex300', nombre: 'APEX 300',  maxUnidades: 3, tieneBaterias: true, maxBaterias: 6,  minBaterias: 2, batNombre: 'B300K',  kwhBase: 2.764, kwhBat: 3.072  },
   { id: 'ac200pl', nombre: 'AC200P L',  maxUnidades: 1, tieneBaterias: true, maxBaterias: 2,  batNombre: 'B300',   kwhBase: 2.304, kwhBat: 3.072  },
   { id: 'rv5',     nombre: 'RV5',       maxUnidades: 1, tieneBaterias: true, maxBaterias: 24, minBaterias: 2, batNombre: 'B4810',  kwhBase: 0,     kwhBat: 4.8    },
 ]
@@ -34,7 +34,7 @@ function getMaxSolar(modelId, unidades) {
 export default function SimuladorSolar() {
   const [modelId, setModelId]     = useState('apex300')
   const [unidades, setUnidades]   = useState(1)
-  const [baterias, setBaterias]   = useState(0)
+  const [baterias, setBaterias]   = useState(2)
   const [panelW, setPanelW]       = useState(400)
   const [horasSol, setHorasSol]   = useState(5)
 
