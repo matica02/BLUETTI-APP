@@ -119,7 +119,8 @@ const BASE = {
   ac200pl: { kWh: 2.304, kW: 2.4 },
 }
 
-// Returns { kWh, kW, unidades, baterias, tipo } or null if insufficient
+// Returns { kWh, kW, unidades, baterias, tipo, partial? } or null if peak power is insufficient.
+// When kWh can't cover 24h but kW does cover the peak, returns max-expansion config with partial: true.
 function findMinConfig(modelId, needKwh, needKw) {
   const sat = (kWh, kW) => kWh >= needKwh && kW >= needKw
 
@@ -129,7 +130,8 @@ function findMinConfig(modelId, needKwh, needKw) {
         const kWh = u * 241, kW = u * 125
         if (sat(kWh, kW)) return { kWh, kW, unidades: u, baterias: null, tipo: null }
       }
-      return null
+      if (needKw > 4 * 125) return null
+      return { kWh: 4 * 241, kW: 4 * 125, unidades: 4, baterias: null, tipo: null, partial: true }
     }
     case 'rv5': {
       if (5 < needKw) return null
@@ -137,7 +139,7 @@ function findMinConfig(modelId, needKwh, needKw) {
         const kWh = b * 4.8
         if (kWh >= needKwh) return { kWh, kW: 5, unidades: 1, baterias: b, tipo: 'B4810' }
       }
-      return null
+      return { kWh: 24 * 4.8, kW: 5, unidades: 1, baterias: 24, tipo: 'B4810', partial: true }
     }
     case 'ep2000': {
       for (let u = 1; u <= 3; u++) {
@@ -146,7 +148,9 @@ function findMinConfig(modelId, needKwh, needKw) {
           if (sat(kWh, kW)) return { kWh, kW, unidades: u, baterias: b, tipo: 'B700' }
         }
       }
-      return null
+      if (needKw > 3 * 20) return null
+      const u = Math.max(1, Math.ceil(needKw / 20))
+      return { kWh: u * 7 * 7.168, kW: u * 20, unidades: u, baterias: 7, tipo: 'B700', partial: true }
     }
     case 'ep760': {
       if (7.6 < needKw) return null
@@ -154,7 +158,7 @@ function findMinConfig(modelId, needKwh, needKw) {
         const kWh = b * 4.96
         if (kWh >= needKwh) return { kWh, kW: 7.6, unidades: 1, baterias: b, tipo: 'B500' }
       }
-      return null
+      return { kWh: 4 * 4.96, kW: 7.6, unidades: 1, baterias: 4, tipo: 'B500', partial: true }
     }
     case 'apex300': {
       for (let u = 1; u <= 3; u++) {
@@ -165,16 +169,17 @@ function findMinConfig(modelId, needKwh, needKw) {
           if (kWh >= needKwh) return { kWh, kW, unidades: u, baterias: b, tipo: 'B300K' }
         }
       }
-      return null
+      if (needKw > 3 * 3.84) return null
+      const u = Math.max(1, Math.ceil(needKw / 3.84))
+      return { kWh: u * (2.764 + 6 * 3.072), kW: u * 3.84, unidades: u, baterias: 6, tipo: 'B300K', partial: true }
     }
     case 'ac200pl': {
       if (2.4 < needKw) return null
-      // Use B300 (3.072 kWh) — highest capacity per slot
       for (let b = 0; b <= 2; b++) {
         const kWh = 2.304 + b * 3.072
         if (kWh >= needKwh) return { kWh, kW: 2.4, unidades: 1, baterias: b, tipo: 'B300' }
       }
-      return null
+      return { kWh: 2.304 + 2 * 3.072, kW: 2.4, unidades: 1, baterias: 2, tipo: 'B300', partial: true }
     }
     default: return null
   }
@@ -497,8 +502,36 @@ export default function Calculadora() {
                           </span>
                         </div>
                         <p className="text-xs text-red-400/80">
-                          Insuficiente incluso en configuración máxima
+                          No soporta el pico de potencia requerido
                         </p>
+                      </div>
+                    )
+                  }
+
+                  if (result.partial) {
+                    return (
+                      <div key={modelo.id} className="rounded-lg border border-orange-500 bg-orange-900/20 px-4 py-3">
+                        <div className="flex items-center justify-between mb-1">
+                          <span className="text-white text-sm font-medium">{modelo.nombre}</span>
+                          <span className="text-xs font-bold px-2 py-0.5 rounded bg-orange-900 text-orange-300">
+                            Autonomía parcial
+                          </span>
+                        </div>
+                        <p className="text-xs text-bluetti-cyan">
+                          Config. máxima: {configLabel(modelo.id, result)}
+                        </p>
+                        <div className="flex items-center justify-between mt-2">
+                          <div className="flex items-baseline gap-1">
+                            <span className="text-bluetti-lime text-2xl font-bold leading-none">{horas}</span>
+                            <span className="text-bluetti-lime text-sm font-semibold">hs de autonomía</span>
+                          </div>
+                          <Link
+                            to={`/producto/${modelo.id}`}
+                            className="text-xs text-bluetti-cyan hover:text-bluetti-cyan underline underline-offset-2 transition-colors"
+                          >
+                            Ver producto
+                          </Link>
+                        </div>
                       </div>
                     )
                   }
