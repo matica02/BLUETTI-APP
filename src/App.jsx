@@ -7,6 +7,7 @@ function ScrollToTop() {
   return null
 }
 import { CompareProvider } from './components/CompareContext'
+import { CalculadoraProvider } from './components/CalculadoraContext'
 import Navbar from './components/Navbar'
 import CompareBar from './components/CompareBar'
 import ScrollProgress from './components/ScrollProgress'
@@ -28,6 +29,7 @@ export default function App() {
   return (
     <BrowserRouter>
       <CompareProvider>
+        <CalculadoraProvider>
         <div className="min-h-screen text-white">
           <ScrollToTop />
           <ScrollProgress />
@@ -55,6 +57,7 @@ export default function App() {
             </button>
           )}
         </div>
+        </CalculadoraProvider>
       </CompareProvider>
     </BrowserRouter>
   )

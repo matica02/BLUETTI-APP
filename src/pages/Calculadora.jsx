@@ -1,5 +1,6 @@
 import { useState, useMemo } from 'react'
 import { Link } from 'react-router-dom'
+import { useCalculadora } from '../components/CalculadoraContext'
 
 const CATEGORIAS_ELECTRO = [
   { id: 'climatizacion', nombre: 'Climatización', items: [
@@ -242,10 +243,9 @@ function ModelCard({ modelo, totalKwh, totalKw }) {
 }
 
 export default function Calculadora() {
-  const [agregados, setAgregados] = useState([])
+  const { agregados, setAgregados, openCats, setOpenCats } = useCalculadora()
   const [customNombre, setCustomNombre] = useState('')
   const [customWatts, setCustomWatts] = useState('')
-  const [openCats, setOpenCats] = useState({})
 
   function toggleCat(id) {
     setOpenCats(prev => ({ ...prev, [id]: !prev[id] }))
