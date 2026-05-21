@@ -110,116 +110,135 @@ const MODELOS = [
   { id: 'rv5', nombre: 'RV5' },
 ]
 
-const BASE = {
-  es125x: { kWh: 241, kW: 125 },
-  rv5: { kWh: 9.6, kW: 5 },
-  ep2000: { kWh: 2 * 7.168, kW: 20 },
-  ep760: { kWh: 9.92, kW: 7.6 },
-  apex300: { kWh: 2.764 + 2 * 3.072, kW: 3.84 },
-  ac200pl: { kWh: 2.304, kW: 2.4 },
+const MODEL_CFG = {
+  es125x:  { paralelo: { min: 1, max: 4 },  bat: null },
+  ep2000:  { paralelo: { min: 1, max: 3 },  bat: { tipo: 'B700',  min: 4, max: 7  } },
+  ep760:   { paralelo: null,                bat: { tipo: 'B500',  min: 2, max: 4  } },
+  apex300: { paralelo: { min: 1, max: 3 },  bat: { tipo: 'B300K', min: 2, max: 6  } },
+  ac200pl: { paralelo: null,                bat: { tipo: 'B300',  min: 0, max: 2  } },
+  rv5:     { paralelo: null,                bat: { tipo: 'B4810', min: 2, max: 24 } },
 }
 
-// Returns { kWh, kW, unidades, baterias, tipo, partial? } or null if peak power is insufficient.
-// When kWh can't cover 24h but kW does cover the peak, returns max-expansion config with partial: true.
-function findMinConfig(modelId, needKwh, needKw) {
-  const sat = (kWh, kW) => kWh >= needKwh && kW >= needKw
-
+function calcCapacity(modelId, unidades, baterias) {
   switch (modelId) {
-    case 'es125x': {
-      for (let u = 1; u <= 4; u++) {
-        const kWh = u * 241, kW = u * 125
-        if (sat(kWh, kW)) return { kWh, kW, unidades: u, baterias: null, tipo: null }
-      }
-      if (needKw > 4 * 125) return null
-      return { kWh: 4 * 241, kW: 4 * 125, unidades: 4, baterias: null, tipo: null, partial: true }
-    }
-    case 'rv5': {
-      if (5 < needKw) return null
-      for (let b = 2; b <= 24; b++) {
-        const kWh = b * 4.8
-        if (kWh >= needKwh) return { kWh, kW: 5, unidades: 1, baterias: b, tipo: 'B4810' }
-      }
-      return { kWh: 24 * 4.8, kW: 5, unidades: 1, baterias: 24, tipo: 'B4810', partial: true }
-    }
-    case 'ep2000': {
-      for (let u = 1; u <= 3; u++) {
-        for (let b = 2; b <= 7; b++) {
-          const kWh = u * b * 7.168, kW = u * 20
-          if (sat(kWh, kW)) return { kWh, kW, unidades: u, baterias: b, tipo: 'B700' }
-        }
-      }
-      if (needKw > 3 * 20) return null
-      const u = Math.max(1, Math.ceil(needKw / 20))
-      return { kWh: u * 7 * 7.168, kW: u * 20, unidades: u, baterias: 7, tipo: 'B700', partial: true }
-    }
-    case 'ep760': {
-      if (7.6 < needKw) return null
-      for (let b = 2; b <= 4; b++) {
-        const kWh = b * 4.96
-        if (kWh >= needKwh) return { kWh, kW: 7.6, unidades: 1, baterias: b, tipo: 'B500' }
-      }
-      return { kWh: 4 * 4.96, kW: 7.6, unidades: 1, baterias: 4, tipo: 'B500', partial: true }
-    }
-    case 'apex300': {
-      for (let u = 1; u <= 3; u++) {
-        const kW = u * 3.84
-        if (kW < needKw) continue
-        for (let b = 2; b <= 6; b++) {
-          const kWh = u * (2.764 + b * 3.072)
-          if (kWh >= needKwh) return { kWh, kW, unidades: u, baterias: b, tipo: 'B300K' }
-        }
-      }
-      if (needKw > 3 * 3.84) return null
-      const u = Math.max(1, Math.ceil(needKw / 3.84))
-      return { kWh: u * (2.764 + 6 * 3.072), kW: u * 3.84, unidades: u, baterias: 6, tipo: 'B300K', partial: true }
-    }
-    case 'ac200pl': {
-      if (2.4 < needKw) return null
-      for (let b = 0; b <= 2; b++) {
-        const kWh = 2.304 + b * 3.072
-        if (kWh >= needKwh) return { kWh, kW: 2.4, unidades: 1, baterias: b, tipo: 'B300' }
-      }
-      return { kWh: 2.304 + 2 * 3.072, kW: 2.4, unidades: 1, baterias: 2, tipo: 'B300', partial: true }
-    }
-    default: return null
+    case 'es125x':  return { kWh: unidades * 241, kW: unidades * 125 }
+    case 'rv5':     return { kWh: baterias * 4.8, kW: 5 }
+    case 'ep2000':  return { kWh: unidades * baterias * 7.168, kW: unidades * 20 }
+    case 'ep760':   return { kWh: baterias * 4.96, kW: 7.6 }
+    case 'apex300': return { kWh: unidades * (2.764 + baterias * 3.072), kW: unidades * 3.84 }
+    case 'ac200pl': return { kWh: 2.304 + baterias * 3.072, kW: 2.4 }
+    default:        return { kWh: 0, kW: 0 }
   }
 }
 
-function isBaseResult(modelId, r) {
-  if (!r) return false
-  switch (modelId) {
-    case 'es125x': return r.unidades === 1
-    case 'rv5': return r.baterias === 2
-    case 'ep2000': return r.unidades === 1 && r.baterias === 2
-    case 'ep760': return r.baterias === 2
-    case 'apex300': return r.unidades === 1 && r.baterias === 2
-    case 'ac200pl': return r.baterias === 0
-    default: return false
-  }
+const STATUS_STYLES = {
+  insufficient: { border: 'border-red-500',    bg: 'bg-red-900/20',    badge: 'bg-red-900 text-red-300',       label: 'Insuficiente' },
+  partial:      { border: 'border-orange-500', bg: 'bg-orange-900/20', badge: 'bg-orange-900 text-orange-300', label: 'Autonomía parcial' },
+  expansion:    { border: 'border-yellow-500', bg: 'bg-yellow-900/20', badge: 'bg-yellow-900 text-yellow-300', label: 'Requiere expansión' },
+  base:         { border: 'border-green-500',  bg: 'bg-green-900/20',  badge: 'bg-green-900 text-green-300',   label: 'Base suficiente' },
 }
 
-function configLabel(modelId, r) {
-  if (!r) return ''
-  switch (modelId) {
-    case 'es125x':
-      return r.unidades === 1 ? '1 unidad' : `${r.unidades} unidades en paralelo`
-    case 'rv5':
-      return r.baterias === 2 ? '2 baterías B4810 (base incluida)' : `${r.baterias} baterías ${r.tipo}`
-    case 'ep2000':
-      return `${r.unidades} unidad${r.unidades > 1 ? 'es' : ''} + ${r.baterias} baterías ${r.tipo} por unidad`
-    case 'ep760':
-      return r.baterias === 2 ? '2 baterías B500 (base incluida)' : `${r.baterias} baterías ${r.tipo}`
-    case 'apex300': {
-      const batLabel = `${r.baterias} baterías ${r.tipo} por unidad`
-      if (r.unidades === 1 && r.baterias === 2) return '2 baterías B300K (base incluida)'
-      return r.unidades === 1
-        ? batLabel
-        : `${r.unidades} unidades en paralelo (Hub A1), ${batLabel}`
-    }
-    case 'ac200pl':
-      return r.baterias === 0 ? 'Solo unidad base' : `${r.baterias} bater${r.baterias === 1 ? 'ía' : 'ías'} ${r.tipo}`
-    default: return ''
-  }
+function Stepper({ value, min, max, onChange, label, sublabel }) {
+  return (
+    <div className="flex items-center justify-between gap-2 bg-black/30 rounded-lg px-3 py-2 border border-bluetti-border">
+      <div className="flex flex-col min-w-0">
+        <span className="text-bluetti-cyan/70 text-[10px] uppercase tracking-wider leading-none truncate">{label}</span>
+        {sublabel && <span className="text-bluetti-cyan/50 text-[10px] mt-0.5 truncate">{sublabel}</span>}
+      </div>
+      <div className="flex items-center gap-1.5 shrink-0">
+        <button
+          onClick={() => onChange(Math.max(min, value - 1))}
+          disabled={value <= min}
+          className="w-6 h-6 rounded bg-bluetti-border hover:bg-red-900/40 text-bluetti-cyan/80 hover:text-red-400 text-sm font-bold flex items-center justify-center transition-all disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:bg-bluetti-border disabled:hover:text-bluetti-cyan/80"
+        >−</button>
+        <span className="text-bluetti-cyan font-bold text-sm w-5 text-center">{value}</span>
+        <button
+          onClick={() => onChange(Math.min(max, value + 1))}
+          disabled={value >= max}
+          className="w-6 h-6 rounded bg-bluetti-border hover:bg-bluetti-cyan hover:text-bluetti-bg text-bluetti-cyan/80 text-sm font-bold flex items-center justify-center transition-all disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:bg-bluetti-border disabled:hover:text-bluetti-cyan/80"
+        >+</button>
+      </div>
+    </div>
+  )
+}
+
+function ModelCard({ modelo, totalKwh, totalKw }) {
+  const cfg = MODEL_CFG[modelo.id]
+  const baseUnidades = cfg.paralelo?.min ?? 1
+  const baseBaterias = cfg.bat?.min ?? 0
+  const [unidades, setUnidades] = useState(baseUnidades)
+  const [baterias, setBaterias] = useState(baseBaterias)
+
+  const { kWh, kW } = useMemo(
+    () => calcCapacity(modelo.id, unidades, baterias),
+    [modelo.id, unidades, baterias]
+  )
+
+  const status = useMemo(() => {
+    if (kW < totalKw) return 'insufficient'
+    if (kWh < totalKwh) return 'partial'
+    if (unidades === baseUnidades && baterias === baseBaterias) return 'base'
+    return 'expansion'
+  }, [kWh, kW, totalKwh, totalKw, unidades, baterias, baseUnidades, baseBaterias])
+
+  const horas = totalKwh > 0 ? ((kWh / totalKwh) * 24).toFixed(1) : null
+  const styles = STATUS_STYLES[status]
+
+  return (
+    <div className={`rounded-lg border ${styles.border} ${styles.bg} px-4 py-3`}>
+      <div className="flex items-center justify-between mb-3">
+        <span className="text-white text-sm font-medium">{modelo.nombre}</span>
+        <span className={`text-xs font-bold px-2 py-0.5 rounded ${styles.badge}`}>
+          {styles.label}
+        </span>
+      </div>
+
+      <div className={`grid gap-2 mb-3 ${cfg.paralelo && cfg.bat ? 'grid-cols-2' : 'grid-cols-1'}`}>
+        {cfg.paralelo && (
+          <Stepper
+            value={unidades}
+            min={cfg.paralelo.min}
+            max={cfg.paralelo.max}
+            onChange={setUnidades}
+            label="Unidades"
+          />
+        )}
+        {cfg.bat && (
+          <Stepper
+            value={baterias}
+            min={cfg.bat.min}
+            max={cfg.bat.max}
+            onChange={setBaterias}
+            label="Baterías"
+            sublabel={cfg.bat.tipo}
+          />
+        )}
+      </div>
+
+      <div className="flex items-center justify-between text-[11px] text-bluetti-cyan/70 mb-2">
+        <span>{kWh.toFixed(2)} kWh · {kW.toFixed(1)} kW</span>
+      </div>
+
+      {status === 'insufficient' ? (
+        <p className="text-xs text-red-400/80">
+          No soporta el pico de potencia requerido
+        </p>
+      ) : (
+        <div className="flex items-center justify-between">
+          <div className="flex items-baseline gap-1">
+            <span className="text-bluetti-lime text-2xl font-bold leading-none">{horas}</span>
+            <span className="text-bluetti-lime text-sm font-semibold">hs de autonomía</span>
+          </div>
+          <Link
+            to={`/producto/${modelo.id}`}
+            className="text-xs text-bluetti-cyan hover:text-bluetti-cyan underline underline-offset-2 transition-colors"
+          >
+            Ver producto
+          </Link>
+        </div>
+      )}
+    </div>
+  )
 }
 
 export default function Calculadora() {
@@ -485,109 +504,16 @@ export default function Calculadora() {
             ) : (
               <div className="space-y-3">
                 <p className="text-xs text-bluetti-cyan/70 uppercase tracking-wider mb-3">
-                  Configuración recomendada por modelo
+                  Configurá cada modelo para ver su autonomía
                 </p>
-                {MODELOS.map(modelo => {
-                  const result = findMinConfig(modelo.id, totalKwh, totalWatts / 1000)
-                  const base = isBaseResult(modelo.id, result)
-                  const horas = result ? ((result.kWh / totalKwh) * 24).toFixed(1) : null
-
-                  if (!result) {
-                    return (
-                      <div key={modelo.id} className="rounded-lg border border-red-500 bg-red-900/20 px-4 py-3">
-                        <div className="flex items-center justify-between mb-1">
-                          <span className="text-white text-sm font-medium">{modelo.nombre}</span>
-                          <span className="text-xs font-bold px-2 py-0.5 rounded bg-red-900 text-red-300">
-                            Insuficiente
-                          </span>
-                        </div>
-                        <p className="text-xs text-red-400/80">
-                          No soporta el pico de potencia requerido
-                        </p>
-                      </div>
-                    )
-                  }
-
-                  if (result.partial) {
-                    return (
-                      <div key={modelo.id} className="rounded-lg border border-orange-500 bg-orange-900/20 px-4 py-3">
-                        <div className="flex items-center justify-between mb-1">
-                          <span className="text-white text-sm font-medium">{modelo.nombre}</span>
-                          <span className="text-xs font-bold px-2 py-0.5 rounded bg-orange-900 text-orange-300">
-                            Autonomía parcial
-                          </span>
-                        </div>
-                        <p className="text-xs text-bluetti-cyan">
-                          Config. máxima: {configLabel(modelo.id, result)}
-                        </p>
-                        <div className="flex items-center justify-between mt-2">
-                          <div className="flex items-baseline gap-1">
-                            <span className="text-bluetti-lime text-2xl font-bold leading-none">{horas}</span>
-                            <span className="text-bluetti-lime text-sm font-semibold">hs de autonomía</span>
-                          </div>
-                          <Link
-                            to={`/producto/${modelo.id}`}
-                            className="text-xs text-bluetti-cyan hover:text-bluetti-cyan underline underline-offset-2 transition-colors"
-                          >
-                            Ver producto
-                          </Link>
-                        </div>
-                      </div>
-                    )
-                  }
-
-                  if (base) {
-                    return (
-                      <div key={modelo.id} className="rounded-lg border border-green-500 bg-green-900/20 px-4 py-3">
-                        <div className="flex items-center justify-between mb-1">
-                          <span className="text-white text-sm font-medium">{modelo.nombre}</span>
-                          <span className="text-xs font-bold px-2 py-0.5 rounded bg-green-900 text-green-300">
-                            Base suficiente
-                          </span>
-                        </div>
-                        <p className="text-xs text-bluetti-cyan">{configLabel(modelo.id, result)}</p>
-                        <div className="flex items-center justify-between mt-2">
-                          <div className="flex items-baseline gap-1">
-                            <span className="text-bluetti-lime text-2xl font-bold leading-none">{horas}</span>
-                            <span className="text-bluetti-lime text-sm font-semibold">hs de autonomía</span>
-                          </div>
-                          <Link
-                            to={`/producto/${modelo.id}`}
-                            className="text-xs text-bluetti-cyan hover:text-bluetti-cyan underline underline-offset-2 transition-colors"
-                          >
-                            Ver producto
-                          </Link>
-                        </div>
-                      </div>
-                    )
-                  }
-
-                  return (
-                    <div key={modelo.id} className="rounded-lg border border-yellow-500 bg-yellow-900/20 px-4 py-3">
-                      <div className="flex items-center justify-between mb-1">
-                        <span className="text-white text-sm font-medium">{modelo.nombre}</span>
-                        <span className="text-xs font-bold px-2 py-0.5 rounded bg-yellow-900 text-yellow-300">
-                          Requiere expansión
-                        </span>
-                      </div>
-                      <p className="text-xs text-bluetti-cyan">
-                        Config. recomendada: {configLabel(modelo.id, result)}
-                      </p>
-                      <div className="flex items-center justify-between mt-2">
-                        <div className="flex items-baseline gap-1">
-                          <span className="text-bluetti-lime text-2xl font-bold leading-none">{horas}</span>
-                          <span className="text-bluetti-lime text-sm font-semibold">hs de autonomía</span>
-                        </div>
-                        <Link
-                          to={`/producto/${modelo.id}`}
-                          className="text-xs text-bluetti-cyan hover:text-bluetti-cyan underline underline-offset-2 transition-colors"
-                        >
-                          Ver producto
-                        </Link>
-                      </div>
-                    </div>
-                  )
-                })}
+                {MODELOS.map(modelo => (
+                  <ModelCard
+                    key={modelo.id}
+                    modelo={modelo}
+                    totalKwh={totalKwh}
+                    totalKw={totalWatts / 1000}
+                  />
+                ))}
               </div>
             )}
           </div>
