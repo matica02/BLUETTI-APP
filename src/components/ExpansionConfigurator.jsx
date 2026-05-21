@@ -33,7 +33,7 @@ const CFG = {
     paralelo: { min: 1, max: 3 },
     baterias: {
       tipos: [{ id: 'b300k', nombre: 'B300K', kWh: 3.072, max: 6 }],
-      min: 2,
+      min: 0,
     },
   },
   ac200pl: {
@@ -67,7 +67,7 @@ function isBase(id, unidades, cant) {
     case 'rv5': return cant === 2
     case 'ep2000': return unidades === 1 && cant === 4
     case 'ep760': return cant === 2
-    case 'apex300': return unidades === 1 && cant === 2
+    case 'apex300': return unidades === 1 && cant === 0
     case 'ac200pl': return cant === 0
     default: return true
   }

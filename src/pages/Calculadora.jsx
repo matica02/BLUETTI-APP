@@ -115,7 +115,7 @@ const MODEL_CFG = {
   es125x:  { paralelo: { min: 1, max: 4 },  bat: null },
   ep2000:  { paralelo: { min: 1, max: 3 },  bat: { tipo: 'B700',  min: 4, max: 7  } },
   ep760:   { paralelo: null,                bat: { tipo: 'B500',  min: 2, max: 4  } },
-  apex300: { paralelo: { min: 1, max: 3 },  bat: { tipo: 'B300K', min: 2, max: 6  } },
+  apex300: { paralelo: { min: 1, max: 3 },  bat: { tipo: 'B300K', min: 0, max: 6  } },
   ac200pl: { paralelo: null,                bat: { tipo: 'B300',  min: 0, max: 2  } },
   rv5:     { paralelo: null,                bat: { tipo: 'B4810', min: 2, max: 24 } },
 }
@@ -134,29 +134,28 @@ function calcCapacity(modelId, unidades, baterias) {
 
 const STATUS_STYLES = {
   insufficient: { border: 'border-red-500',    bg: 'bg-red-900/20',    badge: 'bg-red-900 text-red-300',       label: 'Insuficiente' },
-  partial:      { border: 'border-orange-500', bg: 'bg-orange-900/20', badge: 'bg-orange-900 text-orange-300', label: 'Autonomía parcial' },
   expansion:    { border: 'border-yellow-500', bg: 'bg-yellow-900/20', badge: 'bg-yellow-900 text-yellow-300', label: 'Requiere expansión' },
   base:         { border: 'border-green-500',  bg: 'bg-green-900/20',  badge: 'bg-green-900 text-green-300',   label: 'Base suficiente' },
 }
 
 function Stepper({ value, min, max, onChange, label, sublabel }) {
   return (
-    <div className="flex items-center justify-between gap-2 bg-black/30 rounded-lg px-3 py-2 border border-bluetti-border">
+    <div className="flex items-center justify-between gap-3 bg-black/30 rounded-xl px-4 py-3 border border-bluetti-border">
       <div className="flex flex-col min-w-0">
-        <span className="text-bluetti-cyan/70 text-[10px] uppercase tracking-wider leading-none truncate">{label}</span>
-        {sublabel && <span className="text-bluetti-cyan/50 text-[10px] mt-0.5 truncate">{sublabel}</span>}
+        <span className="text-bluetti-cyan/70 text-xs uppercase tracking-wider leading-tight truncate">{label}</span>
+        {sublabel && <span className="text-bluetti-cyan/50 text-xs mt-0.5 truncate">{sublabel}</span>}
       </div>
-      <div className="flex items-center gap-1.5 shrink-0">
+      <div className="flex items-center gap-2 shrink-0">
         <button
           onClick={() => onChange(Math.max(min, value - 1))}
           disabled={value <= min}
-          className="w-6 h-6 rounded bg-bluetti-border hover:bg-red-900/40 text-bluetti-cyan/80 hover:text-red-400 text-sm font-bold flex items-center justify-center transition-all disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:bg-bluetti-border disabled:hover:text-bluetti-cyan/80"
+          className="w-9 h-9 rounded-lg bg-bluetti-border hover:bg-red-900/40 text-bluetti-cyan/80 hover:text-red-400 text-lg font-bold flex items-center justify-center transition-all disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:bg-bluetti-border disabled:hover:text-bluetti-cyan/80"
         >−</button>
-        <span className="text-bluetti-cyan font-bold text-sm w-5 text-center">{value}</span>
+        <span className="text-bluetti-cyan font-bold text-lg w-7 text-center">{value}</span>
         <button
           onClick={() => onChange(Math.min(max, value + 1))}
           disabled={value >= max}
-          className="w-6 h-6 rounded bg-bluetti-border hover:bg-bluetti-cyan hover:text-bluetti-bg text-bluetti-cyan/80 text-sm font-bold flex items-center justify-center transition-all disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:bg-bluetti-border disabled:hover:text-bluetti-cyan/80"
+          className="w-9 h-9 rounded-lg bg-bluetti-border hover:bg-bluetti-cyan hover:text-bluetti-bg text-bluetti-cyan/80 text-lg font-bold flex items-center justify-center transition-all disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:bg-bluetti-border disabled:hover:text-bluetti-cyan/80"
         >+</button>
       </div>
     </div>
@@ -177,24 +176,23 @@ function ModelCard({ modelo, totalKwh, totalKw }) {
 
   const status = useMemo(() => {
     if (kW < totalKw) return 'insufficient'
-    if (kWh < totalKwh) return 'partial'
     if (unidades === baseUnidades && baterias === baseBaterias) return 'base'
     return 'expansion'
-  }, [kWh, kW, totalKwh, totalKw, unidades, baterias, baseUnidades, baseBaterias])
+  }, [kW, totalKw, unidades, baterias, baseUnidades, baseBaterias])
 
   const horas = totalKwh > 0 ? ((kWh / totalKwh) * 24).toFixed(1) : null
   const styles = STATUS_STYLES[status]
 
   return (
-    <div className={`rounded-lg border ${styles.border} ${styles.bg} px-4 py-3`}>
-      <div className="flex items-center justify-between mb-3">
-        <span className="text-white text-sm font-medium">{modelo.nombre}</span>
-        <span className={`text-xs font-bold px-2 py-0.5 rounded ${styles.badge}`}>
+    <div className={`rounded-xl border ${styles.border} ${styles.bg} px-5 py-4`}>
+      <div className="flex items-center justify-between mb-4">
+        <span className="text-white text-base font-semibold">{modelo.nombre}</span>
+        <span className={`text-xs font-bold px-2.5 py-1 rounded-full ${styles.badge}`}>
           {styles.label}
         </span>
       </div>
 
-      <div className={`grid gap-2 mb-3 ${cfg.paralelo && cfg.bat ? 'grid-cols-2' : 'grid-cols-1'}`}>
+      <div className={`grid gap-3 mb-4 ${cfg.paralelo && cfg.bat ? 'grid-cols-2' : 'grid-cols-1'}`}>
         {cfg.paralelo && (
           <Stepper
             value={unidades}
@@ -216,23 +214,23 @@ function ModelCard({ modelo, totalKwh, totalKw }) {
         )}
       </div>
 
-      <div className="flex items-center justify-between text-[11px] text-bluetti-cyan/70 mb-2">
+      <div className="flex items-center justify-between text-sm text-bluetti-cyan/80 mb-3">
         <span>{kWh.toFixed(2)} kWh · {kW.toFixed(1)} kW</span>
       </div>
 
       {status === 'insufficient' ? (
-        <p className="text-xs text-red-400/80">
+        <p className="text-sm text-red-400/80">
           No soporta el pico de potencia requerido
         </p>
       ) : (
         <div className="flex items-center justify-between">
-          <div className="flex items-baseline gap-1">
-            <span className="text-bluetti-lime text-2xl font-bold leading-none">{horas}</span>
-            <span className="text-bluetti-lime text-sm font-semibold">hs de autonomía</span>
+          <div className="flex items-baseline gap-1.5">
+            <span className="text-bluetti-lime text-3xl font-bold leading-none">{horas}</span>
+            <span className="text-bluetti-lime text-base font-semibold">hs de autonomía</span>
           </div>
           <Link
             to={`/producto/${modelo.id}`}
-            className="text-xs text-bluetti-cyan hover:text-bluetti-cyan underline underline-offset-2 transition-colors"
+            className="text-sm text-bluetti-cyan hover:text-bluetti-cyan underline underline-offset-2 transition-colors"
           >
             Ver producto
           </Link>
@@ -484,15 +482,15 @@ export default function Calculadora() {
               <span className="text-bluetti-cyan text-sm">Consumo total estimado</span>
               <span className="text-bluetti-cyan text-3xl font-bold">
                 {totalKwh.toFixed(2)}
-                <span className="text-sm font-normal text-bluetti-cyan ml-1">kWh/día</span>
+                <span className="text-sm font-normal text-bluetti-cyan ml-1 inline-block w-16 text-left">kWh/día</span>
               </span>
             </div>
             {totalWatts > 0 && (
               <div className="flex items-baseline justify-between mb-5">
                 <span className="text-bluetti-cyan text-sm">Potencia simultánea</span>
-                <span className="text-bluetti-cyan/80 text-lg font-semibold">
+                <span className="text-bluetti-cyan text-3xl font-bold">
                   {(totalWatts / 1000).toFixed(2)}
-                  <span className="text-sm font-normal text-bluetti-cyan/70 ml-1">kW</span>
+                  <span className="text-sm font-normal text-bluetti-cyan ml-1 inline-block w-16 text-left">kW</span>
                 </span>
               </div>
             )}
