@@ -619,38 +619,38 @@ export default function Calculadora() {
                 <h2 className="text-sm font-semibold text-bluetti-cyan uppercase tracking-wider">
                   Mi instalación
                 </h2>
-                {agregados.length > 0 && (
-                  <button
-                    onClick={() => setAgregados([])}
-                    className="px-3 py-1.5 rounded-full text-xs font-semibold border border-red-800 text-red-400 hover:bg-red-900/20 transition-all"
-                  >
-                    Limpiar
-                  </button>
-                )}
-              </div>
-              <button
-                onClick={() => setMovilidad(v => !v)}
-                role="switch"
-                aria-checked={movilidad}
-                className={`flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold border transition-all ${
-                  movilidad
-                    ? 'border-bluetti-cyan bg-bluetti-cyan/10 text-bluetti-cyan'
-                    : 'border-bluetti-border text-bluetti-cyan/70 hover:border-bluetti-cyan hover:text-bluetti-cyan'
-                }`}
-              >
-                <span
-                  className={`relative inline-block w-8 h-4 rounded-full transition-colors ${
-                    movilidad ? 'bg-bluetti-cyan' : 'bg-bluetti-border'
+                <button
+                  onClick={() => setMovilidad(v => !v)}
+                  role="switch"
+                  aria-checked={movilidad}
+                  className={`flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold border transition-all ${
+                    movilidad
+                      ? 'border-bluetti-cyan bg-bluetti-cyan/10 text-bluetti-cyan'
+                      : 'border-bluetti-border text-bluetti-cyan/70 hover:border-bluetti-cyan hover:text-bluetti-cyan'
                   }`}
                 >
                   <span
-                    className={`absolute top-0.5 left-0.5 w-3 h-3 rounded-full bg-bluetti-bg transition-transform ${
-                      movilidad ? 'translate-x-4' : 'translate-x-0'
+                    className={`relative inline-block w-8 h-4 rounded-full transition-colors ${
+                      movilidad ? 'bg-bluetti-cyan' : 'bg-bluetti-border'
                     }`}
-                  />
-                </span>
-                Movilidad
-              </button>
+                  >
+                    <span
+                      className={`absolute top-0.5 left-0.5 w-3 h-3 rounded-full bg-bluetti-bg transition-transform ${
+                        movilidad ? 'translate-x-4' : 'translate-x-0'
+                      }`}
+                    />
+                  </span>
+                  Casa Rodante / Barco
+                </button>
+              </div>
+              {agregados.length > 0 && (
+                <button
+                  onClick={() => setAgregados([])}
+                  className="px-3 py-1.5 rounded-full text-xs font-semibold border border-red-800 text-red-400 hover:bg-red-900/20 transition-all"
+                >
+                  Limpiar
+                </button>
+              )}
             </div>
 
             {agregados.length === 0 ? (
