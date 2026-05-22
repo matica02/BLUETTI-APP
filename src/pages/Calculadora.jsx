@@ -267,22 +267,22 @@ const STATUS_STYLES = {
 
 function Stepper({ value, min, max, onChange, label, sublabel }) {
   return (
-    <div className="flex items-center justify-between gap-3 bg-black/30 rounded-xl px-4 py-3 border border-bluetti-border">
+    <div className="flex items-center justify-between gap-2 sm:gap-3 bg-black/30 rounded-xl px-3 sm:px-4 py-2 sm:py-3 border border-bluetti-border">
       <div className="flex flex-col min-w-0">
         <span className="text-bluetti-cyan/70 text-xs uppercase tracking-wider leading-tight truncate">{label}</span>
         {sublabel && <span className="text-bluetti-cyan/50 text-xs mt-0.5 truncate">{sublabel}</span>}
       </div>
-      <div className="flex items-center gap-2 shrink-0">
+      <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
         <button
           onClick={() => onChange(Math.max(min, value - 1))}
           disabled={value <= min}
-          className="w-9 h-9 rounded-lg bg-bluetti-border hover:bg-red-900/40 text-bluetti-cyan/80 hover:text-red-400 text-lg font-bold flex items-center justify-center transition-all disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:bg-bluetti-border disabled:hover:text-bluetti-cyan/80"
+          className="w-8 h-8 sm:w-9 sm:h-9 rounded-lg bg-bluetti-border hover:bg-red-900/40 text-bluetti-cyan/80 hover:text-red-400 text-base sm:text-lg font-bold flex items-center justify-center transition-all disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:bg-bluetti-border disabled:hover:text-bluetti-cyan/80"
         >−</button>
-        <span className="text-bluetti-cyan font-bold text-lg w-7 text-center">{value}</span>
+        <span className="text-bluetti-cyan font-bold text-base sm:text-lg w-6 sm:w-7 text-center">{value}</span>
         <button
           onClick={() => onChange(Math.min(max, value + 1))}
           disabled={value >= max}
-          className="w-9 h-9 rounded-lg bg-bluetti-border hover:bg-bluetti-cyan hover:text-bluetti-bg text-bluetti-cyan/80 text-lg font-bold flex items-center justify-center transition-all disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:bg-bluetti-border disabled:hover:text-bluetti-cyan/80"
+          className="w-8 h-8 sm:w-9 sm:h-9 rounded-lg bg-bluetti-border hover:bg-bluetti-cyan hover:text-bluetti-bg text-bluetti-cyan/80 text-base sm:text-lg font-bold flex items-center justify-center transition-all disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:bg-bluetti-border disabled:hover:text-bluetti-cyan/80"
         >+</button>
       </div>
     </div>
@@ -311,15 +311,15 @@ function ModelCard({ modelo, totalKwh, totalKw }) {
   const styles = STATUS_STYLES[status]
 
   return (
-    <div className={`rounded-xl border ${styles.border} ${styles.bg} px-5 py-4`}>
-      <div className="flex items-center justify-between mb-4">
-        <span className="text-white text-base font-semibold">{modelo.nombre}</span>
-        <span className={`text-xs font-bold px-2.5 py-1 rounded-full ${styles.badge}`}>
+    <div className={`rounded-xl border ${styles.border} ${styles.bg} px-3 sm:px-5 py-3 sm:py-4`}>
+      <div className="flex items-center justify-between mb-3 sm:mb-4 gap-2">
+        <span className="text-white text-sm sm:text-base font-semibold truncate">{modelo.nombre}</span>
+        <span className={`text-[10px] sm:text-xs font-bold px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-full shrink-0 ${styles.badge}`}>
           {styles.label}
         </span>
       </div>
 
-      <div className={`grid gap-3 mb-4 ${cfg.paralelo && cfg.bat ? 'grid-cols-2' : 'grid-cols-1'}`}>
+      <div className={`grid gap-2 sm:gap-3 mb-3 sm:mb-4 ${cfg.paralelo && cfg.bat ? 'grid-cols-1 sm:grid-cols-2' : 'grid-cols-1'}`}>
         {cfg.paralelo && (
           <Stepper
             value={unidades}
@@ -341,23 +341,23 @@ function ModelCard({ modelo, totalKwh, totalKw }) {
         )}
       </div>
 
-      <div className="flex items-center justify-between text-sm text-bluetti-cyan/80 mb-3">
+      <div className="flex items-center justify-between text-xs sm:text-sm text-bluetti-cyan/80 mb-2 sm:mb-3">
         <span>{kWh.toFixed(2)} kWh · {kW.toFixed(1)} kW</span>
       </div>
 
       {status === 'insufficient' ? (
-        <p className="text-sm text-red-400/80">
+        <p className="text-xs sm:text-sm text-red-400/80">
           No soporta el pico de potencia requerido
         </p>
       ) : (
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between gap-2 flex-wrap">
           <div className="flex items-baseline gap-1.5">
-            <span className="text-bluetti-lime text-3xl font-bold leading-none">{horas}</span>
-            <span className="text-bluetti-lime text-base font-semibold">hs de autonomía</span>
+            <span className="text-bluetti-lime text-2xl sm:text-3xl font-bold leading-none">{horas}</span>
+            <span className="text-bluetti-lime text-sm sm:text-base font-semibold">hs de autonomía</span>
           </div>
           <Link
             to={`/producto/${modelo.id}`}
-            className="text-sm text-bluetti-cyan hover:text-bluetti-cyan underline underline-offset-2 transition-colors"
+            className="text-xs sm:text-sm text-bluetti-cyan hover:text-bluetti-cyan underline underline-offset-2 transition-colors shrink-0"
           >
             Ver producto
           </Link>
@@ -518,14 +518,6 @@ export default function Calculadora() {
             {perfil.nombre}
           </button>
         ))}
-        {agregados.length > 0 && (
-          <button
-            onClick={() => setAgregados([])}
-            className="px-4 py-2 rounded-xl border border-red-800 text-sm font-medium text-red-400 hover:bg-red-900/20 transition-all ml-auto"
-          >
-            Limpiar
-          </button>
-        )}
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -544,7 +536,7 @@ export default function Calculadora() {
                 placeholder="Nombre"
                 value={customNombre}
                 onChange={e => setCustomNombre(e.target.value)}
-                className="flex-1 bg-black/30 border border-bluetti-border rounded-lg px-3 py-2 text-white text-sm placeholder-gray-600 focus:outline-none focus:border-bluetti-cyan"
+                className="flex-1 min-w-0 bg-black/30 border border-bluetti-border rounded-lg px-3 py-2 text-white text-sm placeholder-gray-600 focus:outline-none focus:border-bluetti-cyan"
               />
               <input
                 type="number"
@@ -552,7 +544,7 @@ export default function Calculadora() {
                 min={1}
                 value={customWatts}
                 onChange={e => setCustomWatts(e.target.value)}
-                className="w-24 bg-black/30 border border-bluetti-border rounded-lg px-3 py-2 text-white text-sm placeholder-gray-600 focus:outline-none focus:border-bluetti-cyan"
+                className="w-20 sm:w-24 shrink-0 bg-black/30 border border-bluetti-border rounded-lg px-3 py-2 text-white text-sm placeholder-gray-600 focus:outline-none focus:border-bluetti-cyan"
               />
               <button
                 onClick={() => {
@@ -588,13 +580,13 @@ export default function Calculadora() {
                         return (
                           <div
                             key={e.id}
-                            className="flex items-center justify-between bg-bluetti-card px-4 py-3"
+                            className="flex items-center justify-between bg-bluetti-card px-4 py-3 gap-2"
                           >
-                            <div>
-                              <span className="text-white text-sm">{e.nombre}</span>
-                              <span className="text-bluetti-cyan/70 text-xs ml-2">{e.watts}W</span>
+                            <div className="min-w-0 flex-1 flex items-baseline gap-2">
+                              <span className="text-white text-sm truncate">{e.nombre}</span>
+                              <span className="text-bluetti-cyan/70 text-xs shrink-0">{e.watts}W</span>
                             </div>
-                            <div className="flex items-center gap-2">
+                            <div className="flex items-center gap-2 shrink-0">
                               {cantidad > 0 && (
                                 <span className="text-bluetti-cyan text-xs font-bold min-w-[20px] text-center">
                                   ×{cantidad}
@@ -622,10 +614,20 @@ export default function Calculadora() {
         {/* Columna derecha */}
         <div className="space-y-6">
           <div>
-            <div className="flex items-center justify-between mb-4 gap-3">
-              <h2 className="text-sm font-semibold text-bluetti-cyan uppercase tracking-wider">
-                Mi instalación
-              </h2>
+            <div className="flex items-center justify-between mb-4 gap-3 flex-wrap">
+              <div className="flex items-center gap-3 flex-wrap">
+                <h2 className="text-sm font-semibold text-bluetti-cyan uppercase tracking-wider">
+                  Mi instalación
+                </h2>
+                {agregados.length > 0 && (
+                  <button
+                    onClick={() => setAgregados([])}
+                    className="px-3 py-1.5 rounded-full text-xs font-semibold border border-red-800 text-red-400 hover:bg-red-900/20 transition-all"
+                  >
+                    Limpiar
+                  </button>
+                )}
+              </div>
               <button
                 onClick={() => setMovilidad(v => !v)}
                 role="switch"
@@ -664,11 +666,11 @@ export default function Calculadora() {
                     key={e.instanceKey}
                     className="bg-bluetti-card border border-bluetti-border rounded-xl px-4 py-3"
                   >
-                    <div className="flex items-center justify-between mb-3">
-                      <span className="text-white text-sm font-medium">{e.displayName}</span>
+                    <div className="flex items-center justify-between mb-3 gap-2">
+                      <span className="text-white text-sm font-medium truncate min-w-0">{e.displayName}</span>
                       <button
                         onClick={() => quitar(e.instanceKey)}
-                        className="text-gray-600 hover:text-red-400 text-lg leading-none transition-colors"
+                        className="text-gray-600 hover:text-red-400 text-lg leading-none transition-colors shrink-0"
                       >
                         ×
                       </button>
@@ -708,22 +710,22 @@ export default function Calculadora() {
           </div>
 
           {/* Panel de resultados */}
-          <div className="bg-bluetti-card border border-bluetti-border rounded-xl p-5">
-            <div className="flex items-baseline justify-between mb-2">
-              <span className="text-bluetti-cyan text-sm">Consumo total estimado</span>
-              <span className="text-bluetti-cyan text-3xl font-bold">
+          <div className="bg-bluetti-card border border-bluetti-border rounded-xl p-4 sm:p-5">
+            <div className="flex items-baseline justify-between gap-2 mb-2">
+              <span className="text-bluetti-cyan text-xs sm:text-sm">Consumo total estimado</span>
+              <span className="text-bluetti-cyan text-xl sm:text-3xl font-bold">
                 {totalKwh.toFixed(2)}
-                <span className="text-sm font-normal text-bluetti-cyan ml-1 inline-block w-16 text-left">kWh/día</span>
+                <span className="text-xs sm:text-sm font-normal text-bluetti-cyan ml-1 inline-block w-12 sm:w-16 text-left">kWh/día</span>
               </span>
             </div>
             {peak.watts > 0 && (
-              <div className="flex items-baseline justify-between mb-5">
-                <span className="text-bluetti-cyan text-sm">
-                  Pico de consumo <span className="text-bluetti-cyan/60 text-xs">(a las {formatTime(peak.time)})</span>
+              <div className="flex items-baseline justify-between gap-2 mb-4 sm:mb-5">
+                <span className="text-bluetti-cyan text-xs sm:text-sm">
+                  Pico de consumo <span className="text-bluetti-cyan/60 text-[10px] sm:text-xs">(a las {formatTime(peak.time)})</span>
                 </span>
-                <span className="text-bluetti-cyan text-3xl font-bold">
+                <span className="text-bluetti-cyan text-xl sm:text-3xl font-bold">
                   {(peak.watts / 1000).toFixed(2)}
-                  <span className="text-sm font-normal text-bluetti-cyan ml-1 inline-block w-16 text-left">kW</span>
+                  <span className="text-xs sm:text-sm font-normal text-bluetti-cyan ml-1 inline-block w-12 sm:w-16 text-left">kW</span>
                 </span>
               </div>
             )}
