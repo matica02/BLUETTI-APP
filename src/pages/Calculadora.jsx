@@ -171,46 +171,56 @@ function maxKwForModel(id) {
   return calcCapacity(id, maxUnidades, maxBaterias).kW
 }
 
-function hourInRange(h, inicio, fin) {
-  if (inicio < fin) return h >= inicio && h < fin
-  return h >= inicio || h < fin
+const SLOTS_PER_DAY = 48
+const SLOT_HOURS = 0.5
+
+function formatTime(t) {
+  const h = Math.floor(t)
+  const m = Math.round((t - h) * 60)
+  return `${h}:${m.toString().padStart(2, '0')}`
 }
 
-function activePctAtHour(electro, h) {
+function timeInRange(t, inicio, fin) {
+  if (inicio < fin) return t >= inicio && t < fin
+  return t >= inicio || t < fin
+}
+
+function activePctAtSlot(electro, s) {
+  const t = s * SLOT_HOURS
   return electro.franjas.reduce(
-    (sum, f) => sum + (hourInRange(h, f.inicio, f.fin) ? f.porcentaje : 0),
+    (sum, f) => sum + (timeInRange(t, f.inicio, f.fin) ? f.porcentaje : 0),
     0
   )
 }
 
-function loadAtHourW(agregados, h) {
+function loadAtSlotW(agregados, s) {
   return agregados.reduce(
-    (sum, e) => sum + e.watts * activePctAtHour(e, h) / 100,
+    (sum, e) => sum + e.watts * activePctAtSlot(e, s) / 100,
     0
   )
 }
 
 function electroDailyKwh(electro) {
   let total = 0
-  for (let h = 0; h < 24; h++) {
-    total += electro.watts * activePctAtHour(electro, h) / 100
+  for (let s = 0; s < SLOTS_PER_DAY; s++) {
+    total += electro.watts * activePctAtSlot(electro, s) / 100
   }
-  return total / 1000
+  return total * SLOT_HOURS / 1000
 }
 
 function makeInstanceKey(id) {
   return `${id}-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`
 }
 
-function franjaCoversHour(f, h) {
-  return hourInRange(h, f.inicio, f.fin)
+function franjaCoversSlot(f, s) {
+  return timeInRange(s * SLOT_HOURS, f.inicio, f.fin)
 }
 
 function franjasHaveOverlap(franjas) {
-  const counts = new Array(24).fill(0)
+  const counts = new Array(SLOTS_PER_DAY).fill(0)
   for (const f of franjas) {
-    for (let h = 0; h < 24; h++) {
-      if (franjaCoversHour(f, h)) counts[h]++
+    for (let s = 0; s < SLOTS_PER_DAY; s++) {
+      if (franjaCoversSlot(f, s)) counts[s]++
     }
   }
   return counts.some(c => c > 1)
@@ -219,34 +229,34 @@ function franjasHaveOverlap(franjas) {
 function findFirstGap(franjas) {
   const covered = new Set()
   for (const f of franjas) {
-    for (let h = 0; h < 24; h++) {
-      if (franjaCoversHour(f, h)) covered.add(h)
+    for (let s = 0; s < SLOTS_PER_DAY; s++) {
+      if (franjaCoversSlot(f, s)) covered.add(s)
     }
   }
-  let start = -1
-  for (let h = 0; h < 24; h++) {
-    if (!covered.has(h)) { start = h; break }
+  let startSlot = -1
+  for (let s = 0; s < SLOTS_PER_DAY; s++) {
+    if (!covered.has(s)) { startSlot = s; break }
   }
-  if (start === -1) return null
-  let end = start
-  while (end < 24 && !covered.has(end)) end++
-  return { inicio: start, fin: end }
+  if (startSlot === -1) return null
+  let endSlot = startSlot
+  while (endSlot < SLOTS_PER_DAY && !covered.has(endSlot)) endSlot++
+  return { inicio: startSlot * SLOT_HOURS, fin: endSlot * SLOT_HOURS }
 }
 
 function dailyKwh(agregados) {
   let total = 0
-  for (let h = 0; h < 24; h++) total += loadAtHourW(agregados, h)
-  return total / 1000
+  for (let s = 0; s < SLOTS_PER_DAY; s++) total += loadAtSlotW(agregados, s)
+  return total * SLOT_HOURS / 1000
 }
 
 function peakInfo(agregados) {
   let maxW = 0
-  let hour = 0
-  for (let h = 0; h < 24; h++) {
-    const l = loadAtHourW(agregados, h)
-    if (l > maxW) { maxW = l; hour = h }
+  let peakSlot = 0
+  for (let s = 0; s < SLOTS_PER_DAY; s++) {
+    const l = loadAtSlotW(agregados, s)
+    if (l > maxW) { maxW = l; peakSlot = s }
   }
-  return { watts: maxW, hour }
+  return { watts: maxW, time: peakSlot * SLOT_HOURS }
 }
 
 const STATUS_STYLES = {
@@ -374,9 +384,10 @@ function FranjaRow({ franja, siblingFranjas, onChange, onDelete, canDelete }) {
         onChange={ev => onChange({ ...franja, inicio: Number(ev.target.value) })}
         className="bg-black/30 border border-bluetti-border rounded px-2 py-1 text-bluetti-cyan text-xs focus:outline-none focus:border-bluetti-cyan"
       >
-        {Array.from({ length: 24 }, (_, i) => (
-          <option key={i} value={i} disabled={!isInicioValid(i)}>{i}h</option>
-        ))}
+        {Array.from({ length: SLOTS_PER_DAY }, (_, i) => {
+          const v = i * SLOT_HOURS
+          return <option key={v} value={v} disabled={!isInicioValid(v)}>{formatTime(v)}</option>
+        })}
       </select>
       <span className="text-bluetti-cyan/70 text-xs">a</span>
       <select
@@ -384,9 +395,10 @@ function FranjaRow({ franja, siblingFranjas, onChange, onDelete, canDelete }) {
         onChange={ev => onChange({ ...franja, fin: Number(ev.target.value) })}
         className="bg-black/30 border border-bluetti-border rounded px-2 py-1 text-bluetti-cyan text-xs focus:outline-none focus:border-bluetti-cyan"
       >
-        {Array.from({ length: 24 }, (_, i) => (
-          <option key={i + 1} value={i + 1} disabled={!isFinValid(i + 1)}>{i + 1}h</option>
-        ))}
+        {Array.from({ length: SLOTS_PER_DAY }, (_, i) => {
+          const v = (i + 1) * SLOT_HOURS
+          return <option key={v} value={v} disabled={!isFinValid(v)}>{formatTime(v)}</option>
+        })}
       </select>
       <input
         type="range"
@@ -707,7 +719,7 @@ export default function Calculadora() {
             {peak.watts > 0 && (
               <div className="flex items-baseline justify-between mb-5">
                 <span className="text-bluetti-cyan text-sm">
-                  Pico de consumo <span className="text-bluetti-cyan/60 text-xs">(a las {peak.hour}h)</span>
+                  Pico de consumo <span className="text-bluetti-cyan/60 text-xs">(a las {formatTime(peak.time)})</span>
                 </span>
                 <span className="text-bluetti-cyan text-3xl font-bold">
                   {(peak.watts / 1000).toFixed(2)}
