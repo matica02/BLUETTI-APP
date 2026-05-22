@@ -68,66 +68,68 @@ const CATEGORIAS_ELECTRO = [
 
 const ELECTRODOMESTICOS = CATEGORIAS_ELECTRO.flatMap(c => c.items)
 
+const DEFAULT_FRANJA = { inicio: 0, fin: 24, porcentaje: 100 }
+
 const PERFILES = [
   {
     id: 'casa',
     nombre: 'Casa',
     items: [
-      { id: 'heladera', cantidad: 1, horas: 24 },
-      { id: 'freezer', cantidad: 1, horas: 24 },
-      { id: 'tv', cantidad: 1, horas: 6 },
-      { id: 'led', cantidad: 1, horas: 8 },
-      { id: 'wifi', cantidad: 1, horas: 24 },
-      { id: 'celular', cantidad: 2, horas: 2 },
-      { id: 'pava', cantidad: 1, horas: 1 },
-      { id: 'notebook', cantidad: 1, horas: 4 },
+      { id: 'heladera', cantidad: 1 },
+      { id: 'freezer', cantidad: 1 },
+      { id: 'tv', cantidad: 1 },
+      { id: 'led', cantidad: 1 },
+      { id: 'wifi', cantidad: 1 },
+      { id: 'celular', cantidad: 2 },
+      { id: 'pava', cantidad: 1 },
+      { id: 'notebook', cantidad: 1 },
     ],
   },
   {
     id: 'camping',
     nombre: 'Camping',
     items: [
-      { id: 'heladera', cantidad: 1, horas: 24 },
-      { id: 'led', cantidad: 1, horas: 6 },
-      { id: 'celular', cantidad: 3, horas: 2 },
-      { id: 'ventilador', cantidad: 1, horas: 8 },
-      { id: 'pava', cantidad: 1, horas: 1 },
+      { id: 'heladera', cantidad: 1 },
+      { id: 'led', cantidad: 1 },
+      { id: 'celular', cantidad: 3 },
+      { id: 'ventilador', cantidad: 1 },
+      { id: 'pava', cantidad: 1 },
     ],
   },
   {
     id: 'comercio',
     nombre: 'Comercio',
     items: [
-      { id: 'heladera_comercial', cantidad: 1, horas: 24 },
-      { id: 'led', cantidad: 2, horas: 10 },
-      { id: 'wifi', cantidad: 1, horas: 24 },
-      { id: 'pc', cantidad: 1, horas: 8 },
-      { id: 'alarma', cantidad: 1, horas: 24 },
-      { id: 'camara', cantidad: 2, horas: 24 },
+      { id: 'heladera_comercial', cantidad: 1 },
+      { id: 'led', cantidad: 2 },
+      { id: 'wifi', cantidad: 1 },
+      { id: 'pc', cantidad: 1 },
+      { id: 'alarma', cantidad: 1 },
+      { id: 'camara', cantidad: 2 },
     ],
   },
   {
     id: 'obra',
     nombre: 'Obra',
     items: [
-      { id: 'herramientas', cantidad: 2, horas: 4 },
-      { id: 'led', cantidad: 1, horas: 6 },
-      { id: 'celular', cantidad: 3, horas: 1 },
-      { id: 'bomba', cantidad: 1, horas: 2 },
+      { id: 'herramientas', cantidad: 2 },
+      { id: 'led', cantidad: 1 },
+      { id: 'celular', cantidad: 3 },
+      { id: 'bomba', cantidad: 1 },
     ],
   },
   {
     id: 'industrial',
     nombre: 'Industrial',
     items: [
-      { id: 'compresor_20hp', cantidad: 1, horas: 8 },
-      { id: 'compresor_10hp', cantidad: 1, horas: 8 },
-      { id: 'soldadora_mig', cantidad: 3, horas: 4 },
-      { id: 'torno_industrial', cantidad: 2, horas: 6 },
-      { id: 'fresadora_cnc', cantidad: 2, horas: 6 },
-      { id: 'motor_trifasico', cantidad: 2, horas: 8 },
-      { id: 'iluminacion_galpon', cantidad: 5, horas: 10 },
-      { id: 'extractor_industrial', cantidad: 1, horas: 8 },
+      { id: 'compresor_20hp', cantidad: 1 },
+      { id: 'compresor_10hp', cantidad: 1 },
+      { id: 'soldadora_mig', cantidad: 3 },
+      { id: 'torno_industrial', cantidad: 2 },
+      { id: 'fresadora_cnc', cantidad: 2 },
+      { id: 'motor_trifasico', cantidad: 2 },
+      { id: 'iluminacion_galpon', cantidad: 5 },
+      { id: 'extractor_industrial', cantidad: 1 },
     ],
   },
 ]
@@ -167,6 +169,49 @@ function maxKwForModel(id) {
   const maxUnidades = cfg.paralelo?.max ?? 1
   const maxBaterias = cfg.bat?.max ?? 0
   return calcCapacity(id, maxUnidades, maxBaterias).kW
+}
+
+function hourInRange(h, inicio, fin) {
+  if (inicio < fin) return h >= inicio && h < fin
+  return h >= inicio || h < fin
+}
+
+function activePctAtHour(electro, h) {
+  return electro.franjas.reduce(
+    (sum, f) => sum + (hourInRange(h, f.inicio, f.fin) ? f.porcentaje : 0),
+    0
+  )
+}
+
+function loadAtHourW(agregados, h) {
+  return agregados.reduce(
+    (sum, e) => sum + e.watts * e.cantidad * activePctAtHour(e, h) / 100,
+    0
+  )
+}
+
+function electroDailyKwh(electro) {
+  let total = 0
+  for (let h = 0; h < 24; h++) {
+    total += electro.watts * electro.cantidad * activePctAtHour(electro, h) / 100
+  }
+  return total / 1000
+}
+
+function dailyKwh(agregados) {
+  let total = 0
+  for (let h = 0; h < 24; h++) total += loadAtHourW(agregados, h)
+  return total / 1000
+}
+
+function peakInfo(agregados) {
+  let maxW = 0
+  let hour = 0
+  for (let h = 0; h < 24; h++) {
+    const l = loadAtHourW(agregados, h)
+    if (l > maxW) { maxW = l; hour = h }
+  }
+  return { watts: maxW, hour }
 }
 
 const STATUS_STYLES = {
@@ -277,6 +322,52 @@ function ModelCard({ modelo, totalKwh, totalKw }) {
   )
 }
 
+function FranjaRow({ franja, onChange, onDelete, canDelete }) {
+  return (
+    <div className="flex items-center gap-2 flex-wrap">
+      <span className="text-bluetti-cyan/70 text-xs">De</span>
+      <select
+        value={franja.inicio}
+        onChange={ev => onChange({ ...franja, inicio: Number(ev.target.value) })}
+        className="bg-black/30 border border-bluetti-border rounded px-2 py-1 text-bluetti-cyan text-xs focus:outline-none focus:border-bluetti-cyan"
+      >
+        {Array.from({ length: 24 }, (_, i) => (
+          <option key={i} value={i}>{i}h</option>
+        ))}
+      </select>
+      <span className="text-bluetti-cyan/70 text-xs">a</span>
+      <select
+        value={franja.fin}
+        onChange={ev => onChange({ ...franja, fin: Number(ev.target.value) })}
+        className="bg-black/30 border border-bluetti-border rounded px-2 py-1 text-bluetti-cyan text-xs focus:outline-none focus:border-bluetti-cyan"
+      >
+        {Array.from({ length: 24 }, (_, i) => (
+          <option key={i + 1} value={i + 1}>{i + 1}h</option>
+        ))}
+      </select>
+      <input
+        type="range"
+        min={0}
+        max={100}
+        step={5}
+        value={franja.porcentaje}
+        onChange={ev => onChange({ ...franja, porcentaje: Number(ev.target.value) })}
+        className="flex-1 min-w-[80px] accent-bluetti-cyan"
+      />
+      <span className="text-bluetti-cyan text-xs font-bold w-10 text-right">{franja.porcentaje}%</span>
+      {canDelete ? (
+        <button
+          onClick={onDelete}
+          className="w-5 h-5 flex items-center justify-center text-gray-600 hover:text-red-400 text-base leading-none transition-colors"
+          title="Eliminar franja"
+        >×</button>
+      ) : (
+        <span className="w-5" />
+      )}
+    </div>
+  )
+}
+
 export default function Calculadora() {
   const { agregados, setAgregados, openCats, setOpenCats } = useCalculadora()
   const [customNombre, setCustomNombre] = useState('')
@@ -291,7 +382,7 @@ export default function Calculadora() {
     setAgregados(prev => {
       const existe = prev.find(e => e.id === electro.id)
       if (existe) return prev.map(e => e.id === electro.id ? { ...e, cantidad: e.cantidad + 1 } : e)
-      return [...prev, { ...electro, horas: 4, cantidad: 1 }]
+      return [...prev, { ...electro, cantidad: 1, franjas: [{ ...DEFAULT_FRANJA }] }]
     })
   }
 
@@ -304,24 +395,34 @@ export default function Calculadora() {
     setAgregados(prev => prev.map(e => e.id === id ? { ...e, cantidad: nueva } : e))
   }
 
-  function setHoras(id, horas) {
-    setAgregados(prev => prev.map(e => e.id === id ? { ...e, horas } : e))
+  function addFranja(id) {
+    setAgregados(prev => prev.map(e =>
+      e.id === id ? { ...e, franjas: [...e.franjas, { ...DEFAULT_FRANJA }] } : e
+    ))
   }
 
-  const totalKwh = useMemo(() =>
-    agregados.reduce((sum, e) => sum + (e.watts * e.cantidad * e.horas) / 1000, 0),
-    [agregados]
-  )
+  function deleteFranja(id, idx) {
+    setAgregados(prev => prev.map(e => {
+      if (e.id !== id) return e
+      if (e.franjas.length <= 1) return e
+      return { ...e, franjas: e.franjas.filter((_, i) => i !== idx) }
+    }))
+  }
 
-  const totalWatts = useMemo(() =>
-    agregados.reduce((sum, e) => sum + e.watts * e.cantidad, 0),
-    [agregados]
-  )
+  function updateFranja(id, idx, updated) {
+    setAgregados(prev => prev.map(e => {
+      if (e.id !== id) return e
+      return { ...e, franjas: e.franjas.map((f, i) => i === idx ? updated : f) }
+    }))
+  }
+
+  const totalKwh = useMemo(() => dailyKwh(agregados), [agregados])
+  const peak = useMemo(() => peakInfo(agregados), [agregados])
 
   function aplicarPerfil(perfil) {
     const nuevos = perfil.items.map(item => {
       const electro = ELECTRODOMESTICOS.find(e => e.id === item.id)
-      return { ...electro, cantidad: item.cantidad, horas: item.horas }
+      return { ...electro, cantidad: item.cantidad, franjas: [{ ...DEFAULT_FRANJA }] }
     })
     setAgregados(nuevos)
   }
@@ -501,7 +602,7 @@ export default function Calculadora() {
                         ×
                       </button>
                     </div>
-                    <div className="flex items-center gap-2 mb-2">
+                    <div className="flex items-center gap-2 mb-3">
                       <span className="text-bluetti-cyan text-xs">Cantidad:</span>
                       <button
                         onClick={() => setCantidad(e.id, e.cantidad - 1)}
@@ -517,21 +618,25 @@ export default function Calculadora() {
                         +
                       </button>
                     </div>
-                    <div className="flex items-center gap-3">
-                      <input
-                        type="range"
-                        min={1}
-                        max={24}
-                        value={e.horas}
-                        onChange={ev => setHoras(e.id, Number(ev.target.value))}
-                        className="flex-1 accent-bluetti-cyan"
-                      />
-                      <span className="text-bluetti-cyan text-sm font-bold w-16 text-right">
-                        {e.horas}h/día
-                      </span>
+                    <div className="space-y-2 mb-2">
+                      {e.franjas.map((f, idx) => (
+                        <FranjaRow
+                          key={idx}
+                          franja={f}
+                          onChange={updated => updateFranja(e.id, idx, updated)}
+                          onDelete={() => deleteFranja(e.id, idx)}
+                          canDelete={e.franjas.length > 1}
+                        />
+                      ))}
+                      <button
+                        onClick={() => addFranja(e.id)}
+                        className="text-xs text-bluetti-cyan/80 hover:text-bluetti-cyan border border-dashed border-bluetti-border rounded-lg px-2 py-1 transition-colors"
+                      >
+                        + Agregar franja
+                      </button>
                     </div>
-                    <div className="text-bluetti-cyan/70 text-xs mt-1">
-                      {e.watts}W × {e.cantidad} × {e.horas}h = {((e.watts * e.cantidad * e.horas) / 1000).toFixed(2)} kWh/día
+                    <div className="text-bluetti-cyan/70 text-xs">
+                      {e.watts}W × {e.cantidad} = {electroDailyKwh(e).toFixed(2)} kWh/día
                     </div>
                   </div>
                 ))}
@@ -548,11 +653,13 @@ export default function Calculadora() {
                 <span className="text-sm font-normal text-bluetti-cyan ml-1 inline-block w-16 text-left">kWh/día</span>
               </span>
             </div>
-            {totalWatts > 0 && (
+            {peak.watts > 0 && (
               <div className="flex items-baseline justify-between mb-5">
-                <span className="text-bluetti-cyan text-sm">Potencia simultánea</span>
+                <span className="text-bluetti-cyan text-sm">
+                  Pico de consumo <span className="text-bluetti-cyan/60 text-xs">(a las {peak.hour}h)</span>
+                </span>
                 <span className="text-bluetti-cyan text-3xl font-bold">
-                  {(totalWatts / 1000).toFixed(2)}
+                  {(peak.watts / 1000).toFixed(2)}
                   <span className="text-sm font-normal text-bluetti-cyan ml-1 inline-block w-16 text-left">kW</span>
                 </span>
               </div>
@@ -569,7 +676,7 @@ export default function Calculadora() {
                 </p>
                 {MODELOS
                   .filter(m => {
-                    const kw = totalWatts / 1000
+                    const kw = peak.watts / 1000
                     if (movilidad) return m.id === 'rv5'
                     if (m.id === 'rv5') return false
                     if (m.id === 'es125x' && kw < 60) return false
@@ -580,7 +687,7 @@ export default function Calculadora() {
                       key={modelo.id}
                       modelo={modelo}
                       totalKwh={totalKwh}
-                      totalKw={totalWatts / 1000}
+                      totalKw={peak.watts / 1000}
                     />
                   ))}
               </div>
