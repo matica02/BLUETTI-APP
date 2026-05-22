@@ -185,7 +185,7 @@ function activePctAtHour(electro, h) {
 
 function loadAtHourW(agregados, h) {
   return agregados.reduce(
-    (sum, e) => sum + e.watts * e.cantidad * activePctAtHour(e, h) / 100,
+    (sum, e) => sum + e.watts * activePctAtHour(e, h) / 100,
     0
   )
 }
@@ -193,9 +193,44 @@ function loadAtHourW(agregados, h) {
 function electroDailyKwh(electro) {
   let total = 0
   for (let h = 0; h < 24; h++) {
-    total += electro.watts * electro.cantidad * activePctAtHour(electro, h) / 100
+    total += electro.watts * activePctAtHour(electro, h) / 100
   }
   return total / 1000
+}
+
+function makeInstanceKey(id) {
+  return `${id}-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`
+}
+
+function franjaCoversHour(f, h) {
+  return hourInRange(h, f.inicio, f.fin)
+}
+
+function franjasHaveOverlap(franjas) {
+  const counts = new Array(24).fill(0)
+  for (const f of franjas) {
+    for (let h = 0; h < 24; h++) {
+      if (franjaCoversHour(f, h)) counts[h]++
+    }
+  }
+  return counts.some(c => c > 1)
+}
+
+function findFirstGap(franjas) {
+  const covered = new Set()
+  for (const f of franjas) {
+    for (let h = 0; h < 24; h++) {
+      if (franjaCoversHour(f, h)) covered.add(h)
+    }
+  }
+  let start = -1
+  for (let h = 0; h < 24; h++) {
+    if (!covered.has(h)) { start = h; break }
+  }
+  if (start === -1) return null
+  let end = start
+  while (end < 24 && !covered.has(end)) end++
+  return { inicio: start, fin: end }
 }
 
 function dailyKwh(agregados) {
@@ -322,7 +357,15 @@ function ModelCard({ modelo, totalKwh, totalKw }) {
   )
 }
 
-function FranjaRow({ franja, onChange, onDelete, canDelete }) {
+function FranjaRow({ franja, siblingFranjas, onChange, onDelete, canDelete }) {
+  function isInicioValid(v) {
+    const candidate = { inicio: v, fin: franja.fin, porcentaje: 0 }
+    return !franjasHaveOverlap([...siblingFranjas, candidate])
+  }
+  function isFinValid(v) {
+    const candidate = { inicio: franja.inicio, fin: v, porcentaje: 0 }
+    return !franjasHaveOverlap([...siblingFranjas, candidate])
+  }
   return (
     <div className="flex items-center gap-2 flex-wrap">
       <span className="text-bluetti-cyan/70 text-xs">De</span>
@@ -332,7 +375,7 @@ function FranjaRow({ franja, onChange, onDelete, canDelete }) {
         className="bg-black/30 border border-bluetti-border rounded px-2 py-1 text-bluetti-cyan text-xs focus:outline-none focus:border-bluetti-cyan"
       >
         {Array.from({ length: 24 }, (_, i) => (
-          <option key={i} value={i}>{i}h</option>
+          <option key={i} value={i} disabled={!isInicioValid(i)}>{i}h</option>
         ))}
       </select>
       <span className="text-bluetti-cyan/70 text-xs">a</span>
@@ -342,7 +385,7 @@ function FranjaRow({ franja, onChange, onDelete, canDelete }) {
         className="bg-black/30 border border-bluetti-border rounded px-2 py-1 text-bluetti-cyan text-xs focus:outline-none focus:border-bluetti-cyan"
       >
         {Array.from({ length: 24 }, (_, i) => (
-          <option key={i + 1} value={i + 1}>{i + 1}h</option>
+          <option key={i + 1} value={i + 1} disabled={!isFinValid(i + 1)}>{i + 1}h</option>
         ))}
       </select>
       <input
@@ -379,40 +422,39 @@ export default function Calculadora() {
   }
 
   function agregar(electro) {
-    setAgregados(prev => {
-      const existe = prev.find(e => e.id === electro.id)
-      if (existe) return prev.map(e => e.id === electro.id ? { ...e, cantidad: e.cantidad + 1 } : e)
-      return [...prev, { ...electro, cantidad: 1, franjas: [{ ...DEFAULT_FRANJA }] }]
-    })
+    setAgregados(prev => [
+      ...prev,
+      { ...electro, instanceKey: makeInstanceKey(electro.id), franjas: [{ ...DEFAULT_FRANJA }] }
+    ])
   }
 
-  function quitar(id) {
-    setAgregados(prev => prev.filter(e => e.id !== id))
+  function quitar(instanceKey) {
+    setAgregados(prev => prev.filter(e => e.instanceKey !== instanceKey))
   }
 
-  function setCantidad(id, nueva) {
-    if (nueva <= 0) return quitar(id)
-    setAgregados(prev => prev.map(e => e.id === id ? { ...e, cantidad: nueva } : e))
-  }
-
-  function addFranja(id) {
-    setAgregados(prev => prev.map(e =>
-      e.id === id ? { ...e, franjas: [...e.franjas, { ...DEFAULT_FRANJA }] } : e
-    ))
-  }
-
-  function deleteFranja(id, idx) {
+  function addFranja(instanceKey) {
     setAgregados(prev => prev.map(e => {
-      if (e.id !== id) return e
+      if (e.instanceKey !== instanceKey) return e
+      const gap = findFirstGap(e.franjas)
+      if (!gap) return e
+      return { ...e, franjas: [...e.franjas, { ...gap, porcentaje: 100 }] }
+    }))
+  }
+
+  function deleteFranja(instanceKey, idx) {
+    setAgregados(prev => prev.map(e => {
+      if (e.instanceKey !== instanceKey) return e
       if (e.franjas.length <= 1) return e
       return { ...e, franjas: e.franjas.filter((_, i) => i !== idx) }
     }))
   }
 
-  function updateFranja(id, idx, updated) {
+  function updateFranja(instanceKey, idx, updated) {
     setAgregados(prev => prev.map(e => {
-      if (e.id !== id) return e
-      return { ...e, franjas: e.franjas.map((f, i) => i === idx ? updated : f) }
+      if (e.instanceKey !== instanceKey) return e
+      const newFranjas = e.franjas.map((f, i) => i === idx ? updated : f)
+      if (franjasHaveOverlap(newFranjas)) return e
+      return { ...e, franjas: newFranjas }
     }))
   }
 
@@ -420,14 +462,31 @@ export default function Calculadora() {
   const peak = useMemo(() => peakInfo(agregados), [agregados])
 
   function aplicarPerfil(perfil) {
-    const nuevos = perfil.items.map(item => {
+    const nuevos = []
+    perfil.items.forEach(item => {
       const electro = ELECTRODOMESTICOS.find(e => e.id === item.id)
-      return { ...electro, cantidad: item.cantidad, franjas: [{ ...DEFAULT_FRANJA }] }
+      if (!electro) return
+      for (let i = 0; i < item.cantidad; i++) {
+        nuevos.push({
+          ...electro,
+          instanceKey: makeInstanceKey(electro.id),
+          franjas: [{ ...DEFAULT_FRANJA }],
+        })
+      }
     })
     setAgregados(nuevos)
   }
 
-  const cantidadPorId = Object.fromEntries(agregados.map(e => [e.id, e.cantidad]))
+  const cantidadPorId = agregados.reduce((acc, e) => {
+    acc[e.id] = (acc[e.id] || 0) + 1
+    return acc
+  }, {})
+
+  const nameCounters = {}
+  const agregadosConNombre = agregados.map(e => {
+    nameCounters[e.nombre] = (nameCounters[e.nombre] || 0) + 1
+    return { ...e, displayName: `${e.nombre} ${nameCounters[e.nombre]}` }
+  })
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -588,34 +647,18 @@ export default function Calculadora() {
               </div>
             ) : (
               <div className="space-y-3">
-                {agregados.map(e => (
+                {agregadosConNombre.map(e => (
                   <div
-                    key={e.id}
+                    key={e.instanceKey}
                     className="bg-bluetti-card border border-bluetti-border rounded-xl px-4 py-3"
                   >
-                    <div className="flex items-center justify-between mb-2">
-                      <span className="text-white text-sm font-medium">{e.nombre}</span>
+                    <div className="flex items-center justify-between mb-3">
+                      <span className="text-white text-sm font-medium">{e.displayName}</span>
                       <button
-                        onClick={() => quitar(e.id)}
+                        onClick={() => quitar(e.instanceKey)}
                         className="text-gray-600 hover:text-red-400 text-lg leading-none transition-colors"
                       >
                         ×
-                      </button>
-                    </div>
-                    <div className="flex items-center gap-2 mb-3">
-                      <span className="text-bluetti-cyan text-xs">Cantidad:</span>
-                      <button
-                        onClick={() => setCantidad(e.id, e.cantidad - 1)}
-                        className="w-6 h-6 rounded bg-bluetti-border hover:bg-red-900/40 text-bluetti-cyan/80 hover:text-red-400 text-sm font-bold flex items-center justify-center transition-all"
-                      >
-                        −
-                      </button>
-                      <span className="text-bluetti-cyan font-bold text-sm w-4 text-center">{e.cantidad}</span>
-                      <button
-                        onClick={() => setCantidad(e.id, e.cantidad + 1)}
-                        className="w-6 h-6 rounded bg-bluetti-border hover:bg-bluetti-cyan hover:text-bluetti-bg text-bluetti-cyan/80 text-sm font-bold flex items-center justify-center transition-all"
-                      >
-                        +
                       </button>
                     </div>
                     <div className="space-y-2 mb-2">
@@ -623,20 +666,28 @@ export default function Calculadora() {
                         <FranjaRow
                           key={idx}
                           franja={f}
-                          onChange={updated => updateFranja(e.id, idx, updated)}
-                          onDelete={() => deleteFranja(e.id, idx)}
+                          siblingFranjas={e.franjas.filter((_, i) => i !== idx)}
+                          onChange={updated => updateFranja(e.instanceKey, idx, updated)}
+                          onDelete={() => deleteFranja(e.instanceKey, idx)}
                           canDelete={e.franjas.length > 1}
                         />
                       ))}
-                      <button
-                        onClick={() => addFranja(e.id)}
-                        className="text-xs text-bluetti-cyan/80 hover:text-bluetti-cyan border border-dashed border-bluetti-border rounded-lg px-2 py-1 transition-colors"
-                      >
-                        + Agregar franja
-                      </button>
+                      {(() => {
+                        const hayHueco = !!findFirstGap(e.franjas)
+                        return (
+                          <button
+                            onClick={() => addFranja(e.instanceKey)}
+                            disabled={!hayHueco}
+                            title={hayHueco ? '' : 'Achicá una franja existente para liberar espacio'}
+                            className="text-xs text-bluetti-cyan/80 hover:text-bluetti-cyan border border-dashed border-bluetti-border rounded-lg px-2 py-1 transition-colors disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:text-bluetti-cyan/80"
+                          >
+                            + Agregar franja
+                          </button>
+                        )
+                      })()}
                     </div>
                     <div className="text-bluetti-cyan/70 text-xs">
-                      {e.watts}W × {e.cantidad} = {electroDailyKwh(e).toFixed(2)} kWh/día
+                      {e.watts}W = {electroDailyKwh(e).toFixed(2)} kWh/día
                     </div>
                   </div>
                 ))}
