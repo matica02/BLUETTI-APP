@@ -262,7 +262,7 @@
     "nombre": "APEX 300",
     "tagline": "Estación de Energía Versátil y Escalable",
     "subtitulo": "Estación de Energía Portátil Expandible",
-    "descripcion": "Para quienes necesitan autonomía energética real en el hogar o en la ruta, sin comprometer la potencia disponible, el APEX300 ofrece 3.840 W continuos y 2.764,8 Wh de capacidad base con baterías LFP de grado automotriz certificadas para más de 6.000 ciclos (aproximadamente 17 años de uso diario).\nEl sistema es escalable desde 2,7 kWh hasta 58 kWh de almacenamiento, y de 3,8 kW hasta 11,5 kW de potencia, incorporando paneles solares de hasta 19,2 kW.\nEl switchover UPS es de 0 ms, lo que garantiza continuidad total para equipos sensibles. Disponible en 120 V y 240 V. Perfecto para hogares que buscan independencia energética progresiva o para motorhomes de alta gama.",
+    "descripcion": "Para quienes necesitan autonomía energética real en el hogar o en la ruta, sin comprometer la potencia disponible, el APEX300 ofrece 3.840 W continuos y 2,76 kWh de capacidad base con baterías LFP de grado automotriz certificadas para más de 6.000 ciclos (aproximadamente 17 años de uso diario).\nEl sistema es escalable desde 2,76 kWh hasta 58 kWh de almacenamiento, y de 3,8 kW hasta 11,5 kW de potencia, incorporando paneles solares de hasta 19,2 kW.\nEl switchover UPS es de 0 ms, lo que garantiza continuidad total para equipos sensibles. Disponible en 120 V y 240 V. Perfecto para hogares que buscan independencia energética progresiva o para motorhomes de alta gama.",
     "categoria": "Portátil / Versátil / Escalable",
     "imagen": "apex300.png",
     "imagenes": ["b300k.png", "apex300-pack.png"],
@@ -290,7 +290,7 @@
       }
     ],
     "specs": {
-      "capacidadBateria": "2,764.8 Wh (base)",
+      "capacidadBateria": "2.76 kWh (base)",
       "capacidadMaxConExpansion": "58 kWh (con múltiples B300K)",
       "potenciaSalidaAC": "3,840 W (7,680 W en Power Lifting Mode)",
       "potenciaMaxParalelo": "11.52 kW (3 unidades + Hub A1)",
@@ -315,12 +315,12 @@
       "La solución más flexible del portfolio: portátil, escalable y multiuso (hogar, RV, off-grid, emergencias)",
       "9 formas de carga: solar, red AC, generador, estación EV, alternador, y más",
       "Salidas 120V y 240V simultáneas para alimentar bomba de piscina y cargador EV al mismo tiempo",
-      "Escala de 2.7 kWh a 58 kWh según necesidades, sin reemplazar la unidad base",
+      "Escala de 2.76 kWh a 58 kWh según necesidades, sin reemplazar la unidad base",
       "Retorno de inversión estimado en 2 años gracias al ahorro en electricidad",
       "Con AT1 Smart Distribution Panel: backup total del hogar en 5 minutos de instalación"
     ],
     "accesoriosCompatibles": [
-      "B300K (batería de expansión 2,764.8 Wh)",
+      "B300K (batería de expansión 2.76 kWh)",
       "B300 / B300S (baterías de expansión alternativas)",
       "Hub A1 (conexión en paralelo de hasta 3 APEX 300)",
       "AT1 Smart Distribution Panel (backup total del hogar)",
@@ -355,7 +355,7 @@
       },
       {
         "etiqueta": "Backup del Hogar Básico",
-        "descripcion": "Con B300 adicional, llega a más de 5 kWh para mantener nevera, luces y cargadores durante una noche completa."
+        "descripcion": "Con B300K adicional, llega a más de 7,8 kWh para mantener nevera, luces y cargadores durante una noche completa."
       },
       {
         "etiqueta": "Carga Solar",
@@ -364,13 +364,13 @@
     ],
     "specs": {
       "capacidadBateria": "2,304 Wh",
-      "capacidadMaxConExpansion": "~7,000 Wh (con 2× B300)",
+      "capacidadMaxConExpansion": "~7,824 Wh (con 2× B300K)",
       "potenciaSalidaAC": "2,400 W (2,500 W sin red)",
       "potenciaSobrecarga": "hasta 3,600 W por 0.5s",
       "entradaSolarMax": "1,200 W (12–145 VDC, conector MC4)",
       "tipoBateria": "LiFePO4",
       "expandible": true,
-      "notaExpansion": "Hasta 2× B300 o 2× B210P o 1× B230",
+      "notaExpansion": "Hasta 2× B300K o 2× B210P o 1× B230",
       "conexionSolar": true,
       "salidaAC": "120VAC / 20A / 60Hz",
       "salidaDC": "USB-A ×2 (18W c/u), USB-C ×2 (100W c/u), 48VDC ×1, Cigarrera ×1 (12V/10A), Carga inalámbrica ×2 (15W c/u)",
@@ -385,13 +385,13 @@
     "highlights": [
       "La más completa en puertos: AC, USB-A, USB-C, 48V DC, encendedor de autos y carga inalámbrica ×2",
       "Batería LiFePO4 de máxima seguridad y larga duración",
-      "Expandible con hasta 2 baterías adicionales B300 para más de 7 kWh de autonomía",
+      "Expandible con hasta 2 baterías adicionales B300K para más de 7,8 kWh de autonomía",
       "Entrada solar de 1,200 W — recarga completa con paneles en pocas horas de sol",
       "UPS integrado: conmutación en ≤20 ms para proteger equipos sensibles",
       "Control y monitoreo completo desde la app BLUETTI vía WiFi o Bluetooth"
     ],
     "accesoriosCompatibles": [
-      "B300 (batería de expansión 3,072 Wh)",
+      "B300K (batería de expansión 2.76 kWh)",
       "B210P (batería de expansión)",
       "B230 (batería de expansión)"
     ]

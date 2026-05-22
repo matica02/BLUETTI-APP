@@ -2,10 +2,10 @@ import { useState, useMemo } from 'react'
 
 const MODELOS = [
   { id: 'es125x',  nombre: 'ES125 X',   maxUnidades: 4, tieneBaterias: false },
-  { id: 'ep2000',  nombre: 'EP2000',    maxUnidades: 3, tieneBaterias: true, maxBaterias: 7,  minBaterias: 4, batNombre: 'B700',   kwhBase: 0,     kwhBat: 7.168  },
+  { id: 'ep2000',  nombre: 'EP2000',    maxUnidades: 3, tieneBaterias: true, maxBaterias: 7,  minBaterias: 4, batNombre: 'B700',   kwhBase: 0,     kwhBat: 7.37   },
   { id: 'ep760',   nombre: 'EP760',     maxUnidades: 1, tieneBaterias: true, maxBaterias: 4,  minBaterias: 2, batNombre: 'B500',   kwhBase: 0,     kwhBat: 4.96   },
-  { id: 'apex300', nombre: 'APEX 300',  maxUnidades: 3, tieneBaterias: true, maxBaterias: 6,  batNombre: 'B300K',  kwhBase: 2.764, kwhBat: 3.072  },
-  { id: 'ac200pl', nombre: 'AC200P L',  maxUnidades: 1, tieneBaterias: true, maxBaterias: 2,  batNombre: 'B300',   kwhBase: 2.304, kwhBat: 3.072  },
+  { id: 'apex300', nombre: 'APEX 300',  maxUnidades: 3, tieneBaterias: true, maxBaterias: 6,  batNombre: 'B300K',  kwhBase: 2.76,  kwhBat: 2.76   },
+  { id: 'ac200pl', nombre: 'AC200P L',  maxUnidades: 1, tieneBaterias: true, maxBaterias: 2,  batNombre: 'B300K',  kwhBase: 2.304, kwhBat: 2.76   },
   { id: 'rv5',     nombre: 'RV5',       maxUnidades: 1, tieneBaterias: true, maxBaterias: 24, minBaterias: 2, batNombre: 'B4810',  kwhBase: 0,     kwhBat: 4.8    },
 ]
 
@@ -23,7 +23,7 @@ const PANEL_OPTIONS = [200, 400, 500]
 function getKwh(modelo, unidades, baterias) {
   if (modelo.id === 'es125x') return unidades * 241
   if (modelo.id === 'rv5')    return baterias * 4.8
-  if (modelo.id === 'ep2000') return unidades * baterias * 7.168
+  if (modelo.id === 'ep2000') return unidades * baterias * 7.37
   return unidades * (modelo.kwhBase + baterias * modelo.kwhBat)
 }
 

@@ -48,6 +48,22 @@ const CATEGORIAS_ELECTRO = [
   { id: 'herramientas', nombre: 'Herramientas', items: [
     { id: 'herramientas', nombre: 'Herramientas eléctricas', watts: 800 },
   ]},
+  { id: 'industrial', nombre: 'Industrial', items: [
+    { id: 'compresor_10hp', nombre: 'Compresor industrial (10 HP)', watts: 7500 },
+    { id: 'compresor_20hp', nombre: 'Compresor industrial (20 HP)', watts: 15000 },
+    { id: 'motor_trifasico', nombre: 'Motor trifásico (10 HP)', watts: 7500 },
+    { id: 'soldadora_mig', nombre: 'Soldadora MIG/TIG', watts: 5000 },
+    { id: 'torno_industrial', nombre: 'Torno industrial', watts: 5500 },
+    { id: 'fresadora_cnc', nombre: 'Fresadora CNC', watts: 7500 },
+    { id: 'camara_frigorifica', nombre: 'Cámara frigorífica industrial', watts: 5000 },
+    { id: 'horno_industrial', nombre: 'Horno industrial (panadería)', watts: 12000 },
+    { id: 'amasadora_industrial', nombre: 'Amasadora industrial', watts: 3000 },
+    { id: 'caldera_electrica', nombre: 'Caldera eléctrica industrial', watts: 9000 },
+    { id: 'bomba_industrial', nombre: 'Bomba centrífuga industrial', watts: 4000 },
+    { id: 'cinta_transportadora', nombre: 'Cinta transportadora', watts: 2200 },
+    { id: 'iluminacion_galpon', nombre: 'Iluminación LED galpón', watts: 2000 },
+    { id: 'extractor_industrial', nombre: 'Extractor industrial', watts: 1500 },
+  ]},
 ]
 
 const ELECTRODOMESTICOS = CATEGORIAS_ELECTRO.flatMap(c => c.items)
@@ -100,6 +116,20 @@ const PERFILES = [
       { id: 'bomba', cantidad: 1, horas: 2 },
     ],
   },
+  {
+    id: 'industrial',
+    nombre: 'Industrial',
+    items: [
+      { id: 'compresor_20hp', cantidad: 1, horas: 8 },
+      { id: 'compresor_10hp', cantidad: 1, horas: 8 },
+      { id: 'soldadora_mig', cantidad: 3, horas: 4 },
+      { id: 'torno_industrial', cantidad: 2, horas: 6 },
+      { id: 'fresadora_cnc', cantidad: 2, horas: 6 },
+      { id: 'motor_trifasico', cantidad: 2, horas: 8 },
+      { id: 'iluminacion_galpon', cantidad: 5, horas: 10 },
+      { id: 'extractor_industrial', cantidad: 1, horas: 8 },
+    ],
+  },
 ]
 
 const MODELOS = [
@@ -116,7 +146,7 @@ const MODEL_CFG = {
   ep2000:  { paralelo: { min: 1, max: 3 },  bat: { tipo: 'B700',  min: 4, max: 7  } },
   ep760:   { paralelo: null,                bat: { tipo: 'B500',  min: 2, max: 4  } },
   apex300: { paralelo: { min: 1, max: 3 },  bat: { tipo: 'B300K', min: 0, max: 6  } },
-  ac200pl: { paralelo: null,                bat: { tipo: 'B300',  min: 0, max: 2  } },
+  ac200pl: { paralelo: null,                bat: { tipo: 'B300K', min: 0, max: 2  } },
   rv5:     { paralelo: null,                bat: { tipo: 'B4810', min: 2, max: 24 } },
 }
 
@@ -124,12 +154,19 @@ function calcCapacity(modelId, unidades, baterias) {
   switch (modelId) {
     case 'es125x':  return { kWh: unidades * 241, kW: unidades * 125 }
     case 'rv5':     return { kWh: baterias * 4.8, kW: 5 }
-    case 'ep2000':  return { kWh: unidades * baterias * 7.168, kW: unidades * 20 }
+    case 'ep2000':  return { kWh: unidades * baterias * 7.37, kW: unidades * 20 }
     case 'ep760':   return { kWh: baterias * 4.96, kW: 7.6 }
-    case 'apex300': return { kWh: unidades * (2.764 + baterias * 3.072), kW: unidades * 3.84 }
-    case 'ac200pl': return { kWh: 2.304 + baterias * 3.072, kW: 2.4 }
+    case 'apex300': return { kWh: unidades * (2.76 + baterias * 2.76), kW: unidades * 3.84 }
+    case 'ac200pl': return { kWh: 2.304 + baterias * 2.76, kW: 2.4 }
     default:        return { kWh: 0, kW: 0 }
   }
+}
+
+function maxKwForModel(id) {
+  const cfg = MODEL_CFG[id]
+  const maxUnidades = cfg.paralelo?.max ?? 1
+  const maxBaterias = cfg.bat?.max ?? 0
+  return calcCapacity(id, maxUnidades, maxBaterias).kW
 }
 
 const STATUS_STYLES = {
@@ -244,6 +281,7 @@ export default function Calculadora() {
   const { agregados, setAgregados, openCats, setOpenCats } = useCalculadora()
   const [customNombre, setCustomNombre] = useState('')
   const [customWatts, setCustomWatts] = useState('')
+  const [movilidad, setMovilidad] = useState(false)
 
   function toggleCat(id) {
     setOpenCats(prev => ({ ...prev, [id]: !prev[id] }))
@@ -412,9 +450,34 @@ export default function Calculadora() {
         {/* Columna derecha */}
         <div className="space-y-6">
           <div>
-            <h2 className="text-sm font-semibold text-bluetti-cyan uppercase tracking-wider mb-4">
-              Mi instalación
-            </h2>
+            <div className="flex items-center justify-between mb-4 gap-3">
+              <h2 className="text-sm font-semibold text-bluetti-cyan uppercase tracking-wider">
+                Mi instalación
+              </h2>
+              <button
+                onClick={() => setMovilidad(v => !v)}
+                role="switch"
+                aria-checked={movilidad}
+                className={`flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold border transition-all ${
+                  movilidad
+                    ? 'border-bluetti-cyan bg-bluetti-cyan/10 text-bluetti-cyan'
+                    : 'border-bluetti-border text-bluetti-cyan/70 hover:border-bluetti-cyan hover:text-bluetti-cyan'
+                }`}
+              >
+                <span
+                  className={`relative inline-block w-8 h-4 rounded-full transition-colors ${
+                    movilidad ? 'bg-bluetti-cyan' : 'bg-bluetti-border'
+                  }`}
+                >
+                  <span
+                    className={`absolute top-0.5 left-0.5 w-3 h-3 rounded-full bg-bluetti-bg transition-transform ${
+                      movilidad ? 'translate-x-4' : 'translate-x-0'
+                    }`}
+                  />
+                </span>
+                Movilidad
+              </button>
+            </div>
 
             {agregados.length === 0 ? (
               <div className="bg-bluetti-card border border-dashed border-bluetti-border rounded-xl p-8 text-center">
@@ -504,14 +567,22 @@ export default function Calculadora() {
                 <p className="text-xs text-bluetti-cyan/70 uppercase tracking-wider mb-3">
                   Configurá cada modelo para ver su autonomía
                 </p>
-                {MODELOS.map(modelo => (
-                  <ModelCard
-                    key={modelo.id}
-                    modelo={modelo}
-                    totalKwh={totalKwh}
-                    totalKw={totalWatts / 1000}
-                  />
-                ))}
+                {MODELOS
+                  .filter(m => {
+                    const kw = totalWatts / 1000
+                    if (movilidad) return m.id === 'rv5'
+                    if (m.id === 'rv5') return false
+                    if (m.id === 'es125x' && kw < 60) return false
+                    return kw <= maxKwForModel(m.id)
+                  })
+                  .map(modelo => (
+                    <ModelCard
+                      key={modelo.id}
+                      modelo={modelo}
+                      totalKwh={totalKwh}
+                      totalKw={totalWatts / 1000}
+                    />
+                  ))}
               </div>
             )}
           </div>

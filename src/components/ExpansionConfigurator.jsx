@@ -18,7 +18,7 @@ const CFG = {
   ep2000: {
     paralelo: { min: 1, max: 3 },
     baterias: {
-      tipos: [{ id: 'b700', nombre: 'B700', kWh: 7.168, max: 7 }],
+      tipos: [{ id: 'b700', nombre: 'B700', kWh: 7.37, max: 7 }],
       min: 4,
     },
   },
@@ -32,7 +32,7 @@ const CFG = {
   apex300: {
     paralelo: { min: 1, max: 3 },
     baterias: {
-      tipos: [{ id: 'b300k', nombre: 'B300K', kWh: 3.072, max: 6 }],
+      tipos: [{ id: 'b300k', nombre: 'B300K', kWh: 2.76, max: 6 }],
       min: 0,
     },
   },
@@ -40,7 +40,7 @@ const CFG = {
     paralelo: null,
     baterias: {
       tipos: [
-        { id: 'b300', nombre: 'B300', kWh: 3.072, max: 2 },
+        { id: 'b300k', nombre: 'B300K', kWh: 2.76, max: 2 },
         { id: 'b210p', nombre: 'B210P', kWh: 2.048, max: 2 },
         { id: 'b230', nombre: 'B230', kWh: 2.048, max: 2 },
       ],
@@ -53,9 +53,9 @@ function calcTotals(id, unidades, cant, tipoKwh) {
   switch (id) {
     case 'es125x': return { kWh: unidades * 241, kW: unidades * 125 }
     case 'rv5': return { kWh: cant * tipoKwh, kW: 5 }
-    case 'ep2000': return { kWh: unidades * cant * 7.168, kW: unidades * 20 }
+    case 'ep2000': return { kWh: unidades * cant * 7.37, kW: unidades * 20 }
     case 'ep760': return { kWh: cant * 4.96, kW: 7.6 }
-    case 'apex300': return { kWh: unidades * (2.764 + cant * 3.072), kW: unidades * 3.84 }
+    case 'apex300': return { kWh: unidades * (2.76 + cant * 2.76), kW: unidades * 3.84 }
     case 'ac200pl': return { kWh: 2.304 + cant * tipoKwh, kW: 2.4 }
     default: return { kWh: 0, kW: 0 }
   }
