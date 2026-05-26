@@ -24,8 +24,6 @@ const MAX_SOLAR_W = {
   rv5:    2000,
 }
 
-const PANEL_OPTIONS = [200, 400, 500]
-
 function getKwh(modelo, unidades, bateriasArr) {
   if (modelo.id === 'es125x') return unidades * 241
   const totalBat = bateriasArr.reduce((a, b) => a + b, 0)
@@ -172,20 +170,18 @@ export default function SimuladorSolar() {
           {/* Panel wattage */}
           <div>
             <p className="text-xs font-semibold text-bluetti-cyan uppercase tracking-wider mb-3">Potencia del panel</p>
-            <div className="flex gap-2">
-              {PANEL_OPTIONS.map(w => (
-                <button
-                  key={w}
-                  onClick={() => setPanelW(w)}
-                  className={`px-4 py-2 rounded-xl text-sm font-medium border transition-all ${
-                    panelW === w
-                      ? 'border-bluetti-cyan bg-bluetti-cyan/10 text-bluetti-cyan'
-                      : 'border-bluetti-border text-bluetti-cyan hover:border-bluetti-cyan hover:text-bluetti-cyan'
-                  }`}
-                >
-                  {w}W
-                </button>
-              ))}
+            <div className="flex items-center gap-3">
+              <button
+                onClick={() => setPanelW(w => Math.max(200, w - 50))}
+                disabled={panelW <= 200}
+                className="w-8 h-8 rounded-lg bg-bluetti-border hover:bg-red-900/40 text-bluetti-cyan/80 hover:text-red-400 font-bold flex items-center justify-center transition-all disabled:opacity-30 disabled:cursor-not-allowed"
+              >−</button>
+              <span className="text-bluetti-cyan font-bold text-lg w-16 text-center">{panelW} W</span>
+              <button
+                onClick={() => setPanelW(w => Math.min(1000, w + 50))}
+                disabled={panelW >= 1000}
+                className="w-8 h-8 rounded-lg bg-bluetti-border hover:bg-bluetti-cyan hover:text-bluetti-bg text-bluetti-cyan/80 font-bold flex items-center justify-center transition-all disabled:opacity-30 disabled:cursor-not-allowed"
+              >+</button>
             </div>
           </div>
 

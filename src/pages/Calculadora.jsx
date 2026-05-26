@@ -143,6 +143,15 @@ const MODELOS = [
   { id: 'rv5', nombre: 'RV5' },
 ]
 
+const MAX_SOLAR_W = {
+  es125x: 12000,
+  ep2000: 4800,
+  ep760:  2400,
+  apex300: 1200,
+  ac200pl: 1200,
+  rv5:    2000,
+}
+
 const MODEL_CFG = {
   es125x:  { paralelo: { min: 1, max: 4 },  bat: null },
   ep2000:  { paralelo: { min: 1, max: 3 },  bat: { tipo: 'B700',  min: u => u > 1 ? 2 : 4, max: 7 } },
@@ -180,6 +189,15 @@ function maxKwForModel(id) {
 
 const SLOTS_PER_DAY = 48
 const SLOT_HOURS = 0.5
+const ZERO_SLOTS = new Array(SLOTS_PER_DAY).fill(0)
+const MAX_SIM_DAYS = 30
+
+function formatDuracion(hours) {
+  const maxHours = MAX_SIM_DAYS * 24
+  if (hours >= maxHours) return { val: `${MAX_SIM_DAYS}+`, unit: 'días' }
+  if (hours >= 24) return { val: (hours / 24).toFixed(1), unit: 'días' }
+  return { val: hours.toFixed(1), unit: 'hs' }
+}
 
 function formatTime(t) {
   const h = Math.floor(t)
@@ -285,8 +303,12 @@ function computeConsumoPerSlot(agregados) {
   )
 }
 
-function simulateAutonomyWithSolar(capacityKwh, consumoPerSlot, solarPerSlot, maxDays = 30) {
+function simulateAutonomy(capacityKwh, consumoPerSlot, solarPerSlot, maxDays = MAX_SIM_DAYS) {
   if (capacityKwh <= 0) return { autosuficiente: false, horas: 0 }
+  const dailySolar = solarPerSlot.reduce((a, b) => a + b, 0)
+  const dailyConsumo = consumoPerSlot.reduce((a, b) => a + b, 0)
+  if (dailyConsumo <= 0) return { autosuficiente: true, horas: maxDays * 24 }
+
   let soc = capacityKwh
   let hours = 0
   for (let day = 0; day < maxDays; day++) {
@@ -296,7 +318,7 @@ function simulateAutonomyWithSolar(capacityKwh, consumoPerSlot, solarPerSlot, ma
       if (soc <= 0) return { autosuficiente: false, horas: hours }
     }
   }
-  return { autosuficiente: true, horas: hours }
+  return { autosuficiente: dailySolar >= dailyConsumo, horas: hours }
 }
 
 function peakInfo(agregados) {
@@ -310,10 +332,10 @@ function peakInfo(agregados) {
     let surgeDelta = 0
     for (const e of agregados) {
       if (!e.arranqueW || e.arranqueW <= e.watts) continue
-      if (activePctAtSlot(e, s) > 0) {
-        const d = e.arranqueW - e.watts
-        if (d > surgeDelta) surgeDelta = d
-      }
+      const pct = activePctAtSlot(e, s) / 100
+      if (pct === 0) continue
+      const d = e.arranqueW - e.watts * pct
+      if (d > surgeDelta) surgeDelta = d
     }
     const totalSurge = cont + surgeDelta
     if (totalSurge > maxSurge) { maxSurge = totalSurge; surgeSlot = s }
@@ -395,13 +417,36 @@ function ModelCard({ modelo, totalKwh, totalKw, solarOn, consumoPerSlot, solarPe
     return 'expansion'
   }, [kW, totalKw, unidades, bateriasPorUnidad, baseUnidades, baseBateriasPorUnidad])
 
-  const horas = totalKwh > 0 ? ((kWh / totalKwh) * 24).toFixed(1) : null
   const styles = STATUS_STYLES[status]
 
+  const capW = (MAX_SOLAR_W[modelo.id] ?? 0) * unidades
+  const capPerSlot = capW * SLOT_HOURS / 1000
+
+  const effectiveSolarPerSlot = useMemo(() => {
+    if (!solarPerSlot) return null
+    if (capPerSlot <= 0) return solarPerSlot
+    return solarPerSlot.map(s => Math.min(s, capPerSlot))
+  }, [solarPerSlot, capPerSlot])
+
+  const solarRecortado = useMemo(() => {
+    if (!solarOn || !solarPerSlot || !effectiveSolarPerSlot) return false
+    const total = solarPerSlot.reduce((a, b) => a + b, 0)
+    const eff = effectiveSolarPerSlot.reduce((a, b) => a + b, 0)
+    return total > eff + 0.001
+  }, [solarOn, solarPerSlot, effectiveSolarPerSlot])
+
+  const sinSolar = useMemo(() => {
+    if (!consumoPerSlot) return null
+    return simulateAutonomy(kWh, consumoPerSlot, ZERO_SLOTS)
+  }, [kWh, consumoPerSlot])
+
   const conSolar = useMemo(() => {
-    if (!solarOn || !consumoPerSlot || !solarPerSlot) return null
-    return simulateAutonomyWithSolar(kWh, consumoPerSlot, solarPerSlot)
-  }, [solarOn, consumoPerSlot, solarPerSlot, kWh])
+    if (!solarOn || !consumoPerSlot || !effectiveSolarPerSlot) return null
+    return simulateAutonomy(kWh, consumoPerSlot, effectiveSolarPerSlot)
+  }, [solarOn, consumoPerSlot, effectiveSolarPerSlot, kWh])
+
+  const sinSolarFmt = sinSolar ? formatDuracion(sinSolar.horas) : null
+  const conSolarFmt = conSolar ? formatDuracion(conSolar.horas) : null
 
   return (
     <div className={`rounded-xl border ${styles.border} ${styles.bg} px-3 sm:px-5 py-3 sm:py-4`}>
@@ -451,8 +496,12 @@ function ModelCard({ modelo, totalKwh, totalKw, solarOn, consumoPerSlot, solarPe
         <div className="space-y-1">
           <div className="flex items-center justify-between gap-2 flex-wrap">
             <div className="flex items-baseline gap-1.5">
-              <span className="text-bluetti-lime text-2xl sm:text-3xl font-bold leading-none">{horas}</span>
-              <span className="text-bluetti-lime text-sm sm:text-base font-semibold">hs de autonomía</span>
+              <span className="text-bluetti-lime text-2xl sm:text-3xl font-bold leading-none">
+                {sinSolarFmt?.val}
+              </span>
+              <span className="text-bluetti-lime text-sm sm:text-base font-semibold">
+                {sinSolarFmt?.unit} de autonomía
+              </span>
             </div>
             <Link
               to={`/producto/${modelo.id}`}
@@ -462,20 +511,27 @@ function ModelCard({ modelo, totalKwh, totalKw, solarOn, consumoPerSlot, solarPe
             </Link>
           </div>
           {conSolar && (
-            conSolar.autosuficiente ? (
-              <div className="flex items-baseline gap-1.5 mt-1">
-                <span className="text-yellow-300 text-base sm:text-lg font-bold">
-                  ☀ Autosuficiente con solar
-                </span>
-              </div>
-            ) : (
-              <div className="flex items-baseline gap-1.5 mt-1 flex-wrap">
-                <span className="text-yellow-200/90 text-sm sm:text-base font-semibold">☀ Con solar:</span>
-                <span className="text-yellow-300 text-sm sm:text-base font-bold">
-                  {conSolar.horas.toFixed(1)} hs
-                </span>
-              </div>
-            )
+            <>
+              {conSolar.autosuficiente ? (
+                <div className="flex items-baseline gap-1.5 mt-1">
+                  <span className="text-yellow-300 text-base sm:text-lg font-bold">
+                    ☀ Autosuficiente con solar
+                  </span>
+                </div>
+              ) : (
+                <div className="flex items-baseline gap-1.5 mt-1 flex-wrap">
+                  <span className="text-yellow-200/90 text-sm sm:text-base font-semibold">☀ Con solar:</span>
+                  <span className="text-yellow-300 text-sm sm:text-base font-bold">
+                    {conSolarFmt?.val} {conSolarFmt?.unit}
+                  </span>
+                </div>
+              )}
+              {solarRecortado && (
+                <p className="text-yellow-200/70 text-[11px] sm:text-xs mt-0.5">
+                  Entrada solar limitada a {capW.toLocaleString('es-AR')} W (máximo del equipo)
+                </p>
+              )}
+            </>
           )}
         </div>
       )}
@@ -909,22 +965,20 @@ export default function Calculadora() {
                   </div>
                 </div>
 
-                <div className="flex items-center justify-between gap-3 flex-wrap">
+                <div className="flex items-center justify-between gap-3">
                   <span className="text-bluetti-cyan/80 text-xs uppercase tracking-wider">Wp por panel</span>
-                  <div className="flex gap-1.5">
-                    {[200, 400, 500].map(w => (
-                      <button
-                        key={w}
-                        onClick={() => setSolarPanelW(w)}
-                        className={`px-3 py-1 rounded-lg text-xs font-medium border transition-all ${
-                          solarPanelW === w
-                            ? 'border-bluetti-cyan bg-bluetti-cyan/10 text-bluetti-cyan'
-                            : 'border-bluetti-border text-bluetti-cyan/70 hover:border-bluetti-cyan hover:text-bluetti-cyan'
-                        }`}
-                      >
-                        {w}W
-                      </button>
-                    ))}
+                  <div className="flex items-center gap-2">
+                    <button
+                      onClick={() => setSolarPanelW(w => Math.max(200, w - 50))}
+                      disabled={solarPanelW <= 200}
+                      className="w-8 h-8 rounded-lg bg-bluetti-border hover:bg-red-900/40 text-bluetti-cyan/80 hover:text-red-400 font-bold flex items-center justify-center transition-all disabled:opacity-30 disabled:cursor-not-allowed"
+                    >−</button>
+                    <span className="text-bluetti-cyan font-bold text-base w-14 text-center">{solarPanelW} W</span>
+                    <button
+                      onClick={() => setSolarPanelW(w => Math.min(1000, w + 50))}
+                      disabled={solarPanelW >= 1000}
+                      className="w-8 h-8 rounded-lg bg-bluetti-border hover:bg-bluetti-cyan hover:text-bluetti-bg text-bluetti-cyan/80 font-bold flex items-center justify-center transition-all disabled:opacity-30"
+                    >+</button>
                   </div>
                 </div>
 
