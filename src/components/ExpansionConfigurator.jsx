@@ -19,7 +19,7 @@ const CFG = {
     paralelo: { min: 1, max: 3 },
     baterias: {
       tipos: [{ id: 'b700', nombre: 'B700', kWh: 7.37, max: 7 }],
-      min: 4,
+      min: u => u > 1 ? 2 : 4,
     },
   },
   ep760: {
@@ -49,28 +49,36 @@ const CFG = {
   },
 }
 
-function calcTotals(id, unidades, cant, tipoKwh) {
+function calcTotals(id, unidades, cantArr, tipoKwh) {
+  const totalBat = cantArr.reduce((a, b) => a + b, 0)
   switch (id) {
     case 'es125x': return { kWh: unidades * 241, kW: unidades * 125 }
-    case 'rv5': return { kWh: cant * tipoKwh, kW: 5 }
-    case 'ep2000': return { kWh: unidades * cant * 7.37, kW: unidades * 20 }
-    case 'ep760': return { kWh: cant * 4.96, kW: 7.6 }
-    case 'apex300': return { kWh: unidades * (2.76 + cant * 2.76), kW: unidades * 3.84 }
-    case 'ac200pl': return { kWh: 2.304 + cant * tipoKwh, kW: 2.4 }
+    case 'rv5': return { kWh: totalBat * tipoKwh, kW: 5 }
+    case 'ep2000': return { kWh: totalBat * 7.37, kW: unidades * 20 }
+    case 'ep760': return { kWh: totalBat * 4.96, kW: 7.6 }
+    case 'apex300': return { kWh: unidades * 2.76 + totalBat * 2.76, kW: unidades * 3.84 }
+    case 'ac200pl': return { kWh: 2.304 + totalBat * tipoKwh, kW: 2.4 }
     default: return { kWh: 0, kW: 0 }
   }
 }
 
-function isBase(id, unidades, cant) {
+function isBase(id, unidades, cantArr) {
+  const allEqual = v => cantArr.every(c => c === v)
   switch (id) {
     case 'es125x': return unidades === 1
-    case 'rv5': return cant === 2
-    case 'ep2000': return unidades === 1 && cant === 4
-    case 'ep760': return cant === 2
-    case 'apex300': return unidades === 1 && cant === 0
-    case 'ac200pl': return cant === 0
+    case 'rv5': return allEqual(2)
+    case 'ep2000': return unidades === 1 && allEqual(4)
+    case 'ep760': return allEqual(2)
+    case 'apex300': return unidades === 1 && allEqual(0)
+    case 'ac200pl': return allEqual(0)
     default: return true
   }
+}
+
+function resolveBatMin(cfg, unidades) {
+  if (!cfg?.baterias) return 0
+  const m = cfg.baterias.min
+  return typeof m === 'function' ? m(unidades) : m
 }
 
 function fmtKwh(v) { return v >= 10 ? v.toFixed(1) : v.toFixed(2) }
@@ -79,24 +87,45 @@ function fmtKw(v) { return v >= 100 ? v.toFixed(0) : v.toFixed(1) }
 export default function ExpansionConfigurator({ product }) {
   const cfg = CFG[product.id]
 
-  const [unidades, setUnidades] = useState(cfg?.paralelo?.min ?? 1)
+  const baseUnidades = cfg?.paralelo?.min ?? 1
+  const baseMin = resolveBatMin(cfg, baseUnidades)
+  const [unidades, setUnidades] = useState(baseUnidades)
   const [tipoBat, setTipoBat] = useState(cfg?.baterias?.tipos[0]?.id ?? null)
-  const [cantBat, setCantBat] = useState(cfg?.baterias?.min ?? 0)
+  const [cantBatPorUnidad, setCantBatPorUnidad] = useState(
+    Array.from({ length: baseUnidades }, () => baseMin)
+  )
+
+  const currentBatMin = resolveBatMin(cfg, unidades)
+
+  function changeUnidades(n) {
+    const newMin = resolveBatMin(cfg, n)
+    setUnidades(n)
+    setCantBatPorUnidad(prev => {
+      const grown = n > prev.length
+        ? [...prev, ...Array(n - prev.length).fill(newMin)]
+        : prev.slice(0, n)
+      return grown.map(c => Math.max(newMin, c))
+    })
+  }
+
+  function updateCantBat(idx, val) {
+    setCantBatPorUnidad(prev => prev.map((c, i) => i === idx ? val : c))
+  }
 
   const tipoSel = cfg?.baterias?.tipos.find(t => t.id === tipoBat)
   const { kWh, kW } = useMemo(
-    () => cfg ? calcTotals(product.id, unidades, cantBat, tipoSel?.kWh ?? 0) : { kWh: 0, kW: 0 },
-    [cfg, product.id, unidades, cantBat, tipoSel]
+    () => cfg ? calcTotals(product.id, unidades, cantBatPorUnidad, tipoSel?.kWh ?? 0) : { kWh: 0, kW: 0 },
+    [cfg, product.id, unidades, cantBatPorUnidad, tipoSel]
   )
 
   if (!cfg) return null
 
-  const enBase = isBase(product.id, unidades, cantBat)
+  const enBase = isBase(product.id, unidades, cantBatPorUnidad)
 
   function handleTipoBat(nuevoId) {
     const nuevoTipo = cfg.baterias.tipos.find(t => t.id === nuevoId)
     setTipoBat(nuevoId)
-    if (cantBat > nuevoTipo.max) setCantBat(nuevoTipo.max)
+    setCantBatPorUnidad(prev => prev.map(c => c > nuevoTipo.max ? nuevoTipo.max : c))
   }
 
   return (
@@ -126,7 +155,7 @@ export default function ExpansionConfigurator({ product }) {
               min={cfg.paralelo.min}
               max={cfg.paralelo.max}
               value={unidades}
-              onChange={e => setUnidades(Number(e.target.value))}
+              onChange={e => changeUnidades(Number(e.target.value))}
               className="w-full accent-bluetti-cyan"
             />
             {cfg.paralelo.nota && (
@@ -157,24 +186,35 @@ export default function ExpansionConfigurator({ product }) {
         )}
 
         {cfg.baterias && tipoSel && (
-          <div>
-            <div className="flex justify-between text-sm mb-2">
-              <span className="text-bluetti-cyan">
-                Baterías {tipoSel.nombre}
-                {cfg.baterias.min > 0 ? ` (mín. ${cfg.baterias.min})` : ''}
-              </span>
-              <span className="text-bluetti-cyan font-bold">
-                {cantBat} unidad{cantBat !== 1 ? 'es' : ''}
-              </span>
-            </div>
-            <input
-              type="range"
-              min={cfg.baterias.min}
-              max={tipoSel.max}
-              value={cantBat}
-              onChange={e => setCantBat(Number(e.target.value))}
-              className="w-full accent-bluetti-cyan"
-            />
+          <div className="space-y-4">
+            {unidades > 1 && (
+              <p className="text-sm text-bluetti-cyan">
+                Baterías {tipoSel.nombre} por unidad
+                {currentBatMin > 0 ? <span className="text-bluetti-cyan/70"> (mín. {currentBatMin} por unidad)</span> : null}
+              </p>
+            )}
+            {cantBatPorUnidad.map((cant, i) => (
+              <div key={i}>
+                <div className="flex justify-between text-sm mb-2">
+                  <span className="text-bluetti-cyan">
+                    {unidades > 1
+                      ? `Unidad ${i + 1}`
+                      : <>Baterías {tipoSel.nombre}{currentBatMin > 0 ? ` (mín. ${currentBatMin})` : ''}</>}
+                  </span>
+                  <span className="text-bluetti-cyan font-bold">
+                    {cant} unidad{cant !== 1 ? 'es' : ''}
+                  </span>
+                </div>
+                <input
+                  type="range"
+                  min={currentBatMin}
+                  max={tipoSel.max}
+                  value={cant}
+                  onChange={e => updateCantBat(i, Number(e.target.value))}
+                  className="w-full accent-bluetti-cyan"
+                />
+              </div>
+            ))}
           </div>
         )}
       </div>

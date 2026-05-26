@@ -4,21 +4,21 @@ import { useCalculadora } from '../components/CalculadoraContext'
 
 const CATEGORIAS_ELECTRO = [
   { id: 'climatizacion', nombre: 'Climatización', items: [
-    { id: 'aire', nombre: 'Aire acondicionado (split 3000 frigs.)', watts: 900 },
-    { id: 'aire_grande', nombre: 'Aire acondicionado (split 5000 frigs.)', watts: 1500 },
+    { id: 'aire', nombre: 'Aire acondicionado (split 3000 frigs.)', watts: 900, arranqueW: 2700 },
+    { id: 'aire_grande', nombre: 'Aire acondicionado (split 5000 frigs.)', watts: 1500, arranqueW: 4500 },
     { id: 'ventilador', nombre: 'Ventilador de pie', watts: 60 },
     { id: 'calefactor', nombre: 'Calefactor eléctrico', watts: 1500 },
   ]},
   { id: 'cocina', nombre: 'Cocina', items: [
-    { id: 'heladera', nombre: 'Heladera', watts: 150 },
-    { id: 'freezer', nombre: 'Freezer', watts: 150 },
-    { id: 'heladera_comercial', nombre: 'Heladera comercial', watts: 400 },
-    { id: 'microondas', nombre: 'Microondas', watts: 1000 },
+    { id: 'heladera', nombre: 'Heladera', watts: 150, arranqueW: 450 },
+    { id: 'freezer', nombre: 'Freezer', watts: 150, arranqueW: 450 },
+    { id: 'heladera_comercial', nombre: 'Heladera comercial', watts: 400, arranqueW: 1200 },
+    { id: 'microondas', nombre: 'Microondas', watts: 1000, arranqueW: 2000 },
     { id: 'horno', nombre: 'Horno eléctrico', watts: 1200 },
     { id: 'pava', nombre: 'Pava eléctrica', watts: 1500 },
     { id: 'cafetera', nombre: 'Cafetera', watts: 900 },
     { id: 'tostadora', nombre: 'Tostadora', watts: 850 },
-    { id: 'licuadora', nombre: 'Licuadora', watts: 400 },
+    { id: 'licuadora', nombre: 'Licuadora', watts: 400, arranqueW: 800 },
   ]},
   { id: 'entretenimiento', nombre: 'Entretenimiento', items: [
     { id: 'tv', nombre: 'TV 55"', watts: 120 },
@@ -36,33 +36,33 @@ const CATEGORIAS_ELECTRO = [
     { id: 'led', nombre: 'Iluminación LED (10 luces)', watts: 100 },
   ]},
   { id: 'hogar', nombre: 'Hogar', items: [
-    { id: 'lavarropas', nombre: 'Lavarropas', watts: 500 },
+    { id: 'lavarropas', nombre: 'Lavarropas', watts: 500, arranqueW: 1500 },
     { id: 'plancha', nombre: 'Plancha de ropa', watts: 1200 },
-    { id: 'aspiradora', nombre: 'Aspiradora', watts: 1200 },
+    { id: 'aspiradora', nombre: 'Aspiradora', watts: 1200, arranqueW: 2400 },
   ]},
   { id: 'seguridad', nombre: 'Seguridad y servicios', items: [
     { id: 'camara', nombre: 'Cámara de seguridad', watts: 15 },
     { id: 'alarma', nombre: 'Alarma del hogar', watts: 20 },
-    { id: 'bomba', nombre: 'Bomba de agua', watts: 750 },
+    { id: 'bomba', nombre: 'Bomba de agua', watts: 750, arranqueW: 3000 },
   ]},
   { id: 'herramientas', nombre: 'Herramientas', items: [
-    { id: 'herramientas', nombre: 'Herramientas eléctricas', watts: 800 },
+    { id: 'herramientas', nombre: 'Herramientas eléctricas', watts: 800, arranqueW: 1600 },
   ]},
   { id: 'industrial', nombre: 'Industrial', items: [
-    { id: 'compresor_10hp', nombre: 'Compresor industrial (10 HP)', watts: 7500 },
-    { id: 'compresor_20hp', nombre: 'Compresor industrial (20 HP)', watts: 15000 },
-    { id: 'motor_trifasico', nombre: 'Motor trifásico (10 HP)', watts: 7500 },
-    { id: 'soldadora_mig', nombre: 'Soldadora MIG/TIG', watts: 5000 },
-    { id: 'torno_industrial', nombre: 'Torno industrial', watts: 5500 },
-    { id: 'fresadora_cnc', nombre: 'Fresadora CNC', watts: 7500 },
-    { id: 'camara_frigorifica', nombre: 'Cámara frigorífica industrial', watts: 5000 },
+    { id: 'compresor_10hp', nombre: 'Compresor industrial (10 HP)', watts: 7500, arranqueW: 22500 },
+    { id: 'compresor_20hp', nombre: 'Compresor industrial (20 HP)', watts: 15000, arranqueW: 45000 },
+    { id: 'motor_trifasico', nombre: 'Motor trifásico (10 HP)', watts: 7500, arranqueW: 22500 },
+    { id: 'soldadora_mig', nombre: 'Soldadora MIG/TIG', watts: 5000, arranqueW: 10000 },
+    { id: 'torno_industrial', nombre: 'Torno industrial', watts: 5500, arranqueW: 16500 },
+    { id: 'fresadora_cnc', nombre: 'Fresadora CNC', watts: 7500, arranqueW: 18750 },
+    { id: 'camara_frigorifica', nombre: 'Cámara frigorífica industrial', watts: 5000, arranqueW: 15000 },
     { id: 'horno_industrial', nombre: 'Horno industrial (panadería)', watts: 12000 },
-    { id: 'amasadora_industrial', nombre: 'Amasadora industrial', watts: 3000 },
+    { id: 'amasadora_industrial', nombre: 'Amasadora industrial', watts: 3000, arranqueW: 9000 },
     { id: 'caldera_electrica', nombre: 'Caldera eléctrica industrial', watts: 9000 },
-    { id: 'bomba_industrial', nombre: 'Bomba centrífuga industrial', watts: 4000 },
-    { id: 'cinta_transportadora', nombre: 'Cinta transportadora', watts: 2200 },
+    { id: 'bomba_industrial', nombre: 'Bomba centrífuga industrial', watts: 4000, arranqueW: 12000 },
+    { id: 'cinta_transportadora', nombre: 'Cinta transportadora', watts: 2200, arranqueW: 6600 },
     { id: 'iluminacion_galpon', nombre: 'Iluminación LED galpón', watts: 2000 },
-    { id: 'extractor_industrial', nombre: 'Extractor industrial', watts: 1500 },
+    { id: 'extractor_industrial', nombre: 'Extractor industrial', watts: 1500, arranqueW: 3000 },
   ]},
 ]
 
@@ -145,7 +145,7 @@ const MODELOS = [
 
 const MODEL_CFG = {
   es125x:  { paralelo: { min: 1, max: 4 },  bat: null },
-  ep2000:  { paralelo: { min: 1, max: 3 },  bat: { tipo: 'B700',  min: 4, max: 7  } },
+  ep2000:  { paralelo: { min: 1, max: 3 },  bat: { tipo: 'B700',  min: u => u > 1 ? 2 : 4, max: 7 } },
   ep760:   { paralelo: null,                bat: { tipo: 'B500',  min: 2, max: 4  } },
   apex300: { paralelo: { min: 1, max: 3 },  bat: { tipo: 'B300K', min: 0, max: 6  } },
   ac200pl: { paralelo: null,                bat: { tipo: 'B300K', min: 0, max: 2  } },
@@ -153,15 +153,22 @@ const MODEL_CFG = {
 }
 
 function calcCapacity(modelId, unidades, baterias) {
+  const arr = Array.isArray(baterias) ? baterias : Array(unidades).fill(baterias)
+  const totalBat = arr.reduce((a, b) => a + b, 0)
   switch (modelId) {
     case 'es125x':  return { kWh: unidades * 241, kW: unidades * 125 }
-    case 'rv5':     return { kWh: baterias * 4.8, kW: 5 }
-    case 'ep2000':  return { kWh: unidades * baterias * 7.37, kW: unidades * 20 }
-    case 'ep760':   return { kWh: baterias * 4.96, kW: 7.6 }
-    case 'apex300': return { kWh: unidades * (2.76 + baterias * 2.76), kW: unidades * 3.84 }
-    case 'ac200pl': return { kWh: 2.304 + baterias * 2.76, kW: 2.4 }
+    case 'rv5':     return { kWh: totalBat * 4.8, kW: 5 }
+    case 'ep2000':  return { kWh: totalBat * 7.37, kW: unidades * 20 }
+    case 'ep760':   return { kWh: totalBat * 4.96, kW: 7.6 }
+    case 'apex300': return { kWh: unidades * 2.76 + totalBat * 2.76, kW: unidades * 3.84 }
+    case 'ac200pl': return { kWh: 2.304 + totalBat * 2.76, kW: 2.4 }
     default:        return { kWh: 0, kW: 0 }
   }
+}
+
+function batMin(cfg, unidades) {
+  if (!cfg.bat) return 0
+  return typeof cfg.bat.min === 'function' ? cfg.bat.min(unidades) : cfg.bat.min
 }
 
 function maxKwForModel(id) {
@@ -310,20 +317,40 @@ function Stepper({ value, min, max, onChange, label, sublabel }) {
 function ModelCard({ modelo, totalKwh, totalKw }) {
   const cfg = MODEL_CFG[modelo.id]
   const baseUnidades = cfg.paralelo?.min ?? 1
-  const baseBaterias = cfg.bat?.min ?? 0
+  const baseBateriasPorUnidad = batMin(cfg, baseUnidades)
   const [unidades, setUnidades] = useState(baseUnidades)
-  const [baterias, setBaterias] = useState(baseBaterias)
+  const [bateriasPorUnidad, setBateriasPorUnidad] = useState(
+    Array.from({ length: baseUnidades }, () => baseBateriasPorUnidad)
+  )
+
+  const currentBatMin = batMin(cfg, unidades)
+
+  function changeUnidades(n) {
+    const newMin = batMin(cfg, n)
+    setUnidades(n)
+    setBateriasPorUnidad(prev => {
+      const grown = n > prev.length
+        ? [...prev, ...Array(n - prev.length).fill(newMin)]
+        : prev.slice(0, n)
+      return grown.map(b => Math.max(newMin, b))
+    })
+  }
+
+  function updateBaterias(idx, val) {
+    setBateriasPorUnidad(prev => prev.map((b, i) => i === idx ? val : b))
+  }
 
   const { kWh, kW } = useMemo(
-    () => calcCapacity(modelo.id, unidades, baterias),
-    [modelo.id, unidades, baterias]
+    () => calcCapacity(modelo.id, unidades, bateriasPorUnidad),
+    [modelo.id, unidades, bateriasPorUnidad]
   )
 
   const status = useMemo(() => {
     if (kW < totalKw) return 'insufficient'
-    if (unidades === baseUnidades && baterias === baseBaterias) return 'base'
+    const allAtMin = bateriasPorUnidad.every(b => b === baseBateriasPorUnidad)
+    if (unidades === baseUnidades && allAtMin) return 'base'
     return 'expansion'
-  }, [kW, totalKw, unidades, baterias, baseUnidades, baseBaterias])
+  }, [kW, totalKw, unidades, bateriasPorUnidad, baseUnidades, baseBateriasPorUnidad])
 
   const horas = totalKwh > 0 ? ((kWh / totalKwh) * 24).toFixed(1) : null
   const styles = STATUS_STYLES[status]
@@ -337,25 +364,30 @@ function ModelCard({ modelo, totalKwh, totalKw }) {
         </span>
       </div>
 
-      <div className={`grid gap-2 sm:gap-3 mb-3 sm:mb-4 ${cfg.paralelo && cfg.bat ? 'grid-cols-1 sm:grid-cols-2' : 'grid-cols-1'}`}>
+      <div className="space-y-2 sm:space-y-3 mb-3 sm:mb-4">
         {cfg.paralelo && (
           <Stepper
             value={unidades}
             min={cfg.paralelo.min}
             max={cfg.paralelo.max}
-            onChange={setUnidades}
+            onChange={changeUnidades}
             label="Unidades"
           />
         )}
         {cfg.bat && (
-          <Stepper
-            value={baterias}
-            min={cfg.bat.min}
-            max={cfg.bat.max}
-            onChange={setBaterias}
-            label="Baterías"
-            sublabel={cfg.bat.tipo}
-          />
+          <div className={`grid gap-2 sm:gap-3 ${unidades > 1 ? 'grid-cols-1 sm:grid-cols-2' : 'grid-cols-1'}`}>
+            {bateriasPorUnidad.map((b, i) => (
+              <Stepper
+                key={i}
+                value={b}
+                min={currentBatMin}
+                max={cfg.bat.max}
+                onChange={v => updateBaterias(i, v)}
+                label={unidades > 1 ? `Baterías Unidad ${i + 1}` : 'Baterías'}
+                sublabel={cfg.bat.tipo}
+              />
+            ))}
+          </div>
         )}
       </div>
 
@@ -530,7 +562,7 @@ export default function Calculadora() {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <h1 className="text-2xl font-bold text-white mb-2">Calculadora de Autonomía</h1>
       <p className="text-bluetti-cyan text-sm mb-8">
-        Seleccioná los electrodomésticos que querés alimentar y calculá cuánto tiempo te dura cada modelo BLUETTI.
+        Seleccioná los equipos que querés alimentar y calculá cuánto tiempo te dura cada modelo BLUETTI.
       </p>
 
       <div className="flex flex-wrap gap-2 mb-8">
@@ -550,11 +582,11 @@ export default function Calculadora() {
         {/* Columna izquierda */}
         <div>
           <h2 className="text-sm font-semibold text-bluetti-cyan uppercase tracking-wider mb-4">
-            Electrodomésticos disponibles
+            Equipos disponibles
           </h2>
           <div className="mb-4 bg-bluetti-card border border-dashed border-bluetti-border rounded-xl p-4">
             <p className="text-xs font-semibold text-bluetti-cyan uppercase tracking-wider mb-3">
-              Agregar electrodoméstico personalizado
+              Agregar equipo personalizado
             </p>
             <div className="flex gap-2">
               <input
@@ -682,7 +714,7 @@ export default function Calculadora() {
             {agregados.length === 0 ? (
               <div className="bg-bluetti-card border border-dashed border-bluetti-border rounded-xl p-8 text-center">
                 <p className="text-bluetti-cyan/70 text-sm">
-                  Agregá electrodomésticos de la lista para calcular la autonomía.
+                  Agregá equipos de la lista para calcular la autonomía.
                 </p>
               </div>
             ) : (
@@ -732,7 +764,7 @@ export default function Calculadora() {
                       </span>
                       <label
                         className="flex items-center gap-1.5 text-bluetti-cyan/70"
-                        title="Algunos electros (heladera, microondas, bomba, aire) necesitan un pico de W más alto al arrancar. Opcional."
+                        title="Algunos equipos (heladera, microondas, bomba, aire) necesitan un pico de W más alto al arrancar. Opcional."
                       >
                         <span>Pico arranque</span>
                         <input
@@ -788,7 +820,7 @@ export default function Calculadora() {
 
             {totalKwh === 0 ? (
               <p className="text-bluetti-cyan/70 text-sm text-center py-4">
-                Agregá electrodomésticos para ver qué modelos BLUETTI te convienen.
+                Agregá equipos para ver qué modelos BLUETTI te convienen.
               </p>
             ) : (
               <div className="space-y-3">
