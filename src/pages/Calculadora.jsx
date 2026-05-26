@@ -256,6 +256,49 @@ function dailyKwh(agregados) {
   return total * SLOT_HOURS / 1000
 }
 
+const SUN_START = 6
+const SUN_END = 18
+
+function dailySolarKwh(paneles, panelW, horasSol, efic = 0.8) {
+  return (paneles * panelW / 1000) * horasSol * efic
+}
+
+function computeSolarPerSlot(totalDailyKwh) {
+  const arr = new Array(SLOTS_PER_DAY).fill(0)
+  if (totalDailyKwh <= 0) return arr
+  let sum = 0
+  for (let s = 0; s < SLOTS_PER_DAY; s++) {
+    const t = s * SLOT_HOURS
+    if (t < SUN_START || t >= SUN_END) continue
+    const x = (t - SUN_START) / (SUN_END - SUN_START)
+    arr[s] = Math.sin(Math.PI * x)
+    sum += arr[s]
+  }
+  if (sum === 0) return arr
+  for (let s = 0; s < SLOTS_PER_DAY; s++) arr[s] = arr[s] * totalDailyKwh / sum
+  return arr
+}
+
+function computeConsumoPerSlot(agregados) {
+  return Array.from({ length: SLOTS_PER_DAY }, (_, s) =>
+    loadAtSlotW(agregados, s) * SLOT_HOURS / 1000
+  )
+}
+
+function simulateAutonomyWithSolar(capacityKwh, consumoPerSlot, solarPerSlot, maxDays = 30) {
+  if (capacityKwh <= 0) return { autosuficiente: false, horas: 0 }
+  let soc = capacityKwh
+  let hours = 0
+  for (let day = 0; day < maxDays; day++) {
+    for (let s = 0; s < SLOTS_PER_DAY; s++) {
+      soc = Math.min(capacityKwh, soc + solarPerSlot[s] - consumoPerSlot[s])
+      hours += SLOT_HOURS
+      if (soc <= 0) return { autosuficiente: false, horas: hours }
+    }
+  }
+  return { autosuficiente: true, horas: hours }
+}
+
 function peakInfo(agregados) {
   let maxCont = 0
   let contSlot = 0
@@ -314,7 +357,7 @@ function Stepper({ value, min, max, onChange, label, sublabel }) {
   )
 }
 
-function ModelCard({ modelo, totalKwh, totalKw }) {
+function ModelCard({ modelo, totalKwh, totalKw, solarOn, consumoPerSlot, solarPerSlot }) {
   const cfg = MODEL_CFG[modelo.id]
   const baseUnidades = cfg.paralelo?.min ?? 1
   const baseBateriasPorUnidad = batMin(cfg, baseUnidades)
@@ -354,6 +397,11 @@ function ModelCard({ modelo, totalKwh, totalKw }) {
 
   const horas = totalKwh > 0 ? ((kWh / totalKwh) * 24).toFixed(1) : null
   const styles = STATUS_STYLES[status]
+
+  const conSolar = useMemo(() => {
+    if (!solarOn || !consumoPerSlot || !solarPerSlot) return null
+    return simulateAutonomyWithSolar(kWh, consumoPerSlot, solarPerSlot)
+  }, [solarOn, consumoPerSlot, solarPerSlot, kWh])
 
   return (
     <div className={`rounded-xl border ${styles.border} ${styles.bg} px-3 sm:px-5 py-3 sm:py-4`}>
@@ -400,17 +448,35 @@ function ModelCard({ modelo, totalKwh, totalKw }) {
           No soporta el pico de potencia requerido
         </p>
       ) : (
-        <div className="flex items-center justify-between gap-2 flex-wrap">
-          <div className="flex items-baseline gap-1.5">
-            <span className="text-bluetti-lime text-2xl sm:text-3xl font-bold leading-none">{horas}</span>
-            <span className="text-bluetti-lime text-sm sm:text-base font-semibold">hs de autonomía</span>
+        <div className="space-y-1">
+          <div className="flex items-center justify-between gap-2 flex-wrap">
+            <div className="flex items-baseline gap-1.5">
+              <span className="text-bluetti-lime text-2xl sm:text-3xl font-bold leading-none">{horas}</span>
+              <span className="text-bluetti-lime text-sm sm:text-base font-semibold">hs de autonomía</span>
+            </div>
+            <Link
+              to={`/producto/${modelo.id}`}
+              className="text-xs sm:text-sm text-bluetti-cyan hover:text-bluetti-cyan underline underline-offset-2 transition-colors shrink-0"
+            >
+              Ver producto
+            </Link>
           </div>
-          <Link
-            to={`/producto/${modelo.id}`}
-            className="text-xs sm:text-sm text-bluetti-cyan hover:text-bluetti-cyan underline underline-offset-2 transition-colors shrink-0"
-          >
-            Ver producto
-          </Link>
+          {conSolar && (
+            conSolar.autosuficiente ? (
+              <div className="flex items-baseline gap-1.5 mt-1">
+                <span className="text-yellow-300 text-base sm:text-lg font-bold">
+                  ☀ Autosuficiente con solar
+                </span>
+              </div>
+            ) : (
+              <div className="flex items-baseline gap-1.5 mt-1 flex-wrap">
+                <span className="text-yellow-200/90 text-sm sm:text-base font-semibold">☀ Con solar:</span>
+                <span className="text-yellow-300 text-sm sm:text-base font-bold">
+                  {conSolar.horas.toFixed(1)} hs
+                </span>
+              </div>
+            )
+          )}
         </div>
       )}
     </div>
@@ -478,6 +544,10 @@ export default function Calculadora() {
   const [customNombre, setCustomNombre] = useState('')
   const [customWatts, setCustomWatts] = useState('')
   const [movilidad, setMovilidad] = useState(false)
+  const [solarOn, setSolarOn] = useState(false)
+  const [solarPaneles, setSolarPaneles] = useState(4)
+  const [solarPanelW, setSolarPanelW] = useState(400)
+  const [solarHorasSol, setSolarHorasSol] = useState(5)
 
   function toggleCat(id) {
     setOpenCats(prev => ({ ...prev, [id]: !prev[id] }))
@@ -530,6 +600,14 @@ export default function Calculadora() {
 
   const totalKwh = useMemo(() => dailyKwh(agregados), [agregados])
   const peak = useMemo(() => peakInfo(agregados), [agregados])
+
+  const dailySolar = useMemo(
+    () => solarOn ? dailySolarKwh(solarPaneles, solarPanelW, solarHorasSol) : 0,
+    [solarOn, solarPaneles, solarPanelW, solarHorasSol]
+  )
+  const solarPerSlot = useMemo(() => computeSolarPerSlot(dailySolar), [dailySolar])
+  const consumoPerSlot = useMemo(() => computeConsumoPerSlot(agregados), [agregados])
+  const solarActivo = solarOn && dailySolar > 0
 
   function aplicarPerfil(perfil) {
     const nuevos = []
@@ -785,6 +863,93 @@ export default function Calculadora() {
             )}
           </div>
 
+          {/* Solar opcional */}
+          <div className="bg-bluetti-card border border-bluetti-border rounded-xl p-4">
+            <button
+              onClick={() => setSolarOn(v => !v)}
+              className="w-full flex items-center justify-between gap-3"
+            >
+              <div className="flex items-center gap-2 flex-wrap">
+                <span className="text-white text-sm font-semibold">☀ Paneles Solares</span>
+                {solarActivo && (
+                  <span className="text-yellow-300 text-xs font-semibold">
+                    +{dailySolar.toFixed(2)} kWh/día
+                  </span>
+                )}
+              </div>
+              <span
+                className={`relative inline-block w-10 h-5 rounded-full transition-colors shrink-0 ${
+                  solarOn ? 'bg-bluetti-cyan' : 'bg-bluetti-border'
+                }`}
+              >
+                <span
+                  className={`absolute top-0.5 left-0.5 w-4 h-4 rounded-full bg-bluetti-bg transition-transform ${
+                    solarOn ? 'translate-x-5' : 'translate-x-0'
+                  }`}
+                />
+              </span>
+            </button>
+
+            {solarOn && (
+              <div className="mt-4 space-y-3 pt-4 border-t border-bluetti-border">
+                <div className="flex items-center justify-between gap-3">
+                  <span className="text-bluetti-cyan/80 text-xs uppercase tracking-wider">Paneles</span>
+                  <div className="flex items-center gap-2">
+                    <button
+                      onClick={() => setSolarPaneles(p => Math.max(1, p - 1))}
+                      disabled={solarPaneles <= 1}
+                      className="w-8 h-8 rounded-lg bg-bluetti-border hover:bg-red-900/40 text-bluetti-cyan/80 hover:text-red-400 font-bold flex items-center justify-center transition-all disabled:opacity-30 disabled:cursor-not-allowed"
+                    >−</button>
+                    <span className="text-bluetti-cyan font-bold text-base w-6 text-center">{solarPaneles}</span>
+                    <button
+                      onClick={() => setSolarPaneles(p => Math.min(40, p + 1))}
+                      disabled={solarPaneles >= 40}
+                      className="w-8 h-8 rounded-lg bg-bluetti-border hover:bg-bluetti-cyan hover:text-bluetti-bg text-bluetti-cyan/80 font-bold flex items-center justify-center transition-all disabled:opacity-30"
+                    >+</button>
+                  </div>
+                </div>
+
+                <div className="flex items-center justify-between gap-3 flex-wrap">
+                  <span className="text-bluetti-cyan/80 text-xs uppercase tracking-wider">Wp por panel</span>
+                  <div className="flex gap-1.5">
+                    {[200, 400, 500].map(w => (
+                      <button
+                        key={w}
+                        onClick={() => setSolarPanelW(w)}
+                        className={`px-3 py-1 rounded-lg text-xs font-medium border transition-all ${
+                          solarPanelW === w
+                            ? 'border-bluetti-cyan bg-bluetti-cyan/10 text-bluetti-cyan'
+                            : 'border-bluetti-border text-bluetti-cyan/70 hover:border-bluetti-cyan hover:text-bluetti-cyan'
+                        }`}
+                      >
+                        {w}W
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <div>
+                  <div className="flex items-center justify-between mb-1">
+                    <span className="text-bluetti-cyan/80 text-xs uppercase tracking-wider">Horas pico de sol</span>
+                    <span className="text-bluetti-cyan font-bold text-sm">{solarHorasSol} hs</span>
+                  </div>
+                  <input
+                    type="range"
+                    min={2}
+                    max={8}
+                    value={solarHorasSol}
+                    onChange={e => setSolarHorasSol(Number(e.target.value))}
+                    className="w-full accent-bluetti-cyan"
+                  />
+                  <div className="flex justify-between text-gray-600 text-[10px] mt-0.5">
+                    <span>Nublado (2)</span>
+                    <span>Pleno verano (8)</span>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+
           {/* Panel de resultados */}
           <div className="bg-bluetti-card border border-bluetti-border rounded-xl p-4 sm:p-5">
             <div className="flex items-baseline justify-between gap-2 mb-2">
@@ -843,6 +1008,9 @@ export default function Calculadora() {
                         modelo={modelo}
                         totalKwh={totalKwh}
                         totalKw={effectiveKw}
+                        solarOn={solarActivo}
+                        consumoPerSlot={consumoPerSlot}
+                        solarPerSlot={solarPerSlot}
                       />
                     ))
                 })()}
