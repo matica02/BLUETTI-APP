@@ -250,13 +250,31 @@ function dailyKwh(agregados) {
 }
 
 function peakInfo(agregados) {
-  let maxW = 0
-  let peakSlot = 0
+  let maxCont = 0
+  let contSlot = 0
+  let maxSurge = 0
+  let surgeSlot = 0
   for (let s = 0; s < SLOTS_PER_DAY; s++) {
-    const l = loadAtSlotW(agregados, s)
-    if (l > maxW) { maxW = l; peakSlot = s }
+    const cont = loadAtSlotW(agregados, s)
+    if (cont > maxCont) { maxCont = cont; contSlot = s }
+    let surgeDelta = 0
+    for (const e of agregados) {
+      if (!e.arranqueW || e.arranqueW <= e.watts) continue
+      if (activePctAtSlot(e, s) > 0) {
+        const d = e.arranqueW - e.watts
+        if (d > surgeDelta) surgeDelta = d
+      }
+    }
+    const totalSurge = cont + surgeDelta
+    if (totalSurge > maxSurge) { maxSurge = totalSurge; surgeSlot = s }
   }
-  return { watts: maxW, time: peakSlot * SLOT_HOURS }
+  return {
+    watts: maxCont,
+    time: contSlot * SLOT_HOURS,
+    surgeWatts: maxSurge,
+    surgeTime: surgeSlot * SLOT_HOURS,
+    hasSurge: maxSurge > maxCont,
+  }
 }
 
 const STATUS_STYLES = {
@@ -459,6 +477,14 @@ export default function Calculadora() {
       if (e.franjas.length <= 1) return e
       return { ...e, franjas: e.franjas.filter((_, i) => i !== idx) }
     }))
+  }
+
+  function updateArranque(instanceKey, value) {
+    const num = value === '' ? undefined : Number(value)
+    const sane = Number.isFinite(num) && num > 0 ? num : undefined
+    setAgregados(prev => prev.map(e =>
+      e.instanceKey === instanceKey ? { ...e, arranqueW: sane } : e
+    ))
   }
 
   function updateFranja(instanceKey, idx, updated) {
@@ -700,8 +726,26 @@ export default function Calculadora() {
                         )
                       })()}
                     </div>
-                    <div className="text-bluetti-cyan/70 text-xs">
-                      {e.watts}W = {electroDailyKwh(e).toFixed(2)} kWh/día
+                    <div className="flex items-center justify-between gap-2 flex-wrap text-xs">
+                      <span className="text-bluetti-cyan/70">
+                        {e.watts}W = {electroDailyKwh(e).toFixed(2)} kWh/día
+                      </span>
+                      <label
+                        className="flex items-center gap-1.5 text-bluetti-cyan/70"
+                        title="Algunos electros (heladera, microondas, bomba, aire) necesitan un pico de W más alto al arrancar. Opcional."
+                      >
+                        <span>Pico arranque</span>
+                        <input
+                          type="number"
+                          min={e.watts}
+                          step={50}
+                          placeholder="—"
+                          value={e.arranqueW ?? ''}
+                          onChange={ev => updateArranque(e.instanceKey, ev.target.value)}
+                          className="w-20 bg-black/30 border border-bluetti-border rounded px-1.5 py-0.5 text-bluetti-cyan text-xs focus:outline-none focus:border-bluetti-cyan"
+                        />
+                        <span>W</span>
+                      </label>
                     </div>
                   </div>
                 ))}
@@ -719,7 +763,7 @@ export default function Calculadora() {
               </span>
             </div>
             {peak.watts > 0 && (
-              <div className="flex items-baseline justify-between gap-2 mb-4 sm:mb-5">
+              <div className="flex items-baseline justify-between gap-2 mb-2">
                 <span className="text-bluetti-cyan text-xs sm:text-sm">
                   Pico de consumo <span className="text-bluetti-cyan/60 text-[10px] sm:text-xs">(a las {formatTime(peak.time)})</span>
                 </span>
@@ -729,6 +773,18 @@ export default function Calculadora() {
                 </span>
               </div>
             )}
+            {peak.hasSurge && (
+              <div className="flex items-baseline justify-between gap-2 mb-4 sm:mb-5">
+                <span className="text-bluetti-cyan text-xs sm:text-sm">
+                  Pico de arranque <span className="text-bluetti-cyan/60 text-[10px] sm:text-xs">(a las {formatTime(peak.surgeTime)})</span>
+                </span>
+                <span className="text-bluetti-lime text-xl sm:text-3xl font-bold">
+                  {(peak.surgeWatts / 1000).toFixed(2)}
+                  <span className="text-xs sm:text-sm font-normal text-bluetti-lime ml-1 inline-block w-12 sm:w-16 text-left">kW</span>
+                </span>
+              </div>
+            )}
+            {peak.watts > 0 && !peak.hasSurge && <div className="mb-4 sm:mb-5" />}
 
             {totalKwh === 0 ? (
               <p className="text-bluetti-cyan/70 text-sm text-center py-4">
@@ -739,22 +795,25 @@ export default function Calculadora() {
                 <p className="text-xs text-bluetti-cyan/70 uppercase tracking-wider mb-3">
                   Configurá cada modelo para ver su autonomía
                 </p>
-                {MODELOS
-                  .filter(m => {
-                    const kw = peak.watts / 1000
-                    if (movilidad) return m.id === 'rv5'
-                    if (m.id === 'rv5') return false
-                    if (m.id === 'es125x' && kw < 60) return false
-                    return kw <= maxKwForModel(m.id)
-                  })
-                  .map(modelo => (
-                    <ModelCard
-                      key={modelo.id}
-                      modelo={modelo}
-                      totalKwh={totalKwh}
-                      totalKw={peak.watts / 1000}
-                    />
-                  ))}
+                {(() => {
+                  const contKw = peak.watts / 1000
+                  const effectiveKw = peak.hasSurge ? peak.surgeWatts / 1000 : contKw
+                  return MODELOS
+                    .filter(m => {
+                      if (movilidad) return m.id === 'rv5'
+                      if (m.id === 'rv5') return false
+                      if (m.id === 'es125x' && contKw < 60) return false
+                      return effectiveKw <= maxKwForModel(m.id)
+                    })
+                    .map(modelo => (
+                      <ModelCard
+                        key={modelo.id}
+                        modelo={modelo}
+                        totalKwh={totalKwh}
+                        totalKw={effectiveKw}
+                      />
+                    ))
+                })()}
               </div>
             )}
           </div>
