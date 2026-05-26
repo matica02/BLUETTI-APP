@@ -6,7 +6,7 @@ import { useCompare } from '../components/CompareContext'
 import SpecsTable from '../components/SpecsTable'
 import HighlightsList from '../components/HighlightsList'
 import ExpansionConfigurator from '../components/ExpansionConfigurator'
-import { CATEGORIA_LABELS, CATEGORIA_COLORS } from '../data/categorias'
+import { CATEGORIA_LABELS, CATEGORIA_COLORS, TIPO_RED_COLORS } from '../data/categorias'
 import { ScrollReveal } from '../components/ScrollReveal'
 
 const modelsWithManual = ['rv5', 'ep2000', 'ep760', 'apex300', 'ac200pl', 'charger1']
@@ -126,9 +126,16 @@ export default function ProductoDetalle() {
         </div>
 
         <div className="flex flex-col justify-start gap-4">
-          <span className={`text-xs px-3 py-1 rounded-full font-medium w-fit ${colorClass}`}>
-            {label}
-          </span>
+          <div className="flex flex-wrap items-center gap-2">
+            <span className={`text-xs px-3 py-1 rounded-full font-medium w-fit ${colorClass}`}>
+              {label}
+            </span>
+            {product.tipoRed && (
+              <span className={`text-xs px-3 py-1 rounded-full font-medium w-fit ${TIPO_RED_COLORS[product.tipoRed] || ''}`}>
+                {product.tipoRed}
+              </span>
+            )}
+          </div>
           <h1 className="text-4xl font-bold text-white">{product.nombre}</h1>
           {product.subtitulo && (
             <p className="text-bluetti-cyan text-sm font-medium">{product.subtitulo}</p>

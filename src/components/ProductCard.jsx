@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { useCompare } from './CompareContext'
-import { CATEGORIA_LABELS, CATEGORIA_COLORS, CATEGORIA_BORDER_COLORS } from '../data/categorias'
+import { CATEGORIA_LABELS, CATEGORIA_COLORS, CATEGORIA_BORDER_COLORS, TIPO_RED_COLORS } from '../data/categorias'
 
 export default function ProductCard({ product }) {
   const { addToCompare, removeFromCompare, isSelected, isFull } = useCompare()
@@ -106,9 +106,16 @@ export default function ProductCard({ product }) {
             <h3 className="font-bold text-2xl leading-tight" style={{ color: categoryBorderColor }}>{product.nombre}</h3>
             <p className="text-sm mt-1 line-clamp-2" style={{ color: categoryBorderColor }}>{product.tagline}</p>
           </div>
-          <span className={`text-xs px-2 py-1 rounded-full font-medium flex-shrink-0 ${colorClass}`}>
-            {label}
-          </span>
+          <div className="flex flex-col gap-1 items-end flex-shrink-0">
+            <span className={`text-xs px-2 py-1 rounded-full font-medium ${colorClass}`}>
+              {label}
+            </span>
+            {product.tipoRed && (
+              <span className={`text-xs px-2 py-1 rounded-full font-medium ${TIPO_RED_COLORS[product.tipoRed] || ''}`}>
+                {product.tipoRed}
+              </span>
+            )}
+          </div>
         </div>
 
         <div className="flex gap-2 mt-auto">

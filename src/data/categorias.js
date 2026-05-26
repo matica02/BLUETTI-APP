@@ -25,3 +25,9 @@ export const CATEGORIA_BORDER_COLORS = {
 }
 
 export const TODAS_CATEGORIAS = ['Todos', 'Industrial', 'Residencial', 'Portátil', 'Movilidad', 'Accesorio']
+
+export const TIPO_RED_COLORS = {
+  'Off-Grid': 'bg-amber-900/50 text-amber-300 border border-amber-700/50',
+  'Híbrido': 'bg-cyan-900/50 text-cyan-300 border border-cyan-700/50',
+  'On-Grid': 'bg-emerald-900/50 text-emerald-300 border border-emerald-700/50',
+}
