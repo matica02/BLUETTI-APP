@@ -123,7 +123,8 @@
       "B4810 (batería LiFePO4 48V 100Ah)",
       "Epad (pantalla de control central)",
       "Epanel (panel de distribución inteligente)",
-      "PV100 FX (panel solar flexible 100W)"
+      "PV100 FX (panel solar flexible 100W)",
+      { "nombre": "Charger 1 (cargador de alternador 560W)", "id": "charger1" }
     ]
   },
   {
@@ -328,7 +329,7 @@
       "SolarX 4K (amplía entrada solar hasta 4–30 kW)",
       "S1 Smart Plug (automatización de cargas)",
       "Trolley plegable (transporte)",
-      "Charger 1 (carga por alternador del vehículo)"
+      { "nombre": "Charger 1 (cargador de alternador 560W)", "id": "charger1" }
     ]
   },
   {
@@ -393,7 +394,71 @@
     "accesoriosCompatibles": [
       "B300K (batería de expansión 2.76 kWh)",
       "B210P (batería de expansión)",
-      "B230 (batería de expansión)"
+      "B230 (batería de expansión)",
+      { "nombre": "Charger 1 (cargador de alternador 560W)", "id": "charger1" }
     ]
+  },
+  {
+    "id": "charger1",
+    "nombre": "Charger 1",
+    "tagline": "Cargador de Alternador 560 W",
+    "subtitulo": "Accesorio de Carga Vehicular",
+    "descripcion": "En viajes largos por motorhome, casa rodante o vehículo off-road, recargar una estación de energía portátil desde el encendedor del auto puede llevar más de 8 horas — limitada típicamente a 100 W. Al llegar al destino, la batería sigue a media carga, justo cuando más necesitás energía.\nEl BLUETTI Charger 1 es un cargador de alternador externo que se conecta directamente a la batería del vehículo (12V o 24V) y entrega hasta 560 W de carga DC a la estación portátil — hasta 6× más rápido que la cigarrera estándar. Mientras manejás, tu BLUETTI se recarga sola.\nIncluye protección contra descarga de la batería del auto (corta automáticamente para evitar dejarte varado), protección contra sobrecarga, refrigeración activa por ventilador y control completo desde la app BLUETTI vía Bluetooth. El voltaje de salida es ajustable entre 15 V y 56 V, compatible con AC200P L, APEX 300, RV5 y la mayoría de las estaciones BLUETTI portátiles del mercado.",
+    "categoria": "Accesorio",
+    "imagen": "charger1.png",
+    "perfilUsuario": "Viajeros en motorhome, casas rodantes o vehículos off-road que necesitan cargar su estación BLUETTI durante el manejo. También útil para flotas comerciales, food trucks o vehículos de servicio donde la estación se usa varias veces al día y la cigarrera no alcanza.",
+    "casosDeUso": [
+      {
+        "etiqueta": "Motorhome / Casa Rodante",
+        "descripcion": "Recarga la estación durante el manejo y llegá al camping con batería al 100%."
+      },
+      {
+        "etiqueta": "Off-Road / Expediciones",
+        "descripcion": "Vehículos 4×4 y SUV con batería 12V o 24V — ideal para viajes largos sin acceso a la red."
+      },
+      {
+        "etiqueta": "Trabajo Móvil",
+        "descripcion": "Camionetas de servicio, food trucks o trabajos en exteriores que dependen del Bluetti todo el día."
+      },
+      {
+        "etiqueta": "Carga Rápida en Ruta",
+        "descripcion": "Hasta 560 W de carga DC — 6× más rápido que la cigarrera estándar (~100 W)."
+      },
+      {
+        "etiqueta": "Compatibilidad Universal",
+        "descripcion": "Voltaje de salida ajustable 15–56 V vía app. Funciona con AC200P L, APEX 300, RV5 y la mayoría de estaciones BLUETTI."
+      }
+    ],
+    "specs": {
+      "modelo": "CHARGER 1",
+      "potenciaMaxima": "560 W",
+      "entradaDC": "12V / 50A máx. o 24V / 25A máx.",
+      "voltajeSalida": "27 V por defecto · ajustable 15–56 V (batería 12V) o 27–56 V (batería 24V) vía app",
+      "corriente": "10 A",
+      "compatibilidadVehiculo": "Batería de auto 12V o 24V",
+      "estacionesCompatibles": "AC200P L, APEX 300, RV5 y la mayoría de estaciones BLUETTI portátiles",
+      "protecciones": "Descarga de la batería del auto, sobrecarga",
+      "refrigeracion": "Ventilador activo (50 dB máx)",
+      "conectividad": "Bluetooth (app BLUETTI)",
+      "proteccion": "IP20",
+      "temperaturaOperacion": "-20°C a 60°C",
+      "humedadOperacion": "10% a 90%",
+      "alturaOperacion": "<2,000 m",
+      "peso": "0.72 kg",
+      "dimensiones": "145 × 110 × 60 mm",
+      "instalacion": "Portátil (conexión directa a batería del vehículo)",
+      "garantia": "No especificada en documentos disponibles"
+    },
+    "highlights": [
+      "Hasta 560 W de carga DC desde la batería del vehículo — 6× más rápido que la cigarrera",
+      "Compatible con baterías de auto de 12 V y 24 V",
+      "Protección de descarga del auto: corta automáticamente para no dejarte varado",
+      "Voltaje de salida ajustable 15–56 V vía app — funciona con casi cualquier estación BLUETTI portátil",
+      "Refrigeración activa por ventilador, operación silenciosa (50 dB máx)",
+      "Control y monitoreo desde la app BLUETTI vía Bluetooth",
+      "Ultra compacto: 145 × 110 × 60 mm, solo 720 g",
+      "Rango de temperatura amplio: -20°C a 60°C"
+    ],
+    "accesoriosCompatibles": []
   }
 ]

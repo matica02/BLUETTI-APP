@@ -9,8 +9,8 @@ import ExpansionConfigurator from '../components/ExpansionConfigurator'
 import { CATEGORIA_LABELS, CATEGORIA_COLORS } from '../data/categorias'
 import { ScrollReveal } from '../components/ScrollReveal'
 
-const modelsWithManual = ['rv5', 'ep2000', 'ep760', 'apex300', 'ac200pl']
-const modelsWithFlyer = ['rv5', 'ep2000', 'ep760', 'apex300', 'ac200pl', 'es125x']
+const modelsWithManual = ['rv5', 'ep2000', 'ep760', 'apex300', 'ac200pl', 'charger1']
+const modelsWithFlyer = ['rv5', 'ep2000', 'ep760', 'apex300', 'ac200pl', 'es125x', 'charger1']
 const modelsWithAppManual = ['ep760', 'ep2000']
 const modelsWithInstallGuide = ['ep760', 'ep2000']
 
@@ -235,11 +235,26 @@ export default function ProductoDetalle() {
         <ScrollReveal as="section" className="mb-12">
           <h2 className="text-xl font-bold text-white mb-4">Accesorios compatibles</h2>
           <ul className="space-y-2">
-            {product.accesoriosCompatibles.map(acc => (
-              <li key={acc} className="flex items-center gap-3 text-bluetti-cyan/80 text-sm">
-                <span className="text-bluetti-cyan">→</span> {acc}
-              </li>
-            ))}
+            {product.accesoriosCompatibles.map(acc => {
+              const isObj = typeof acc === 'object' && acc !== null
+              const nombre = isObj ? acc.nombre : acc
+              const id = isObj ? acc.id : null
+              return (
+                <li key={nombre} className="flex items-center gap-3 text-bluetti-cyan/80 text-sm">
+                  <span className="text-bluetti-cyan">→</span>
+                  {id ? (
+                    <Link
+                      to={`/producto/${id}`}
+                      className="text-bluetti-cyan hover:text-bluetti-lime hover:underline underline-offset-2 transition-colors"
+                    >
+                      {nombre}
+                    </Link>
+                  ) : (
+                    <span>{nombre}</span>
+                  )}
+                </li>
+              )
+            })}
           </ul>
         </ScrollReveal>
       )}

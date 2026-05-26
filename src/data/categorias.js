@@ -5,6 +5,7 @@ export const CATEGORIA_LABELS = {
   'Residencial — Monofásico': 'Residencial',
   'Portátil / Versátil / Escalable': 'Portátil',
   'Portátil / Compacto': 'Portátil',
+  'Accesorio': 'Accesorio',
 }
 
 export const CATEGORIA_COLORS = {
@@ -12,6 +13,7 @@ export const CATEGORIA_COLORS = {
   Movilidad: 'bg-blue-900/50 text-blue-300 border border-blue-700/50',
   Residencial: 'bg-green-900/50 text-green-300 border border-green-700/50',
   Portátil: 'bg-purple-900/50 text-purple-300 border border-purple-700/50',
+  Accesorio: 'bg-pink-900/50 text-pink-300 border border-pink-700/50',
 }
 
 export const CATEGORIA_BORDER_COLORS = {
@@ -19,6 +21,7 @@ export const CATEGORIA_BORDER_COLORS = {
   Movilidad: '#60a5fa',
   Residencial: '#4ade80',
   Portátil: '#c084fc',
+  Accesorio: '#f472b6',
 }
 
-export const TODAS_CATEGORIAS = ['Todos', 'Industrial', 'Residencial', 'Portátil', 'Movilidad']
+export const TODAS_CATEGORIAS = ['Todos', 'Industrial', 'Residencial', 'Portátil', 'Movilidad', 'Accesorio']
