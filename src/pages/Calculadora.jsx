@@ -72,6 +72,11 @@ const ELECTRODOMESTICOS = CATEGORIAS_ELECTRO.flatMap(c => c.items)
 
 const DEFAULT_FRANJA = { inicio: 0, fin: 24, porcentaje: 100 }
 
+const FRANJA_NOCHE_CARGA = [
+  { inicio: 0, fin: 7, porcentaje: 100 },
+  { inicio: 22, fin: 24, porcentaje: 100 },
+]
+
 const PERFILES = [
   {
     id: 'casa',
@@ -79,12 +84,12 @@ const PERFILES = [
     items: [
       { id: 'heladera', cantidad: 1 },
       { id: 'freezer', cantidad: 1 },
-      { id: 'tv', cantidad: 1 },
-      { id: 'led', cantidad: 1 },
+      { id: 'tv', cantidad: 1, franjas: [{ inicio: 18, fin: 23, porcentaje: 100 }] },
+      { id: 'led', cantidad: 1, franjas: [{ inicio: 19, fin: 23, porcentaje: 100 }] },
       { id: 'wifi', cantidad: 1 },
-      { id: 'celular', cantidad: 2 },
-      { id: 'pava', cantidad: 1 },
-      { id: 'notebook', cantidad: 1 },
+      { id: 'celular', cantidad: 2, franjas: FRANJA_NOCHE_CARGA },
+      { id: 'pava', cantidad: 1, franjas: [{ inicio: 7, fin: 8, porcentaje: 30 }] },
+      { id: 'notebook', cantidad: 1, franjas: [{ inicio: 9, fin: 18, porcentaje: 80 }] },
     ],
   },
   {
@@ -92,10 +97,27 @@ const PERFILES = [
     nombre: 'Camping',
     items: [
       { id: 'heladera', cantidad: 1 },
-      { id: 'led', cantidad: 1 },
-      { id: 'celular', cantidad: 3 },
-      { id: 'ventilador', cantidad: 1 },
-      { id: 'pava', cantidad: 1 },
+      { id: 'led', cantidad: 1, franjas: [{ inicio: 19, fin: 23, porcentaje: 100 }] },
+      { id: 'celular', cantidad: 3, franjas: FRANJA_NOCHE_CARGA },
+      { id: 'ventilador', cantidad: 1, franjas: [{ inicio: 14, fin: 19, porcentaje: 100 }] },
+      { id: 'pava', cantidad: 1, franjas: [
+        { inicio: 7, fin: 8, porcentaje: 50 },
+        { inicio: 18, fin: 19, porcentaje: 50 },
+      ] },
+    ],
+  },
+  {
+    id: 'motorhome',
+    nombre: 'Motorhome',
+    items: [
+      { id: 'heladera', cantidad: 1 },
+      { id: 'led', cantidad: 1, franjas: [{ inicio: 19, fin: 23, porcentaje: 100 }] },
+      { id: 'celular', cantidad: 3, franjas: FRANJA_NOCHE_CARGA },
+      { id: 'ventilador', cantidad: 1, franjas: [{ inicio: 14, fin: 19, porcentaje: 100 }] },
+      { id: 'cafetera', cantidad: 1, franjas: [{ inicio: 7, fin: 8, porcentaje: 60 }] },
+      { id: 'notebook', cantidad: 1, franjas: [{ inicio: 9, fin: 17, porcentaje: 70 }] },
+      { id: 'tv_32', cantidad: 1, franjas: [{ inicio: 19, fin: 23, porcentaje: 100 }] },
+      { id: 'wifi', cantidad: 1 },
     ],
   },
   {
@@ -103,9 +125,9 @@ const PERFILES = [
     nombre: 'Comercio',
     items: [
       { id: 'heladera_comercial', cantidad: 1 },
-      { id: 'led', cantidad: 2 },
+      { id: 'led', cantidad: 2, franjas: [{ inicio: 8, fin: 20, porcentaje: 100 }] },
       { id: 'wifi', cantidad: 1 },
-      { id: 'pc', cantidad: 1 },
+      { id: 'pc', cantidad: 1, franjas: [{ inicio: 9, fin: 18, porcentaje: 100 }] },
       { id: 'alarma', cantidad: 1 },
       { id: 'camara', cantidad: 2 },
     ],
@@ -114,24 +136,44 @@ const PERFILES = [
     id: 'obra',
     nombre: 'Obra',
     items: [
-      { id: 'herramientas', cantidad: 2 },
-      { id: 'led', cantidad: 1 },
-      { id: 'celular', cantidad: 3 },
-      { id: 'bomba', cantidad: 1 },
+      { id: 'herramientas', cantidad: 2, franjas: [{ inicio: 8, fin: 17, porcentaje: 60 }] },
+      { id: 'led', cantidad: 1, franjas: [{ inicio: 8, fin: 18, porcentaje: 100 }] },
+      { id: 'celular', cantidad: 3, franjas: [{ inicio: 8, fin: 18, porcentaje: 80 }] },
+      { id: 'bomba', cantidad: 1, franjas: [
+        { inicio: 7, fin: 9, porcentaje: 50 },
+        { inicio: 17, fin: 19, porcentaje: 50 },
+      ] },
+    ],
+  },
+  {
+    id: 'granja',
+    nombre: 'Granja',
+    items: [
+      { id: 'bomba', cantidad: 1, franjas: [
+        { inicio: 7, fin: 9, porcentaje: 50 },
+        { inicio: 18, fin: 20, porcentaje: 50 },
+      ] },
+      { id: 'heladera', cantidad: 1 },
+      { id: 'freezer', cantidad: 1 },
+      { id: 'led', cantidad: 2, franjas: [{ inicio: 18, fin: 23, porcentaje: 100 }] },
+      { id: 'iluminacion_galpon', cantidad: 1, franjas: [{ inicio: 18, fin: 22, porcentaje: 100 }] },
+      { id: 'herramientas', cantidad: 1, franjas: [{ inicio: 9, fin: 17, porcentaje: 30 }] },
+      { id: 'wifi', cantidad: 1 },
+      { id: 'tv', cantidad: 1, franjas: [{ inicio: 19, fin: 23, porcentaje: 100 }] },
     ],
   },
   {
     id: 'industrial',
     nombre: 'Industrial',
     items: [
-      { id: 'compresor_20hp', cantidad: 1 },
-      { id: 'compresor_10hp', cantidad: 1 },
-      { id: 'soldadora_mig', cantidad: 3 },
-      { id: 'torno_industrial', cantidad: 2 },
-      { id: 'fresadora_cnc', cantidad: 2 },
-      { id: 'motor_trifasico', cantidad: 2 },
-      { id: 'iluminacion_galpon', cantidad: 5 },
-      { id: 'extractor_industrial', cantidad: 1 },
+      { id: 'compresor_20hp', cantidad: 1, franjas: [{ inicio: 7, fin: 19, porcentaje: 100 }] },
+      { id: 'compresor_10hp', cantidad: 1, franjas: [{ inicio: 7, fin: 19, porcentaje: 100 }] },
+      { id: 'soldadora_mig', cantidad: 3, franjas: [{ inicio: 8, fin: 17, porcentaje: 50 }] },
+      { id: 'torno_industrial', cantidad: 2, franjas: [{ inicio: 8, fin: 17, porcentaje: 60 }] },
+      { id: 'fresadora_cnc', cantidad: 2, franjas: [{ inicio: 8, fin: 17, porcentaje: 60 }] },
+      { id: 'motor_trifasico', cantidad: 2, franjas: [{ inicio: 7, fin: 19, porcentaje: 100 }] },
+      { id: 'iluminacion_galpon', cantidad: 5, franjas: [{ inicio: 7, fin: 22, porcentaje: 100 }] },
+      { id: 'extractor_industrial', cantidad: 1, franjas: [{ inicio: 7, fin: 19, porcentaje: 100 }] },
     ],
   },
 ]
@@ -798,11 +840,12 @@ export default function Calculadora() {
     perfil.items.forEach(item => {
       const electro = ELECTRODOMESTICOS.find(e => e.id === item.id)
       if (!electro) return
+      const itemFranjas = item.franjas ?? [DEFAULT_FRANJA]
       for (let i = 0; i < item.cantidad; i++) {
         nuevos.push({
           ...electro,
           instanceKey: makeInstanceKey(electro.id),
-          franjas: [{ ...DEFAULT_FRANJA }],
+          franjas: itemFranjas.map(f => ({ ...f })),
         })
       }
     })
