@@ -1,6 +1,8 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useRef, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useCalculadora } from '../components/CalculadoraContext'
+import DayChart from '../components/DayChart'
+import DayClock from '../components/DayClock'
 
 const CATEGORIAS_ELECTRO = [
   { id: 'climatizacion', nombre: 'Climatización', items: [
@@ -191,6 +193,8 @@ const SLOTS_PER_DAY = 48
 const SLOT_HOURS = 0.5
 const ZERO_SLOTS = new Array(SLOTS_PER_DAY).fill(0)
 const MAX_SIM_DAYS = 30
+const EFICIENCIA_INVERSOR = 0.92
+const DOD_BATERIA = 0.90
 
 function formatDuracion(hours) {
   const maxHours = MAX_SIM_DAYS * 24
@@ -305,20 +309,23 @@ function computeConsumoPerSlot(agregados) {
 
 function simulateAutonomy(capacityKwh, consumoPerSlot, solarPerSlot, maxDays = MAX_SIM_DAYS) {
   if (capacityKwh <= 0) return { autosuficiente: false, horas: 0 }
+  const usableCapacity = capacityKwh * DOD_BATERIA
   const dailySolar = solarPerSlot.reduce((a, b) => a + b, 0)
-  const dailyConsumo = consumoPerSlot.reduce((a, b) => a + b, 0)
-  if (dailyConsumo <= 0) return { autosuficiente: true, horas: maxDays * 24 }
+  const dailyConsumoAC = consumoPerSlot.reduce((a, b) => a + b, 0)
+  const dailyConsumoDC = dailyConsumoAC / EFICIENCIA_INVERSOR
+  if (dailyConsumoAC <= 0) return { autosuficiente: true, horas: maxDays * 24 }
 
-  let soc = capacityKwh
+  let soc = usableCapacity
   let hours = 0
   for (let day = 0; day < maxDays; day++) {
     for (let s = 0; s < SLOTS_PER_DAY; s++) {
-      soc = Math.min(capacityKwh, soc + solarPerSlot[s] - consumoPerSlot[s])
+      const consumoDC = consumoPerSlot[s] / EFICIENCIA_INVERSOR
+      soc = Math.min(usableCapacity, soc + solarPerSlot[s] - consumoDC)
       hours += SLOT_HOURS
       if (soc <= 0) return { autosuficiente: false, horas: hours }
     }
   }
-  return { autosuficiente: dailySolar >= dailyConsumo, horas: hours }
+  return { autosuficiente: dailySolar >= dailyConsumoDC, horas: hours }
 }
 
 function peakInfo(agregados) {
@@ -539,39 +546,150 @@ function ModelCard({ modelo, totalKwh, totalKw, solarOn, consumoPerSlot, solarPe
   )
 }
 
+function WattsInput({ value, onCommit }) {
+  const [text, setText] = useState(String(value))
+
+  useEffect(() => {
+    setText(String(value))
+  }, [value])
+
+  function commit() {
+    const num = parseInt(text, 10)
+    if (Number.isFinite(num) && num > 0) {
+      if (num !== value) onCommit(num)
+    } else {
+      setText(String(value))
+    }
+  }
+
+  return (
+    <input
+      type="number"
+      min={1}
+      step={50}
+      value={text}
+      onChange={ev => setText(ev.target.value)}
+      onBlur={commit}
+      onKeyDown={ev => {
+        if (ev.key === 'Enter') ev.currentTarget.blur()
+      }}
+      className="w-16 bg-black/30 border border-bluetti-border rounded px-1.5 py-0.5 text-bluetti-cyan text-xs focus:outline-none focus:border-bluetti-cyan"
+    />
+  )
+}
+
+function TimelineBar({ franja, siblingFranjas, onChange }) {
+  const trackRef = useRef(null)
+  const [dragMode, setDragMode] = useState(null)
+  const [hovered, setHovered] = useState(false)
+  const dragOffsetRef = useRef(0)
+
+  function pxToHour(clientX) {
+    if (!trackRef.current) return 0
+    const rect = trackRef.current.getBoundingClientRect()
+    const ratio = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width))
+    return Math.round(ratio * SLOTS_PER_DAY) / 2
+  }
+
+  function startDrag(mode, e) {
+    e.preventDefault()
+    e.stopPropagation()
+    if (mode === 'move' && trackRef.current) {
+      const rect = trackRef.current.getBoundingClientRect()
+      const startX = rect.left + (franja.inicio / 24) * rect.width
+      dragOffsetRef.current = e.clientX - startX
+    }
+    setDragMode(mode)
+  }
+
+  useEffect(() => {
+    if (!dragMode) return
+    function onMove(e) {
+      const adjustedX = dragMode === 'move' ? e.clientX - dragOffsetRef.current : e.clientX
+      const hour = pxToHour(adjustedX)
+      const duration = franja.fin - franja.inicio
+
+      let candidate = null
+      if (dragMode === 'start') {
+        const newInicio = Math.max(0, Math.min(franja.fin - SLOT_HOURS, hour))
+        if (newInicio !== franja.inicio) candidate = { ...franja, inicio: newInicio }
+      } else if (dragMode === 'end') {
+        const newFin = Math.max(franja.inicio + SLOT_HOURS, Math.min(24, hour))
+        if (newFin !== franja.fin) candidate = { ...franja, fin: newFin }
+      } else if (dragMode === 'move') {
+        const newStart = Math.max(0, Math.min(24 - duration, hour))
+        if (newStart !== franja.inicio) candidate = { ...franja, inicio: newStart, fin: newStart + duration }
+      }
+      if (candidate && !franjasHaveOverlap([...siblingFranjas, candidate])) {
+        onChange(candidate)
+      }
+    }
+    function onUp() { setDragMode(null) }
+
+    document.addEventListener('pointermove', onMove)
+    document.addEventListener('pointerup', onUp)
+    document.addEventListener('pointercancel', onUp)
+    return () => {
+      document.removeEventListener('pointermove', onMove)
+      document.removeEventListener('pointerup', onUp)
+      document.removeEventListener('pointercancel', onUp)
+    }
+  }, [dragMode, franja, siblingFranjas, onChange])
+
+  const startPct = (franja.inicio / 24) * 100
+  const widthPct = ((franja.fin - franja.inicio) / 24) * 100
+
+  return (
+    <div
+      ref={trackRef}
+      className="relative flex-1 min-w-[180px] h-9 bg-black/30 border border-bluetti-border rounded select-none touch-none"
+    >
+      {[6, 12, 18].map(h => (
+        <div
+          key={`tick-${h}`}
+          className="absolute top-1 bottom-1 w-px bg-bluetti-border/40 pointer-events-none"
+          style={{ left: `${(h / 24) * 100}%` }}
+        />
+      ))}
+      <span className="absolute left-1 top-1/2 -translate-y-1/2 text-[9px] text-bluetti-cyan/40 pointer-events-none">0h</span>
+      <span className="absolute right-1 top-1/2 -translate-y-1/2 text-[9px] text-bluetti-cyan/40 pointer-events-none">24h</span>
+
+      <div
+        className="absolute top-0 bottom-0 bg-bluetti-cyan/30 border-y-2 border-bluetti-cyan cursor-move flex items-center justify-center overflow-hidden"
+        style={{ left: `${startPct}%`, width: `${widthPct}%` }}
+        onPointerDown={e => startDrag('move', e)}
+        onPointerEnter={() => setHovered(true)}
+        onPointerLeave={() => setHovered(false)}
+      >
+        <span className="text-[10px] text-bluetti-cyan font-semibold pointer-events-none whitespace-nowrap">
+          {formatTime(franja.inicio)}–{formatTime(franja.fin)}
+        </span>
+        <div
+          className="absolute left-0 top-0 bottom-0 w-2 bg-bluetti-cyan/90 cursor-ew-resize hover:bg-bluetti-cyan"
+          onPointerDown={e => startDrag('start', e)}
+        />
+        <div
+          className="absolute right-0 top-0 bottom-0 w-2 bg-bluetti-cyan/90 cursor-ew-resize hover:bg-bluetti-cyan"
+          onPointerDown={e => startDrag('end', e)}
+        />
+      </div>
+
+      {(hovered || dragMode) && (
+        <div
+          className="absolute bottom-full mb-1.5 px-2 py-1 bg-bluetti-bg border border-bluetti-cyan rounded text-xs font-semibold text-bluetti-cyan whitespace-nowrap pointer-events-none shadow-lg z-10"
+          style={{ left: `${startPct + widthPct / 2}%`, transform: 'translateX(-50%)' }}
+        >
+          {formatTime(franja.inicio)} – {formatTime(franja.fin)}
+        </div>
+      )}
+    </div>
+  )
+}
+
 function FranjaRow({ franja, siblingFranjas, onChange, onDelete, canDelete }) {
-  function isInicioValid(v) {
-    const candidate = { inicio: v, fin: franja.fin, porcentaje: 0 }
-    return !franjasHaveOverlap([...siblingFranjas, candidate])
-  }
-  function isFinValid(v) {
-    const candidate = { inicio: franja.inicio, fin: v, porcentaje: 0 }
-    return !franjasHaveOverlap([...siblingFranjas, candidate])
-  }
   return (
     <div className="flex items-center gap-2 flex-wrap">
-      <span className="text-bluetti-cyan/70 text-xs">De</span>
-      <select
-        value={franja.inicio}
-        onChange={ev => onChange({ ...franja, inicio: Number(ev.target.value) })}
-        className="bg-black/30 border border-bluetti-border rounded px-2 py-1 text-bluetti-cyan text-xs focus:outline-none focus:border-bluetti-cyan"
-      >
-        {Array.from({ length: SLOTS_PER_DAY }, (_, i) => {
-          const v = i * SLOT_HOURS
-          return <option key={v} value={v} disabled={!isInicioValid(v)}>{formatTime(v)}</option>
-        })}
-      </select>
-      <span className="text-bluetti-cyan/70 text-xs">a</span>
-      <select
-        value={franja.fin}
-        onChange={ev => onChange({ ...franja, fin: Number(ev.target.value) })}
-        className="bg-black/30 border border-bluetti-border rounded px-2 py-1 text-bluetti-cyan text-xs focus:outline-none focus:border-bluetti-cyan"
-      >
-        {Array.from({ length: SLOTS_PER_DAY }, (_, i) => {
-          const v = (i + 1) * SLOT_HOURS
-          return <option key={v} value={v} disabled={!isFinValid(v)}>{formatTime(v)}</option>
-        })}
-      </select>
+      <TimelineBar franja={franja} siblingFranjas={siblingFranjas} onChange={onChange} />
       <input
         type="range"
         min={0}
@@ -579,7 +697,7 @@ function FranjaRow({ franja, siblingFranjas, onChange, onDelete, canDelete }) {
         step={5}
         value={franja.porcentaje}
         onChange={ev => onChange({ ...franja, porcentaje: Number(ev.target.value) })}
-        className="flex-1 min-w-[80px] accent-bluetti-cyan"
+        className="w-20 sm:w-28 accent-bluetti-cyan"
       />
       <span className="text-bluetti-cyan text-xs font-bold w-10 text-right">{franja.porcentaje}%</span>
       {canDelete ? (
@@ -635,6 +753,12 @@ export default function Calculadora() {
       if (e.franjas.length <= 1) return e
       return { ...e, franjas: e.franjas.filter((_, i) => i !== idx) }
     }))
+  }
+
+  function updateWatts(instanceKey, newWatts) {
+    setAgregados(prev => prev.map(e =>
+      e.instanceKey === instanceKey ? { ...e, watts: newWatts } : e
+    ))
   }
 
   function updateArranque(instanceKey, value) {
@@ -893,9 +1017,13 @@ export default function Calculadora() {
                       })()}
                     </div>
                     <div className="flex items-center justify-between gap-2 flex-wrap text-xs">
-                      <span className="text-bluetti-cyan/70">
-                        {e.watts}W = {electroDailyKwh(e).toFixed(2)} kWh/día
-                      </span>
+                      <label className="flex items-center gap-1.5 text-bluetti-cyan/70" title="Editá los W si tu equipo consume distinto al valor estándar">
+                        <WattsInput
+                          value={e.watts}
+                          onCommit={w => updateWatts(e.instanceKey, w)}
+                        />
+                        <span>W = {electroDailyKwh(e).toFixed(2)} kWh/día</span>
+                      </label>
                       <label
                         className="flex items-center gap-1.5 text-bluetti-cyan/70"
                         title="Algunos equipos (heladera, microondas, bomba, aire) necesitan un pico de W más alto al arrancar. Opcional."
@@ -1068,11 +1196,30 @@ export default function Calculadora() {
                       />
                     ))
                 })()}
+                <p
+                  className="text-[10px] sm:text-xs text-bluetti-cyan/60 mt-2 leading-relaxed"
+                  title="Las baterías LiFePO4 no se descargan al 100% en uso normal (10% reserva). El inversor pierde ~8% al convertir DC en AC."
+                >
+                  Cálculo conservador: incluye {Math.round(EFICIENCIA_INVERSOR * 100)}% de eficiencia del inversor (DC→AC) y {Math.round((1 - DOD_BATERIA) * 100)}% de reserva de batería (DOD usable).
+                </p>
               </div>
             )}
           </div>
         </div>
       </div>
+
+      {totalKwh > 0 && (
+        <div className="mt-8 grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div className="lg:col-span-2">
+            <DayChart
+              consumoPerSlot={consumoPerSlot}
+              solarPerSlot={solarPerSlot}
+              solarOn={solarActivo}
+            />
+          </div>
+          <DayClock agregados={agregados} />
+        </div>
+      )}
 
     </div>
   )
