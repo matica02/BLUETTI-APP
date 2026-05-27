@@ -1181,7 +1181,7 @@ export default function Calculadora() {
                     .filter(m => {
                       if (movilidad) return m.id === 'rv5'
                       if (m.id === 'rv5') return false
-                      if (m.id === 'es125x' && contKw < 60) return false
+                      if (m.id === 'es125x' && contKw < 25) return false
                       return effectiveKw <= maxKwForModel(m.id)
                     })
                     .map(modelo => (
