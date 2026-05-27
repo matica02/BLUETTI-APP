@@ -432,30 +432,26 @@ function Stepper({ value, min, max, onChange, label, sublabel }) {
   )
 }
 
-function ModelCard({ modelo, totalKwh, totalKw, solarOn, consumoPerSlot, solarPerSlot }) {
+function ModelCard({ modelo, totalKwh, totalKw, solarOn, consumoPerSlot, solarPerSlot, config, onChangeConfig }) {
   const cfg = MODEL_CFG[modelo.id]
   const baseUnidades = cfg.paralelo?.min ?? 1
   const baseBateriasPorUnidad = batMin(cfg, baseUnidades)
-  const [unidades, setUnidades] = useState(baseUnidades)
-  const [bateriasPorUnidad, setBateriasPorUnidad] = useState(
-    Array.from({ length: baseUnidades }, () => baseBateriasPorUnidad)
-  )
+  const { unidades, bateriasPorUnidad } = config
 
   const currentBatMin = batMin(cfg, unidades)
 
   function changeUnidades(n) {
     const newMin = batMin(cfg, n)
-    setUnidades(n)
-    setBateriasPorUnidad(prev => {
-      const grown = n > prev.length
-        ? [...prev, ...Array(n - prev.length).fill(newMin)]
-        : prev.slice(0, n)
-      return grown.map(b => Math.max(newMin, b))
-    })
+    const grown = n > bateriasPorUnidad.length
+      ? [...bateriasPorUnidad, ...Array(n - bateriasPorUnidad.length).fill(newMin)]
+      : bateriasPorUnidad.slice(0, n)
+    const clamped = grown.map(b => Math.max(newMin, b))
+    onChangeConfig({ unidades: n, bateriasPorUnidad: clamped })
   }
 
   function updateBaterias(idx, val) {
-    setBateriasPorUnidad(prev => prev.map((b, i) => i === idx ? val : b))
+    const newArr = bateriasPorUnidad.map((b, i) => i === idx ? val : b)
+    onChangeConfig({ unidades, bateriasPorUnidad: newArr })
   }
 
   const { kWh, kW } = useMemo(
@@ -769,6 +765,24 @@ export default function Calculadora() {
   const [solarPanelW, setSolarPanelW] = useState(400)
   const [solarHorasSol, setSolarHorasSol] = useState(5)
 
+  const [modelConfigs, setModelConfigs] = useState(() => {
+    const initial = {}
+    MODELOS.forEach(m => {
+      const cfg = MODEL_CFG[m.id]
+      const baseUnidades = cfg.paralelo?.min ?? 1
+      const baseBat = batMin(cfg, baseUnidades)
+      initial[m.id] = {
+        unidades: baseUnidades,
+        bateriasPorUnidad: Array(baseUnidades).fill(baseBat),
+      }
+    })
+    return initial
+  })
+
+  function updateModelConfig(modelId, newConfig) {
+    setModelConfigs(prev => ({ ...prev, [modelId]: newConfig }))
+  }
+
   function toggleCat(id) {
     setOpenCats(prev => ({ ...prev, [id]: !prev[id] }))
   }
@@ -835,6 +849,24 @@ export default function Calculadora() {
   const consumoPerSlot = useMemo(() => computeConsumoPerSlot(agregados), [agregados])
   const solarActivo = solarOn && dailySolar > 0
 
+  const dayChartModelOptions = useMemo(() => {
+    const contKw = peak.watts / 1000
+    const effectiveKw = peak.hasSurge ? peak.surgeWatts / 1000 : contKw
+    return MODELOS
+      .filter(m => {
+        if (movilidad) return m.id === 'rv5'
+        if (m.id === 'rv5') return false
+        if (m.id === 'es125x' && contKw < 25) return false
+        return effectiveKw <= maxKwForModel(m.id)
+      })
+      .map(m => {
+        const { unidades, bateriasPorUnidad } = modelConfigs[m.id]
+        const { kWh: capacityKwh } = calcCapacity(m.id, unidades, bateriasPorUnidad)
+        const maxSolarW = (MAX_SOLAR_W[m.id] ?? 0) * unidades
+        return { id: m.id, nombre: m.nombre, capacityKwh, maxSolarW }
+      })
+  }, [peak, movilidad, modelConfigs])
+
   function aplicarPerfil(perfil) {
     const nuevos = []
     perfil.items.forEach(item => {
@@ -890,6 +922,7 @@ export default function Calculadora() {
               consumoPerSlot={consumoPerSlot}
               solarPerSlot={solarPerSlot}
               solarOn={solarActivo}
+              modelOptions={dayChartModelOptions}
             />
           </div>
           <DayClock agregados={agregados} />
@@ -1253,6 +1286,8 @@ export default function Calculadora() {
                         solarOn={solarActivo}
                         consumoPerSlot={consumoPerSlot}
                         solarPerSlot={solarPerSlot}
+                        config={modelConfigs[modelo.id]}
+                        onChangeConfig={newCfg => updateModelConfig(modelo.id, newCfg)}
                       />
                     ))
                 })()}
