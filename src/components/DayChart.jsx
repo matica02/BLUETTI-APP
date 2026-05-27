@@ -16,11 +16,11 @@ export default function DayChart({ consumoPerSlot, solarPerSlot, solarOn }) {
   }))
 
   return (
-    <div className="bg-bluetti-card border border-bluetti-border rounded-xl p-4 sm:p-5">
+    <div className="bg-bluetti-card border border-bluetti-border rounded-xl p-4 sm:p-5 h-full flex flex-col">
       <h3 className="text-sm font-semibold text-bluetti-cyan uppercase tracking-wider mb-3">
         Tu día — consumo {solarOn && 'y generación solar'}
       </h3>
-      <div className="h-64 sm:h-80 -ml-3 sm:-ml-2">
+      <div className="flex-1 min-h-[256px] -ml-3 sm:-ml-2">
         <ResponsiveContainer width="100%" height="100%">
           <ComposedChart data={data} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
             <defs>

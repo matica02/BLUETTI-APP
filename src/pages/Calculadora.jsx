@@ -883,6 +883,19 @@ export default function Calculadora() {
         ))}
       </div>
 
+      {totalKwh > 0 && (
+        <div className="mb-8 grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div className="lg:col-span-2">
+            <DayChart
+              consumoPerSlot={consumoPerSlot}
+              solarPerSlot={solarPerSlot}
+              solarOn={solarActivo}
+            />
+          </div>
+          <DayClock agregados={agregados} />
+        </div>
+      )}
+
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Columna izquierda */}
         <div>
@@ -1254,19 +1267,6 @@ export default function Calculadora() {
           </div>
         </div>
       </div>
-
-      {totalKwh > 0 && (
-        <div className="mt-8 grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <div className="lg:col-span-2">
-            <DayChart
-              consumoPerSlot={consumoPerSlot}
-              solarPerSlot={solarPerSlot}
-              solarOn={solarActivo}
-            />
-          </div>
-          <DayClock agregados={agregados} />
-        </div>
-      )}
 
     </div>
   )
