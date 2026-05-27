@@ -408,11 +408,81 @@
     ]
   },
   {
+    "id": "ac180p",
+    "nombre": "AC180P",
+    "tagline": "Estación de Energía Portátil Compacta",
+    "subtitulo": "Energía móvil con facilidad y tranquilidad",
+    "descripcion": "Las salidas al aire libre, viajes en autocaravana o tareas remotas necesitan energía confiable para iluminación, electrónica, herramientas y electrodomésticos chicos. La cigarrera del auto no alcanza, los generadores a combustible son ruidosos y contaminantes, y mover baterías de plomo es engorroso.\nEl BLUETTI AC180P es una estación portátil compacta (17 kg) de 1.440 Wh y 1.800 W de potencia continua, con batería LiFePO4 de 3.500+ ciclos y vida útil estimada en 10+ años. El Power Lifting Mode escala la salida hasta 2.700 W para cargas resistivas (calefactores, planchas), y la carga rápida AC de 1.440 W lleva la batería del 0 al 80% en una hora.\nIncluye UPS con conmutación ≤20 ms, salida AC de onda sinusoidal pura, 4 puertos USB-A, USB-C de 100 W PD, carga inalámbrica de 15 W, toma de encendedor de 120 W y control completo desde la app BLUETTI vía WiFi/Bluetooth. Entrada solar de hasta 500 W para uso off-grid total. Ideal para camping, motorhome, transmisiones al aire libre, food trucks chicos y respaldo doméstico básico.",
+    "categoria": "Portátil / Compacto",
+    "tipoRed": "Off-Grid",
+    "imagen": "ac180p.png",
+    "perfilUsuario": "Personas que necesitan una estación portátil de tamaño medio para camping, motorhome, eventos al aire libre o backup doméstico básico. También útil para trabajos remotos, food trucks chicos y filmaciones outdoor donde el ruido y el humo de un generador no son opción.",
+    "casosDeUso": [
+      {
+        "etiqueta": "Camping / Outdoor",
+        "descripcion": "Alimenta luces LED, heladera portátil, parlantes, drones y cargadores durante varios días de camping."
+      },
+      {
+        "etiqueta": "Motorhome / Autocaravana",
+        "descripcion": "Energía silenciosa y limpia — reemplaza el generador a combustible en viajes largos."
+      },
+      {
+        "etiqueta": "Transmisión / Filmación",
+        "descripcion": "Cubre cámaras, laptops, monitores y luces de video en producciones al aire libre."
+      },
+      {
+        "etiqueta": "Backup hogareño chico",
+        "descripcion": "UPS ≤20 ms protege WiFi, heladera, electrónica y luces durante cortes de luz."
+      },
+      {
+        "etiqueta": "Food truck / Emprendimiento móvil",
+        "descripcion": "Alimenta cafetera, batidora, luces y caja registradora en negocios ambulantes chicos."
+      }
+    ],
+    "specs": {
+      "capacidadBateria": "1.440 Wh (1,44 kWh)",
+      "potenciaSalidaAC": "1.800 W (sinusoidal pura)",
+      "potenciaSobrecarga": "2.700 W (Power Lifting Mode, cargas resistivas)",
+      "entradaSolarMax": "500 W (12–60 VDC, 10 A)",
+      "entradaACMax": "1.440 W (carga rápida 0–80% en 1 hora)",
+      "tipoBateria": "LiFePO4",
+      "ciclosVida": "3.500+ ciclos al 80% de capacidad",
+      "vidaUtilEstimada": "10+ años",
+      "expandible": false,
+      "conexionSolar": true,
+      "salidaAC": "120 VAC / 15 A / 60 Hz (US) o 230 VAC / 7,8 A / 50 Hz (EU) · 2 tomas",
+      "salidaDC": "USB-A ×4 (5V/3A), USB-C ×1 (100W PD), Encendedor ×1 (120W/12V), Carga inalámbrica ×1 (15W)",
+      "cargaPorAlternador": "12 V / 24 V",
+      "peso": "17 kg",
+      "conectividad": "WiFi / Bluetooth (app BLUETTI)",
+      "switchoverUPS": "≤20 ms",
+      "instalacion": "Portátil",
+      "temperaturaOperacion": "-20°C a 40°C (descarga) / 0°C a 40°C (carga)",
+      "garantia": "5 años",
+      "certificaciones": "UL / TÜV / CHUBB seguro global"
+    },
+    "highlights": [
+      "Batería LiFePO4 de 1.440 Wh con 3.500+ ciclos y 10+ años de vida útil",
+      "Salida AC continua de 1.800 W — sinusoidal pura, segura para electrónica sensible",
+      "Power Lifting Mode hasta 2.700 W para cargas resistivas de alto consumo",
+      "Carga rápida AC: del 0 al 80% en 1 hora con entrada de 1.440 W",
+      "Entrada solar de 500 W (12–60 VDC) — autonomía total off-grid",
+      "Múltiples puertos: 2× AC, 4× USB-A, 1× USB-C 100W PD, carga inalámbrica 15W, encendedor",
+      "UPS integrado con conmutación ≤20 ms — protege equipos sensibles en cortes",
+      "Control y monitoreo desde la app BLUETTI vía WiFi/Bluetooth",
+      "Compacta y liviana: 17 kg, ideal para llevar",
+      "Carga desde auto (12 V / 24 V) para recargar en ruta"
+    ],
+    "accesoriosCompatibles": [
+      { "nombre": "Charger 1 (cargador de alternador 560W)", "id": "charger1" }
+    ]
+  },
+  {
     "id": "charger1",
     "nombre": "Charger 1",
     "tagline": "Cargador de Alternador 560 W",
     "subtitulo": "Accesorio de Carga Vehicular",
-    "descripcion": "En viajes largos por motorhome, casa rodante o vehículo off-road, recargar una estación de energía portátil desde el encendedor del auto puede llevar más de 8 horas — limitada típicamente a 100 W. Al llegar al destino, la batería sigue a media carga, justo cuando más necesitás energía.\nEl BLUETTI Charger 1 es un cargador de alternador externo que se conecta directamente a la batería del vehículo (12V o 24V) y entrega hasta 560 W de carga DC a la estación portátil — hasta 6× más rápido que la cigarrera estándar. Mientras manejás, tu BLUETTI se recarga sola.\nIncluye protección contra descarga de la batería del auto (corta automáticamente para evitar dejarte varado), protección contra sobrecarga, refrigeración activa por ventilador y control completo desde la app BLUETTI vía Bluetooth. El voltaje de salida es ajustable entre 15 V y 56 V, compatible con AC200P L, APEX 300, RV5 y la mayoría de las estaciones BLUETTI portátiles del mercado.",
+    "descripcion": "En viajes largos por motorhome, casa rodante o vehículo off-road, recargar una estación de energía portátil desde el encendedor del auto puede llevar más de 8 horas — limitada típicamente a 100 W. Al llegar al destino, la batería sigue a media carga, justo cuando más necesitás energía.\nEl BLUETTI Charger 1 es un cargador de alternador externo que se conecta directamente a la batería del vehículo (12V o 24V) y entrega hasta 560 W de carga DC a la estación portátil — hasta 6× más rápido que la cigarrera estándar. Mientras manejás, tu BLUETTI se recarga sola.\nIncluye protección contra descarga de la batería del auto (corta automáticamente para evitar dejarte varado), protección contra sobrecarga, refrigeración activa por ventilador y control completo desde la app BLUETTI vía Bluetooth. El voltaje de salida es ajustable entre 15 V y 56 V, compatible con AC180P, AC200P L, APEX 300, RV5 y la mayoría de las estaciones BLUETTI portátiles del mercado.",
     "categoria": "Accesorio",
     "imagen": "charger1.png",
     "imagenes": ["charger1-2.png"],
@@ -436,7 +506,7 @@
       },
       {
         "etiqueta": "Compatibilidad Universal",
-        "descripcion": "Voltaje de salida ajustable 15–56 V vía app. Funciona con AC200P L, APEX 300, RV5 y la mayoría de estaciones BLUETTI."
+        "descripcion": "Voltaje de salida ajustable 15–56 V vía app. Funciona con AC180P, AC200P L, APEX 300, RV5 y la mayoría de estaciones BLUETTI."
       }
     ],
     "specs": {
@@ -446,7 +516,7 @@
       "voltajeSalida": "27 V por defecto · ajustable 15–56 V (batería 12V) o 27–56 V (batería 24V) vía app",
       "corriente": "10 A",
       "compatibilidadVehiculo": "Batería de auto 12V o 24V",
-      "estacionesCompatibles": "AC200P L, APEX 300, RV5 y la mayoría de estaciones BLUETTI portátiles",
+      "estacionesCompatibles": "AC180P, AC200P L, APEX 300, RV5 y la mayoría de estaciones BLUETTI portátiles",
       "protecciones": "Descarga de la batería del auto, sobrecarga",
       "refrigeracion": "Ventilador activo (50 dB máx)",
       "conectividad": "Bluetooth (app BLUETTI)",

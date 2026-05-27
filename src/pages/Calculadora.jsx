@@ -142,6 +142,7 @@ const MODELOS = [
   { id: 'ep760', nombre: 'EP760' },
   { id: 'apex300', nombre: 'APEX 300' },
   { id: 'ac200pl', nombre: 'AC200P L' },
+  { id: 'ac180p', nombre: 'AC180P' },
   { id: 'rv5', nombre: 'RV5' },
 ]
 
@@ -151,6 +152,7 @@ const MAX_SOLAR_W = {
   ep760:  2400,
   apex300: 1200,
   ac200pl: 1200,
+  ac180p:  500,
   rv5:    2000,
 }
 
@@ -160,6 +162,7 @@ const MODEL_CFG = {
   ep760:   { paralelo: null,                bat: { tipo: 'B500',  min: 2, max: 4  } },
   apex300: { paralelo: { min: 1, max: 3 },  bat: { tipo: 'B300K', min: 0, max: 6  } },
   ac200pl: { paralelo: null,                bat: { tipo: 'B300K', min: 0, max: 2  } },
+  ac180p:  { paralelo: null,                bat: null },
   rv5:     { paralelo: null,                bat: { tipo: 'B4810', min: 2, max: 24 } },
 }
 
@@ -173,6 +176,7 @@ function calcCapacity(modelId, unidades, baterias) {
     case 'ep760':   return { kWh: totalBat * 4.96, kW: 7.6 }
     case 'apex300': return { kWh: unidades * 2.76 + totalBat * 2.76, kW: unidades * 3.84 }
     case 'ac200pl': return { kWh: 2.304 + totalBat * 2.76, kW: 2.4 }
+    case 'ac180p':  return { kWh: 1.44, kW: 1.8 }
     default:        return { kWh: 0, kW: 0 }
   }
 }

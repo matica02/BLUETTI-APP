@@ -9,8 +9,8 @@ import ExpansionConfigurator from '../components/ExpansionConfigurator'
 import { CATEGORIA_LABELS, CATEGORIA_COLORS, TIPO_RED_COLORS } from '../data/categorias'
 import { ScrollReveal } from '../components/ScrollReveal'
 
-const modelsWithManual = ['rv5', 'ep2000', 'ep760', 'apex300', 'ac200pl', 'charger1']
-const modelsWithFlyer = ['rv5', 'ep2000', 'ep760', 'apex300', 'ac200pl', 'es125x', 'charger1']
+const modelsWithManual = ['rv5', 'ep2000', 'ep760', 'apex300', 'ac200pl', 'charger1', 'ac180p']
+const modelsWithFlyer = ['rv5', 'ep2000', 'ep760', 'apex300', 'ac200pl', 'es125x', 'charger1', 'ac180p']
 const modelsWithAppManual = ['ep760', 'ep2000']
 const modelsWithInstallGuide = ['ep760', 'ep2000']
 
