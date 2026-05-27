@@ -418,6 +418,7 @@
     "descripcion": "En viajes largos por motorhome, casa rodante o vehículo off-road, recargar una estación de energía portátil desde el encendedor del auto puede llevar más de 8 horas — limitada típicamente a 100 W. Al llegar al destino, la batería sigue a media carga, justo cuando más necesitás energía.\nEl BLUETTI Charger 1 es un cargador de alternador externo que se conecta directamente a la batería del vehículo (12V o 24V) y entrega hasta 560 W de carga DC a la estación portátil — hasta 6× más rápido que la cigarrera estándar. Mientras manejás, tu BLUETTI se recarga sola.\nIncluye protección contra descarga de la batería del auto (corta automáticamente para evitar dejarte varado), protección contra sobrecarga, refrigeración activa por ventilador y control completo desde la app BLUETTI vía Bluetooth. El voltaje de salida es ajustable entre 15 V y 56 V, compatible con AC200P L, APEX 300, RV5 y la mayoría de las estaciones BLUETTI portátiles del mercado.",
     "categoria": "Accesorio",
     "imagen": "charger1.png",
+    "imagenes": ["charger1-2.png"],
     "perfilUsuario": "Viajeros en motorhome, casas rodantes o vehículos off-road que necesitan cargar su estación BLUETTI durante el manejo. También útil para flotas comerciales, food trucks o vehículos de servicio donde la estación se usa varias veces al día y la cigarrera no alcanza.",
     "casosDeUso": [
       {
