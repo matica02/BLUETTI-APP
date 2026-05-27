@@ -168,7 +168,7 @@ function calcCapacity(modelId, unidades, baterias) {
   const totalBat = arr.reduce((a, b) => a + b, 0)
   switch (modelId) {
     case 'es125x':  return { kWh: unidades * 241, kW: unidades * 125 }
-    case 'rv5':     return { kWh: totalBat * 4.8, kW: 5 }
+    case 'rv5':     return { kWh: totalBat * 5.12, kW: 5 }
     case 'ep2000':  return { kWh: totalBat * 7.37, kW: unidades * 20 }
     case 'ep760':   return { kWh: totalBat * 4.96, kW: 7.6 }
     case 'apex300': return { kWh: unidades * 2.76 + totalBat * 2.76, kW: unidades * 3.84 }

@@ -9,8 +9,7 @@ const CFG = {
     paralelo: null,
     baterias: {
       tipos: [
-        { id: 'b4810', nombre: 'B4810', kWh: 4.8, max: 24 },
-        { id: 'b300', nombre: 'B300', kWh: 3.072, max: 24 },
+        { id: 'b4810', nombre: 'B4810', kWh: 5.12, max: 24 },
       ],
       min: 2,
     },
@@ -41,8 +40,6 @@ const CFG = {
     baterias: {
       tipos: [
         { id: 'b300k', nombre: 'B300K', kWh: 2.76, max: 2 },
-        { id: 'b210p', nombre: 'B210P', kWh: 2.048, max: 2 },
-        { id: 'b230', nombre: 'B230', kWh: 2.048, max: 2 },
       ],
       min: 0,
     },
