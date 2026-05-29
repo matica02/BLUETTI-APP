@@ -439,18 +439,29 @@ function peakInfo(agregados) {
   let contSlot = 0
   let maxSurge = 0
   let surgeSlot = 0
+  let surgeStarterWatts = 0
+  let contAtSurgeSlot = 0
   for (let s = 0; s < SLOTS_PER_DAY; s++) {
     const cont = peakLoadAtSlotW(agregados, s)
     if (cont > maxCont) { maxCont = cont; contSlot = s }
     let surgeDelta = 0
+    let slotStarterWatts = 0
     for (const e of agregados) {
       if (!e.arranqueW || e.arranqueW <= e.watts) continue
       if (activePctAtSlot(e, s) === 0) continue
       const d = e.arranqueW - e.watts
-      if (d > surgeDelta) surgeDelta = d
+      if (d > surgeDelta) {
+        surgeDelta = d
+        slotStarterWatts = e.watts
+      }
     }
     const totalSurge = cont + surgeDelta
-    if (totalSurge > maxSurge) { maxSurge = totalSurge; surgeSlot = s }
+    if (totalSurge > maxSurge) {
+      maxSurge = totalSurge
+      surgeSlot = s
+      surgeStarterWatts = slotStarterWatts
+      contAtSurgeSlot = cont
+    }
   }
   return {
     watts: maxCont,
@@ -458,6 +469,8 @@ function peakInfo(agregados) {
     surgeWatts: maxSurge,
     surgeTime: surgeSlot * SLOT_HOURS,
     hasSurge: maxSurge > maxCont,
+    surgeStarterWatts,
+    contAtSurgeSlot,
   }
 }
 
@@ -849,6 +862,8 @@ export default function Calculadora() {
   const [solarPaneles, setSolarPaneles] = useState(4)
   const [solarPanelW, setSolarPanelW] = useState(400)
   const [solarHorasSol, setSolarHorasSol] = useState(5)
+  const [simultaneidad, setSimultaneidad] = useState(0.7)
+  const [aplicarFs, setAplicarFs] = useState(false)
 
   const [modelConfigs, setModelConfigs] = useState(() => {
     const initial = {}
@@ -935,9 +950,13 @@ export default function Calculadora() {
   const consumoPerSlot = useMemo(() => computeConsumoPerSlot(agregados), [agregados])
   const solarActivo = solarOn && dailySolar > 0
 
+  const fsFactor = aplicarFs ? simultaneidad : 1.0
+
   const dayChartModelOptions = useMemo(() => {
-    const contKw = peak.watts / 1000
-    const effectiveKw = peak.hasSurge ? peak.surgeWatts / 1000 : contKw
+    const contKw = (peak.watts * fsFactor) / 1000
+    const effectiveKw = peak.hasSurge
+      ? (peak.surgeWatts - (peak.contAtSurgeSlot - peak.surgeStarterWatts) * (1 - fsFactor)) / 1000
+      : contKw
     return MODELOS
       .filter(m => {
         if (movilidad) return m.id === 'rv5'
@@ -953,7 +972,7 @@ export default function Calculadora() {
         const maxSolarW = (MAX_SOLAR_W[m.id] ?? 0) * unidades
         return { id: m.id, nombre: m.nombre, capacityKwh, maxSolarW }
       })
-  }, [peak, movilidad, modelConfigs])
+  }, [peak, movilidad, modelConfigs, fsFactor])
 
   function aplicarPerfil(perfil) {
     const nuevos = []
@@ -1387,6 +1406,77 @@ export default function Calculadora() {
             )}
             {peak.watts > 0 && !peak.hasSurge && <div className="mb-4 sm:mb-5" />}
 
+            {peak.watts > 0 && (
+              <div className="mb-4 sm:mb-5 pt-3 border-t border-bluetti-border/50">
+                <button
+                  onClick={() => setAplicarFs(v => !v)}
+                  role="switch"
+                  aria-checked={aplicarFs}
+                  className={`flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold border transition-all w-full justify-center ${
+                    aplicarFs
+                      ? 'border-bluetti-cyan bg-bluetti-cyan/10 text-bluetti-cyan'
+                      : 'border-bluetti-border text-bluetti-cyan/70 hover:border-bluetti-cyan hover:text-bluetti-cyan'
+                  }`}
+                >
+                  <span
+                    className={`relative inline-block w-8 h-4 rounded-full transition-colors ${
+                      aplicarFs ? 'bg-bluetti-cyan' : 'bg-bluetti-border'
+                    }`}
+                  >
+                    <span
+                      className={`absolute top-0.5 left-0.5 w-3 h-3 rounded-full bg-bluetti-bg transition-transform ${
+                        aplicarFs ? 'translate-x-4' : 'translate-x-0'
+                      }`}
+                    />
+                  </span>
+                  {aplicarFs ? 'Fs aplicado a la recomendación de modelos' : 'Aplicar Fs a la recomendación de modelos'}
+                </button>
+                {aplicarFs && (
+                  <>
+                    <div className="flex items-center justify-between gap-2 mt-3 mb-2">
+                      <HoverTooltip content={`Factor de simultaneidad (Fs): reduce el pico worst case al pico esperado real, ya que estadísticamente no todos los equipos coinciden a la vez.\n\nValores típicos según AEA:\n• Residencial: 0.4 - 0.6\n• Comercial chico: 0.6 - 0.8\n• Industrial: 0.7 - 0.9\n• Iluminación: 0.9 - 1.0`}>
+                        <span className="text-bluetti-cyan/70 text-xs cursor-help whitespace-nowrap">
+                          Factor de simultaneidad ⓘ
+                        </span>
+                      </HoverTooltip>
+                      <div className="flex items-center gap-2">
+                        <input
+                          type="range"
+                          min={0.4}
+                          max={1.0}
+                          step={0.05}
+                          value={simultaneidad}
+                          onChange={ev => setSimultaneidad(Number(ev.target.value))}
+                          className="w-20 sm:w-28 accent-bluetti-cyan"
+                        />
+                        <span className="text-bluetti-cyan text-xs font-bold w-10 text-right">{simultaneidad.toFixed(2)}</span>
+                      </div>
+                    </div>
+                    <div className="flex items-baseline justify-between gap-2 mb-1">
+                      <span className="text-bluetti-cyan/80 text-xs sm:text-sm">
+                        Pico continuo esperado <span className="text-bluetti-cyan/50 text-[10px] sm:text-xs">(con Fs)</span>
+                      </span>
+                      <span className="text-bluetti-cyan/90 text-lg sm:text-2xl font-semibold">
+                        {((peak.watts / 1000) * fsFactor).toFixed(2)}
+                        <span className="text-xs sm:text-sm font-normal text-bluetti-cyan/60 ml-1 inline-block w-12 sm:w-16 text-left">kW</span>
+                      </span>
+                    </div>
+                    {peak.hasSurge && (
+                      <div className="flex items-baseline justify-between gap-2">
+                        <span className="text-bluetti-cyan/80 text-xs sm:text-sm">
+                          Pico arranque esperado <span className="text-bluetti-cyan/50 text-[10px] sm:text-xs">(filtra los modelos)</span>
+                        </span>
+                        <span className="text-bluetti-lime text-lg sm:text-2xl font-semibold">
+                          {((peak.surgeWatts - (peak.contAtSurgeSlot - peak.surgeStarterWatts) * (1 - fsFactor)) / 1000).toFixed(2)}
+                          <span className="text-xs sm:text-sm font-normal text-bluetti-lime/70 ml-1 inline-block w-12 sm:w-16 text-left">kW</span>
+                        </span>
+                      </div>
+                    )}
+                  </>
+                )}
+              </div>
+            )}
+
             {totalKwh === 0 ? (
               <p className="text-bluetti-cyan/70 text-sm text-center py-4">
                 Agregá equipos para ver qué modelos BLUETTI te convienen.
@@ -1397,8 +1487,10 @@ export default function Calculadora() {
                   Configurá cada modelo para ver su autonomía
                 </p>
                 {(() => {
-                  const contKw = peak.watts / 1000
-                  const effectiveKw = peak.hasSurge ? peak.surgeWatts / 1000 : contKw
+                  const contKw = (peak.watts * fsFactor) / 1000
+                  const effectiveKw = peak.hasSurge
+                    ? (peak.surgeWatts - (peak.contAtSurgeSlot - peak.surgeStarterWatts) * (1 - fsFactor)) / 1000
+                    : contKw
                   return MODELOS
                     .filter(m => {
                       if (movilidad) return m.id === 'rv5'
