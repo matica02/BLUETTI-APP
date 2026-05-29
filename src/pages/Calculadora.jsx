@@ -6,65 +6,83 @@ import DayClock from '../components/DayClock'
 
 const CATEGORIAS_ELECTRO = [
   { id: 'climatizacion', nombre: 'Climatización', items: [
-    { id: 'aire', nombre: 'Aire acondicionado (split 3000 frigs.)', watts: 900, arranqueW: 2700 },
-    { id: 'aire_grande', nombre: 'Aire acondicionado (split 5000 frigs.)', watts: 1500, arranqueW: 4500 },
-    { id: 'ventilador', nombre: 'Ventilador de pie', watts: 60 },
-    { id: 'calefactor', nombre: 'Calefactor eléctrico', watts: 1500 },
+    { id: 'aire', nombre: 'Aire acondicionado (split 3000 frigs.)', watts: 900, arranqueW: 2700, franjasDefault: [{ inicio: 12, fin: 22, porcentaje: 60 }] },
+    { id: 'aire_grande', nombre: 'Aire acondicionado (split 5000 frigs.)', watts: 1500, arranqueW: 4500, franjasDefault: [{ inicio: 12, fin: 22, porcentaje: 60 }] },
+    { id: 'ventilador', nombre: 'Ventilador de pie', watts: 60, franjasDefault: [{ inicio: 14, fin: 20, porcentaje: 70 }] },
+    { id: 'calefactor', nombre: 'Calefactor eléctrico', watts: 1500, franjasDefault: [{ inicio: 18, fin: 23, porcentaje: 80 }] },
   ]},
   { id: 'cocina', nombre: 'Cocina', items: [
-    { id: 'heladera', nombre: 'Heladera', watts: 150, arranqueW: 450 },
-    { id: 'freezer', nombre: 'Freezer', watts: 150, arranqueW: 450 },
-    { id: 'heladera_comercial', nombre: 'Heladera comercial', watts: 400, arranqueW: 1200 },
-    { id: 'microondas', nombre: 'Microondas', watts: 1000, arranqueW: 2000 },
-    { id: 'horno', nombre: 'Horno eléctrico', watts: 1200 },
-    { id: 'pava', nombre: 'Pava eléctrica', watts: 1500 },
-    { id: 'cafetera', nombre: 'Cafetera', watts: 900 },
-    { id: 'tostadora', nombre: 'Tostadora', watts: 850 },
-    { id: 'licuadora', nombre: 'Licuadora', watts: 400, arranqueW: 800 },
+    { id: 'heladera', nombre: 'Heladera', watts: 150, arranqueW: 450, franjasDefault: [{ inicio: 0, fin: 24, porcentaje: 40 }] },
+    { id: 'freezer', nombre: 'Freezer', watts: 200, arranqueW: 600, franjasDefault: [{ inicio: 0, fin: 24, porcentaje: 35 }] },
+    { id: 'heladera_comercial', nombre: 'Heladera comercial', watts: 500, arranqueW: 1500, franjasDefault: [{ inicio: 0, fin: 24, porcentaje: 55 }] },
+    { id: 'microondas', nombre: 'Microondas', watts: 1200, arranqueW: 1800, franjasDefault: [
+      { inicio: 12, fin: 13, porcentaje: 8 },
+      { inicio: 20, fin: 21, porcentaje: 8 },
+    ] },
+    { id: 'horno', nombre: 'Horno eléctrico', watts: 1500, franjasDefault: [
+      { inicio: 12, fin: 14, porcentaje: 30 },
+      { inicio: 20, fin: 22, porcentaje: 30 },
+    ] },
+    { id: 'pava', nombre: 'Pava eléctrica', watts: 1500, franjasDefault: [
+      { inicio: 7, fin: 8, porcentaje: 15 },
+      { inicio: 17, fin: 18, porcentaje: 15 },
+    ] },
+    { id: 'cafetera', nombre: 'Cafetera', watts: 900, franjasDefault: [{ inicio: 7, fin: 8, porcentaje: 25 }] },
+    { id: 'tostadora', nombre: 'Tostadora', watts: 850, franjasDefault: [{ inicio: 7, fin: 8, porcentaje: 12 }] },
+    { id: 'licuadora', nombre: 'Licuadora', watts: 400, arranqueW: 800, franjasDefault: [{ inicio: 8, fin: 9, porcentaje: 8 }] },
   ]},
   { id: 'entretenimiento', nombre: 'Entretenimiento', items: [
-    { id: 'tv', nombre: 'TV 55"', watts: 120 },
-    { id: 'tv_32', nombre: 'TV 32"', watts: 60 },
-    { id: 'consola', nombre: 'Consola de videojuegos', watts: 150 },
-    { id: 'proyector', nombre: 'Proyector', watts: 250 },
+    { id: 'tv', nombre: 'TV 55"', watts: 120, franjasDefault: [{ inicio: 18, fin: 23, porcentaje: 100 }] },
+    { id: 'tv_32', nombre: 'TV 32"', watts: 60, franjasDefault: [{ inicio: 18, fin: 23, porcentaje: 100 }] },
+    { id: 'consola', nombre: 'Consola de videojuegos', watts: 150, franjasDefault: [{ inicio: 19, fin: 22, porcentaje: 80 }] },
+    { id: 'proyector', nombre: 'Proyector', watts: 250, franjasDefault: [{ inicio: 20, fin: 22, porcentaje: 100 }] },
   ]},
   { id: 'trabajo', nombre: 'Trabajo y conectividad', items: [
-    { id: 'pc', nombre: 'Computadora de escritorio + monitor', watts: 200 },
-    { id: 'notebook', nombre: 'Notebook / Laptop', watts: 65 },
-    { id: 'wifi', nombre: 'Router WiFi', watts: 15 },
-    { id: 'celular', nombre: 'Cargador de celular', watts: 10 },
+    { id: 'pc', nombre: 'Computadora de escritorio + monitor', watts: 200, franjasDefault: [{ inicio: 9, fin: 18, porcentaje: 90 }] },
+    { id: 'notebook', nombre: 'Notebook / Laptop', watts: 65, franjasDefault: [{ inicio: 9, fin: 18, porcentaje: 70 }] },
+    { id: 'wifi', nombre: 'Router WiFi', watts: 15, franjasDefault: [{ inicio: 0, fin: 24, porcentaje: 100 }] },
+    { id: 'celular', nombre: 'Cargador de celular', watts: 10, franjasDefault: [
+      { inicio: 0, fin: 7, porcentaje: 50 },
+      { inicio: 22, fin: 24, porcentaje: 50 },
+    ] },
   ]},
   { id: 'iluminacion', nombre: 'Iluminación', items: [
-    { id: 'led', nombre: 'Iluminación LED (10 luces)', watts: 100 },
+    { id: 'led', nombre: 'Iluminación LED (10 luces)', watts: 100, franjasDefault: [{ inicio: 19, fin: 23, porcentaje: 100 }] },
   ]},
   { id: 'hogar', nombre: 'Hogar', items: [
-    { id: 'lavarropas', nombre: 'Lavarropas', watts: 500, arranqueW: 1500 },
-    { id: 'plancha', nombre: 'Plancha de ropa', watts: 1200 },
-    { id: 'aspiradora', nombre: 'Aspiradora', watts: 1200, arranqueW: 2400 },
+    { id: 'lavarropas', nombre: 'Lavarropas', watts: 500, arranqueW: 1500, franjasDefault: [{ inicio: 10, fin: 12, porcentaje: 25 }] },
+    { id: 'plancha', nombre: 'Plancha de ropa', watts: 1500, franjasDefault: [{ inicio: 11, fin: 12, porcentaje: 30 }] },
+    { id: 'aspiradora', nombre: 'Aspiradora', watts: 1200, arranqueW: 2400, franjasDefault: [{ inicio: 10, fin: 11, porcentaje: 20 }] },
   ]},
   { id: 'seguridad', nombre: 'Seguridad y servicios', items: [
-    { id: 'camara', nombre: 'Cámara de seguridad', watts: 15 },
-    { id: 'alarma', nombre: 'Alarma del hogar', watts: 20 },
-    { id: 'bomba', nombre: 'Bomba de agua', watts: 750, arranqueW: 3000 },
+    { id: 'camara', nombre: 'Cámara de seguridad', watts: 15, franjasDefault: [{ inicio: 0, fin: 24, porcentaje: 100 }] },
+    { id: 'alarma', nombre: 'Alarma del hogar', watts: 20, franjasDefault: [{ inicio: 0, fin: 24, porcentaje: 100 }] },
+    { id: 'bomba', nombre: 'Bomba de agua', watts: 750, arranqueW: 3000, franjasDefault: [
+      { inicio: 7, fin: 9, porcentaje: 20 },
+      { inicio: 18, fin: 20, porcentaje: 20 },
+    ] },
   ]},
   { id: 'herramientas', nombre: 'Herramientas', items: [
-    { id: 'herramientas', nombre: 'Herramientas eléctricas', watts: 800, arranqueW: 1600 },
+    { id: 'herramientas', nombre: 'Herramientas eléctricas', watts: 800, arranqueW: 1600, franjasDefault: [{ inicio: 9, fin: 17, porcentaje: 40 }] },
   ]},
   { id: 'industrial', nombre: 'Industrial', items: [
-    { id: 'compresor_10hp', nombre: 'Compresor industrial (10 HP)', watts: 7500, arranqueW: 22500 },
-    { id: 'compresor_20hp', nombre: 'Compresor industrial (20 HP)', watts: 15000, arranqueW: 45000 },
-    { id: 'motor_trifasico', nombre: 'Motor trifásico (10 HP)', watts: 7500, arranqueW: 22500 },
-    { id: 'soldadora_mig', nombre: 'Soldadora MIG/TIG', watts: 5000, arranqueW: 10000 },
-    { id: 'torno_industrial', nombre: 'Torno industrial', watts: 5500, arranqueW: 16500 },
-    { id: 'fresadora_cnc', nombre: 'Fresadora CNC', watts: 7500, arranqueW: 18750 },
-    { id: 'camara_frigorifica', nombre: 'Cámara frigorífica industrial', watts: 5000, arranqueW: 15000 },
-    { id: 'horno_industrial', nombre: 'Horno industrial (panadería)', watts: 12000 },
-    { id: 'amasadora_industrial', nombre: 'Amasadora industrial', watts: 3000, arranqueW: 9000 },
-    { id: 'caldera_electrica', nombre: 'Caldera eléctrica industrial', watts: 9000 },
-    { id: 'bomba_industrial', nombre: 'Bomba centrífuga industrial', watts: 4000, arranqueW: 12000 },
-    { id: 'cinta_transportadora', nombre: 'Cinta transportadora', watts: 2200, arranqueW: 6600 },
-    { id: 'iluminacion_galpon', nombre: 'Iluminación LED galpón', watts: 2000 },
-    { id: 'extractor_industrial', nombre: 'Extractor industrial', watts: 1500, arranqueW: 3000 },
+    { id: 'compresor_10hp', nombre: 'Compresor industrial (10 HP)', watts: 7500, arranqueW: 15000, franjasDefault: [{ inicio: 7, fin: 19, porcentaje: 55 }] },
+    { id: 'compresor_20hp', nombre: 'Compresor industrial (20 HP)', watts: 15000, arranqueW: 30000, franjasDefault: [{ inicio: 7, fin: 19, porcentaje: 55 }] },
+    { id: 'motor_trifasico', nombre: 'Motor trifásico (10 HP)', watts: 7500, arranqueW: 15000, franjasDefault: [{ inicio: 7, fin: 19, porcentaje: 70 }] },
+    { id: 'soldadora_mig', nombre: 'Soldadora MIG/TIG', watts: 5000, arranqueW: 10000, franjasDefault: [{ inicio: 8, fin: 17, porcentaje: 35 }] },
+    { id: 'torno_industrial', nombre: 'Torno industrial', watts: 5500, arranqueW: 16500, franjasDefault: [{ inicio: 8, fin: 17, porcentaje: 50 }] },
+    { id: 'fresadora_cnc', nombre: 'Fresadora CNC', watts: 7500, arranqueW: 18750, franjasDefault: [{ inicio: 8, fin: 17, porcentaje: 50 }] },
+    { id: 'camara_frigorifica', nombre: 'Cámara frigorífica industrial', watts: 5000, arranqueW: 10000, franjasDefault: [{ inicio: 0, fin: 24, porcentaje: 60 }] },
+    { id: 'horno_industrial', nombre: 'Horno industrial (panadería)', watts: 12000, franjasDefault: [{ inicio: 4, fin: 12, porcentaje: 60 }] },
+    { id: 'amasadora_industrial', nombre: 'Amasadora industrial', watts: 3000, arranqueW: 9000, franjasDefault: [{ inicio: 5, fin: 9, porcentaje: 40 }] },
+    { id: 'caldera_electrica', nombre: 'Caldera eléctrica industrial', watts: 9000, franjasDefault: [{ inicio: 6, fin: 18, porcentaje: 70 }] },
+    { id: 'bomba_industrial', nombre: 'Bomba centrífuga industrial', watts: 4000, arranqueW: 8000, franjasDefault: [{ inicio: 7, fin: 19, porcentaje: 50 }] },
+    { id: 'cinta_transportadora', nombre: 'Cinta transportadora', watts: 2200, arranqueW: 6600, franjasDefault: [{ inicio: 7, fin: 19, porcentaje: 60 }] },
+    { id: 'iluminacion_galpon', nombre: 'Iluminación LED galpón', watts: 2000, franjasDefault: [{ inicio: 7, fin: 22, porcentaje: 100 }] },
+    { id: 'extractor_industrial', nombre: 'Extractor industrial', watts: 1500, arranqueW: 3000, franjasDefault: [{ inicio: 7, fin: 19, porcentaje: 80 }] },
+    { id: 'ascensor_residencial', nombre: 'Ascensor residencial (3-4 personas, ~3 HP)', watts: 2200, arranqueW: 5500, franjasDefault: [{ inicio: 7, fin: 22, porcentaje: 4 }] },
+    { id: 'ascensor_comercial', nombre: 'Ascensor comercial (6-8 personas, ~7.5 HP)', watts: 5500, arranqueW: 13000, franjasDefault: [{ inicio: 8, fin: 20, porcentaje: 8 }] },
+    { id: 'ascensor_grande', nombre: 'Ascensor comercial grande (10-15 personas, ~15 HP con VFD)', watts: 11000, arranqueW: 17000, franjasDefault: [{ inicio: 8, fin: 20, porcentaje: 12 }] },
   ]},
 ]
 
@@ -82,40 +100,67 @@ const PERFILES = [
     id: 'casa',
     nombre: 'Casa',
     items: [
-      { id: 'heladera', cantidad: 1 },
-      { id: 'freezer', cantidad: 1 },
+      { id: 'heladera', cantidad: 1, franjas: [{ inicio: 0, fin: 24, porcentaje: 40 }] },
+      { id: 'freezer', cantidad: 1, franjas: [{ inicio: 0, fin: 24, porcentaje: 35 }] },
       { id: 'tv', cantidad: 1, franjas: [{ inicio: 18, fin: 23, porcentaje: 100 }] },
       { id: 'led', cantidad: 1, franjas: [{ inicio: 19, fin: 23, porcentaje: 100 }] },
       { id: 'wifi', cantidad: 1 },
-      { id: 'celular', cantidad: 2, franjas: FRANJA_NOCHE_CARGA },
-      { id: 'pava', cantidad: 1, franjas: [{ inicio: 7, fin: 8, porcentaje: 30 }] },
-      { id: 'notebook', cantidad: 1, franjas: [{ inicio: 9, fin: 18, porcentaje: 80 }] },
+      { id: 'celular', cantidad: 3, franjas: [
+        { inicio: 0, fin: 7, porcentaje: 50 },
+        { inicio: 22, fin: 24, porcentaje: 50 },
+      ] },
+      { id: 'pava', cantidad: 1, franjas: [{ inicio: 7, fin: 8, porcentaje: 20 }] },
+      { id: 'cafetera', cantidad: 1, franjas: [{ inicio: 7, fin: 8, porcentaje: 30 }] },
+      { id: 'tostadora', cantidad: 1, franjas: [{ inicio: 7, fin: 8, porcentaje: 12 }] },
+      { id: 'microondas', cantidad: 1, franjas: [
+        { inicio: 12, fin: 14, porcentaje: 6 },
+        { inicio: 20, fin: 22, porcentaje: 6 },
+      ] },
+      { id: 'lavarropas', cantidad: 1, franjas: [{ inicio: 10, fin: 12, porcentaje: 25 }] },
+      { id: 'notebook', cantidad: 1, franjas: [{ inicio: 9, fin: 18, porcentaje: 70 }] },
     ],
   },
   {
     id: 'camping',
     nombre: 'Camping',
     items: [
-      { id: 'heladera', cantidad: 1 },
+      { id: 'heladera', cantidad: 1, franjas: [{ inicio: 0, fin: 24, porcentaje: 45 }] },
       { id: 'led', cantidad: 1, franjas: [{ inicio: 19, fin: 23, porcentaje: 100 }] },
-      { id: 'celular', cantidad: 3, franjas: FRANJA_NOCHE_CARGA },
-      { id: 'ventilador', cantidad: 1, franjas: [{ inicio: 14, fin: 19, porcentaje: 100 }] },
-      { id: 'pava', cantidad: 1, franjas: [
-        { inicio: 7, fin: 8, porcentaje: 50 },
-        { inicio: 18, fin: 19, porcentaje: 50 },
+      { id: 'celular', cantidad: 3, franjas: [
+        { inicio: 0, fin: 7, porcentaje: 50 },
+        { inicio: 22, fin: 24, porcentaje: 50 },
       ] },
+      { id: 'ventilador', cantidad: 1, franjas: [{ inicio: 14, fin: 19, porcentaje: 80 }] },
+      { id: 'pava', cantidad: 1, franjas: [
+        { inicio: 7, fin: 8, porcentaje: 20 },
+        { inicio: 18, fin: 19, porcentaje: 20 },
+      ] },
+      { id: 'wifi', cantidad: 1 },
+      { id: 'notebook', cantidad: 1, franjas: [{ inicio: 19, fin: 22, porcentaje: 50 }] },
     ],
   },
   {
     id: 'motorhome',
     nombre: 'Motorhome',
     items: [
-      { id: 'heladera', cantidad: 1 },
+      { id: 'heladera', cantidad: 1, franjas: [{ inicio: 0, fin: 24, porcentaje: 45 }] },
       { id: 'led', cantidad: 1, franjas: [{ inicio: 19, fin: 23, porcentaje: 100 }] },
-      { id: 'celular', cantidad: 3, franjas: FRANJA_NOCHE_CARGA },
-      { id: 'ventilador', cantidad: 1, franjas: [{ inicio: 14, fin: 19, porcentaje: 100 }] },
-      { id: 'cafetera', cantidad: 1, franjas: [{ inicio: 7, fin: 8, porcentaje: 60 }] },
-      { id: 'notebook', cantidad: 1, franjas: [{ inicio: 9, fin: 17, porcentaje: 70 }] },
+      { id: 'celular', cantidad: 3, franjas: [
+        { inicio: 0, fin: 7, porcentaje: 50 },
+        { inicio: 22, fin: 24, porcentaje: 50 },
+      ] },
+      { id: 'ventilador', cantidad: 1, franjas: [{ inicio: 14, fin: 19, porcentaje: 80 }] },
+      { id: 'cafetera', cantidad: 1, franjas: [{ inicio: 7, fin: 8, porcentaje: 25 }] },
+      { id: 'pava', cantidad: 1, franjas: [
+        { inicio: 7, fin: 8, porcentaje: 15 },
+        { inicio: 17, fin: 19, porcentaje: 15 },
+      ] },
+      { id: 'bomba', cantidad: 1, franjas: [
+        { inicio: 7, fin: 9, porcentaje: 5 },
+        { inicio: 13, fin: 14, porcentaje: 5 },
+        { inicio: 20, fin: 22, porcentaje: 5 },
+      ] },
+      { id: 'notebook', cantidad: 1, franjas: [{ inicio: 9, fin: 17, porcentaje: 60 }] },
       { id: 'tv_32', cantidad: 1, franjas: [{ inicio: 19, fin: 23, porcentaje: 100 }] },
       { id: 'wifi', cantidad: 1 },
     ],
@@ -124,24 +169,32 @@ const PERFILES = [
     id: 'comercio',
     nombre: 'Comercio',
     items: [
-      { id: 'heladera_comercial', cantidad: 1 },
+      { id: 'heladera_comercial', cantidad: 1, franjas: [{ inicio: 0, fin: 24, porcentaje: 55 }] },
       { id: 'led', cantidad: 2, franjas: [{ inicio: 8, fin: 20, porcentaje: 100 }] },
       { id: 'wifi', cantidad: 1 },
-      { id: 'pc', cantidad: 1, franjas: [{ inicio: 9, fin: 18, porcentaje: 100 }] },
+      { id: 'pc', cantidad: 1, franjas: [{ inicio: 9, fin: 18, porcentaje: 90 }] },
       { id: 'alarma', cantidad: 1 },
-      { id: 'camara', cantidad: 2 },
+      { id: 'camara', cantidad: 4 },
+      { id: 'aire_grande', cantidad: 1, franjas: [{ inicio: 9, fin: 20, porcentaje: 55 }] },
+      { id: 'cafetera', cantidad: 1, franjas: [{ inicio: 8, fin: 9, porcentaje: 30 }] },
+      { id: 'microondas', cantidad: 1, franjas: [{ inicio: 12, fin: 14, porcentaje: 10 }] },
     ],
   },
   {
     id: 'obra',
     nombre: 'Obra',
     items: [
-      { id: 'herramientas', cantidad: 2, franjas: [{ inicio: 8, fin: 17, porcentaje: 60 }] },
+      { id: 'herramientas', cantidad: 3, franjas: [{ inicio: 8, fin: 17, porcentaje: 40 }] },
       { id: 'led', cantidad: 1, franjas: [{ inicio: 8, fin: 18, porcentaje: 100 }] },
-      { id: 'celular', cantidad: 3, franjas: [{ inicio: 8, fin: 18, porcentaje: 80 }] },
+      { id: 'celular', cantidad: 3, franjas: [{ inicio: 8, fin: 18, porcentaje: 50 }] },
       { id: 'bomba', cantidad: 1, franjas: [
-        { inicio: 7, fin: 9, porcentaje: 50 },
-        { inicio: 17, fin: 19, porcentaje: 50 },
+        { inicio: 7, fin: 9, porcentaje: 30 },
+        { inicio: 17, fin: 19, porcentaje: 30 },
+      ] },
+      { id: 'heladera', cantidad: 1, franjas: [{ inicio: 7, fin: 18, porcentaje: 45 }] },
+      { id: 'pava', cantidad: 1, franjas: [
+        { inicio: 9, fin: 11, porcentaje: 12 },
+        { inicio: 14, fin: 16, porcentaje: 12 },
       ] },
     ],
   },
@@ -150,14 +203,14 @@ const PERFILES = [
     nombre: 'Granja',
     items: [
       { id: 'bomba', cantidad: 1, franjas: [
-        { inicio: 7, fin: 9, porcentaje: 50 },
-        { inicio: 18, fin: 20, porcentaje: 50 },
+        { inicio: 7, fin: 9, porcentaje: 40 },
+        { inicio: 18, fin: 20, porcentaje: 40 },
       ] },
-      { id: 'heladera', cantidad: 1 },
-      { id: 'freezer', cantidad: 1 },
+      { id: 'heladera', cantidad: 1, franjas: [{ inicio: 0, fin: 24, porcentaje: 40 }] },
+      { id: 'freezer', cantidad: 1, franjas: [{ inicio: 0, fin: 24, porcentaje: 35 }] },
       { id: 'led', cantidad: 2, franjas: [{ inicio: 18, fin: 23, porcentaje: 100 }] },
       { id: 'iluminacion_galpon', cantidad: 1, franjas: [{ inicio: 18, fin: 22, porcentaje: 100 }] },
-      { id: 'herramientas', cantidad: 1, franjas: [{ inicio: 9, fin: 17, porcentaje: 30 }] },
+      { id: 'herramientas', cantidad: 1, franjas: [{ inicio: 9, fin: 17, porcentaje: 25 }] },
       { id: 'wifi', cantidad: 1 },
       { id: 'tv', cantidad: 1, franjas: [{ inicio: 19, fin: 23, porcentaje: 100 }] },
     ],
@@ -166,14 +219,14 @@ const PERFILES = [
     id: 'industrial',
     nombre: 'Industrial',
     items: [
-      { id: 'compresor_20hp', cantidad: 1, franjas: [{ inicio: 7, fin: 19, porcentaje: 100 }] },
-      { id: 'compresor_10hp', cantidad: 1, franjas: [{ inicio: 7, fin: 19, porcentaje: 100 }] },
-      { id: 'soldadora_mig', cantidad: 3, franjas: [{ inicio: 8, fin: 17, porcentaje: 50 }] },
-      { id: 'torno_industrial', cantidad: 2, franjas: [{ inicio: 8, fin: 17, porcentaje: 60 }] },
-      { id: 'fresadora_cnc', cantidad: 2, franjas: [{ inicio: 8, fin: 17, porcentaje: 60 }] },
-      { id: 'motor_trifasico', cantidad: 2, franjas: [{ inicio: 7, fin: 19, porcentaje: 100 }] },
+      { id: 'compresor_20hp', cantidad: 1, franjas: [{ inicio: 7, fin: 19, porcentaje: 55 }] },
+      { id: 'compresor_10hp', cantidad: 1, franjas: [{ inicio: 7, fin: 19, porcentaje: 55 }] },
+      { id: 'soldadora_mig', cantidad: 3, franjas: [{ inicio: 8, fin: 17, porcentaje: 35 }] },
+      { id: 'torno_industrial', cantidad: 2, franjas: [{ inicio: 8, fin: 17, porcentaje: 50 }] },
+      { id: 'fresadora_cnc', cantidad: 2, franjas: [{ inicio: 8, fin: 17, porcentaje: 50 }] },
+      { id: 'motor_trifasico', cantidad: 2, franjas: [{ inicio: 7, fin: 19, porcentaje: 70 }] },
       { id: 'iluminacion_galpon', cantidad: 5, franjas: [{ inicio: 7, fin: 22, porcentaje: 100 }] },
-      { id: 'extractor_industrial', cantidad: 1, franjas: [{ inicio: 7, fin: 19, porcentaje: 100 }] },
+      { id: 'extractor_industrial', cantidad: 1, franjas: [{ inicio: 7, fin: 19, porcentaje: 80 }] },
     ],
   },
 ]
@@ -271,6 +324,13 @@ function activePctAtSlot(electro, s) {
 function loadAtSlotW(agregados, s) {
   return agregados.reduce(
     (sum, e) => sum + e.watts * activePctAtSlot(e, s) / 100,
+    0
+  )
+}
+
+function peakLoadAtSlotW(agregados, s) {
+  return agregados.reduce(
+    (sum, e) => sum + (activePctAtSlot(e, s) > 0 ? e.watts : 0),
     0
   )
 }
@@ -380,14 +440,13 @@ function peakInfo(agregados) {
   let maxSurge = 0
   let surgeSlot = 0
   for (let s = 0; s < SLOTS_PER_DAY; s++) {
-    const cont = loadAtSlotW(agregados, s)
+    const cont = peakLoadAtSlotW(agregados, s)
     if (cont > maxCont) { maxCont = cont; contSlot = s }
     let surgeDelta = 0
     for (const e of agregados) {
       if (!e.arranqueW || e.arranqueW <= e.watts) continue
-      const pct = activePctAtSlot(e, s) / 100
-      if (pct === 0) continue
-      const d = e.arranqueW - e.watts * pct
+      if (activePctAtSlot(e, s) === 0) continue
+      const d = e.arranqueW - e.watts
       if (d > surgeDelta) surgeDelta = d
     }
     const totalSurge = cont + surgeDelta
@@ -428,6 +487,27 @@ function Stepper({ value, min, max, onChange, label, sublabel }) {
           className="w-8 h-8 sm:w-9 sm:h-9 rounded-lg bg-bluetti-border hover:bg-bluetti-cyan hover:text-bluetti-bg text-bluetti-cyan/80 text-base sm:text-lg font-bold flex items-center justify-center transition-all disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:bg-bluetti-border disabled:hover:text-bluetti-cyan/80"
         >+</button>
       </div>
+    </div>
+  )
+}
+
+function HoverTooltip({ content, children, className = '' }) {
+  const [hovered, setHovered] = useState(false)
+  if (!content) return children
+  return (
+    <div
+      className={`relative ${className}`}
+      onPointerEnter={() => setHovered(true)}
+      onPointerLeave={() => setHovered(false)}
+    >
+      {children}
+      {hovered && (
+        <div
+          className="absolute right-0 top-full mt-2 px-3 py-2 bg-bluetti-bg border border-bluetti-cyan rounded text-xs font-semibold text-bluetti-cyan whitespace-pre-line pointer-events-none shadow-lg z-30 max-w-[90vw] sm:max-w-md text-left leading-relaxed"
+        >
+          {content}
+        </div>
+      )}
     </div>
   )
 }
@@ -732,16 +812,21 @@ function FranjaRow({ franja, siblingFranjas, onChange, onDelete, canDelete }) {
   return (
     <div className="flex items-center gap-2 flex-wrap">
       <TimelineBar franja={franja} siblingFranjas={siblingFranjas} onChange={onChange} />
-      <input
-        type="range"
-        min={0}
-        max={100}
-        step={5}
-        value={franja.porcentaje}
-        onChange={ev => onChange({ ...franja, porcentaje: Number(ev.target.value) })}
-        className="w-20 sm:w-28 accent-bluetti-cyan"
-      />
-      <span className="text-bluetti-cyan text-xs font-bold w-10 text-right">{franja.porcentaje}%</span>
+      <HoverTooltip content={`Uso dentro de la franja: % del tiempo que el equipo está realmente encendido.\n\nEj: pava 15% en franja 7-8 = ~9 min hirviendo.\nHeladera 40% = compresor ciclando 40% del tiempo.\n\nAfecta el consumo total (kWh) y la autonomía. NO afecta el pico de demanda — cuando el equipo está prendido, siempre pide sus W completos.`}>
+        <div className="flex items-center gap-1.5 cursor-help">
+          <span className="text-bluetti-cyan/60 text-[10px] uppercase tracking-wider whitespace-nowrap">Uso ⓘ</span>
+          <input
+            type="range"
+            min={0}
+            max={100}
+            step={5}
+            value={franja.porcentaje}
+            onChange={ev => onChange({ ...franja, porcentaje: Number(ev.target.value) })}
+            className="w-20 sm:w-28 accent-bluetti-cyan"
+          />
+          <span className="text-bluetti-cyan text-xs font-bold w-10 text-right">{franja.porcentaje}%</span>
+        </div>
+      </HoverTooltip>
       {canDelete ? (
         <button
           onClick={onDelete}
@@ -788,9 +873,10 @@ export default function Calculadora() {
   }
 
   function agregar(electro) {
+    const defaults = electro.franjasDefault ?? [DEFAULT_FRANJA]
     setAgregados(prev => [
       ...prev,
-      { ...electro, instanceKey: makeInstanceKey(electro.id), franjas: [{ ...DEFAULT_FRANJA }] }
+      { ...electro, instanceKey: makeInstanceKey(electro.id), franjas: defaults.map(f => ({ ...f })) }
     ])
   }
 
@@ -874,7 +960,7 @@ export default function Calculadora() {
     perfil.items.forEach(item => {
       const electro = ELECTRODOMESTICOS.find(e => e.id === item.id)
       if (!electro) return
-      const itemFranjas = item.franjas ?? [DEFAULT_FRANJA]
+      const itemFranjas = item.franjas ?? electro.franjasDefault ?? [DEFAULT_FRANJA]
       for (let i = 0; i < item.cantidad; i++) {
         nuevos.push({
           ...electro,
@@ -896,6 +982,43 @@ export default function Calculadora() {
     nameCounters[e.nombre] = (nameCounters[e.nombre] || 0) + 1
     return { ...e, displayName: `${e.nombre} ${nameCounters[e.nombre]}` }
   })
+
+  const peakSlot = Math.round(peak.time / SLOT_HOURS)
+  const peakActiveItems = agregadosConNombre
+    .filter(e => activePctAtSlot(e, peakSlot) > 0)
+    .sort((a, b) => b.watts - a.watts)
+
+  const surgeSlot = Math.round(peak.surgeTime / SLOT_HOURS)
+  const surgeActiveItems = peak.hasSurge
+    ? agregadosConNombre
+        .filter(e => activePctAtSlot(e, surgeSlot) > 0)
+        .sort((a, b) => b.watts - a.watts)
+    : []
+  let surgeStarter = null
+  let surgeStarterDelta = 0
+  for (const e of surgeActiveItems) {
+    if (!e.arranqueW || e.arranqueW <= e.watts) continue
+    const delta = e.arranqueW - e.watts
+    if (delta > surgeStarterDelta) {
+      surgeStarterDelta = delta
+      surgeStarter = e
+    }
+  }
+
+  const peakTooltip = peakActiveItems.length === 0
+    ? ''
+    : `Pico a las ${formatTime(peak.time)} — equipos coincidiendo:\n` +
+      peakActiveItems.map(e => `• ${e.displayName} (${e.watts} W)`).join('\n') +
+      `\n\nNota: el inverter debe soportar el peor caso (todos activos a la vez), aunque estadísticamente puedan no coincidir siempre.`
+
+  const surgeTooltip = !peak.hasSurge || surgeActiveItems.length === 0
+    ? ''
+    : `Pico de arranque a las ${formatTime(peak.surgeTime)}.\n` +
+      (surgeStarter
+        ? `Arranque dominante: ${surgeStarter.displayName} (${surgeStarter.arranqueW} W de surge sobre ${surgeStarter.watts} W de marcha)\n\n`
+        : '') +
+      `Equipos coincidiendo en ese momento:\n` +
+      surgeActiveItems.map(e => `• ${e.displayName} (${e.watts} W${e.arranqueW ? `, arranca a ${e.arranqueW} W` : ''})`).join('\n')
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -1237,26 +1360,30 @@ export default function Calculadora() {
               </span>
             </div>
             {peak.watts > 0 && (
-              <div className="flex items-baseline justify-between gap-2 mb-2">
-                <span className="text-bluetti-cyan text-xs sm:text-sm">
-                  Pico de consumo <span className="text-bluetti-cyan/60 text-[10px] sm:text-xs">(a las {formatTime(peak.time)})</span>
-                </span>
-                <span className="text-bluetti-cyan text-xl sm:text-3xl font-bold">
-                  {(peak.watts / 1000).toFixed(2)}
-                  <span className="text-xs sm:text-sm font-normal text-bluetti-cyan ml-1 inline-block w-12 sm:w-16 text-left">kW</span>
-                </span>
-              </div>
+              <HoverTooltip content={peakTooltip} className="mb-2">
+                <div className="flex items-baseline justify-between gap-2 cursor-help">
+                  <span className="text-bluetti-cyan text-xs sm:text-sm">
+                    Pico de demanda <span className="text-bluetti-cyan/60 text-[10px] sm:text-xs">(todos activos a la vez · {formatTime(peak.time)}) ⓘ</span>
+                  </span>
+                  <span className="text-bluetti-cyan text-xl sm:text-3xl font-bold">
+                    {(peak.watts / 1000).toFixed(2)}
+                    <span className="text-xs sm:text-sm font-normal text-bluetti-cyan ml-1 inline-block w-12 sm:w-16 text-left">kW</span>
+                  </span>
+                </div>
+              </HoverTooltip>
             )}
             {peak.hasSurge && (
-              <div className="flex items-baseline justify-between gap-2 mb-4 sm:mb-5">
-                <span className="text-bluetti-cyan text-xs sm:text-sm">
-                  Pico de arranque <span className="text-bluetti-cyan/60 text-[10px] sm:text-xs">(a las {formatTime(peak.surgeTime)})</span>
-                </span>
-                <span className="text-bluetti-lime text-xl sm:text-3xl font-bold">
-                  {(peak.surgeWatts / 1000).toFixed(2)}
-                  <span className="text-xs sm:text-sm font-normal text-bluetti-lime ml-1 inline-block w-12 sm:w-16 text-left">kW</span>
-                </span>
-              </div>
+              <HoverTooltip content={surgeTooltip} className="mb-4 sm:mb-5">
+                <div className="flex items-baseline justify-between gap-2 cursor-help">
+                  <span className="text-bluetti-cyan text-xs sm:text-sm">
+                    Pico de arranque <span className="text-bluetti-cyan/60 text-[10px] sm:text-xs">(a las {formatTime(peak.surgeTime)}) ⓘ</span>
+                  </span>
+                  <span className="text-bluetti-lime text-xl sm:text-3xl font-bold">
+                    {(peak.surgeWatts / 1000).toFixed(2)}
+                    <span className="text-xs sm:text-sm font-normal text-bluetti-lime ml-1 inline-block w-12 sm:w-16 text-left">kW</span>
+                  </span>
+                </div>
+              </HoverTooltip>
             )}
             {peak.watts > 0 && !peak.hasSurge && <div className="mb-4 sm:mb-5" />}
 
