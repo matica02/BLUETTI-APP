@@ -857,6 +857,8 @@ export default function Calculadora() {
         if (movilidad) return m.id === 'rv5'
         if (m.id === 'rv5') return false
         if (m.id === 'es125x' && contKw < 25) return false
+        if (m.id === 'ep2000' && effectiveKw <= 7.6) return false
+        if (m.id === 'ep760' && effectiveKw <= 3.8) return false
         return effectiveKw <= maxKwForModel(m.id)
       })
       .map(m => {
@@ -1275,6 +1277,8 @@ export default function Calculadora() {
                       if (movilidad) return m.id === 'rv5'
                       if (m.id === 'rv5') return false
                       if (m.id === 'es125x' && contKw < 25) return false
+                      if (m.id === 'ep2000' && effectiveKw <= 7.6) return false
+                      if (m.id === 'ep760' && effectiveKw <= 3.8) return false
                       return effectiveKw <= maxKwForModel(m.id)
                     })
                     .map(modelo => (
