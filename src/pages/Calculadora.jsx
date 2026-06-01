@@ -899,6 +899,22 @@ export default function Calculadora() {
     setAgregados(prev => prev.filter(e => e.instanceKey !== instanceKey))
   }
 
+  function duplicar(instanceKey) {
+    setAgregados(prev => {
+      const idx = prev.findIndex(e => e.instanceKey === instanceKey)
+      if (idx === -1) return prev
+      const orig = prev[idx]
+      const copia = {
+        ...orig,
+        instanceKey: makeInstanceKey(orig.id),
+        franjas: orig.franjas.map(f => ({ ...f })),
+      }
+      const next = [...prev]
+      next.splice(idx + 1, 0, copia)
+      return next
+    })
+  }
+
   function addFranja(instanceKey) {
     setAgregados(prev => prev.map(e => {
       if (e.instanceKey !== instanceKey) return e
@@ -1221,12 +1237,22 @@ export default function Calculadora() {
                   >
                     <div className="flex items-center justify-between mb-3 gap-2">
                       <span className="text-white text-sm font-medium truncate min-w-0">{e.displayName}</span>
-                      <button
-                        onClick={() => quitar(e.instanceKey)}
-                        className="text-gray-600 hover:text-red-400 text-lg leading-none transition-colors shrink-0"
-                      >
-                        ×
-                      </button>
+                      <div className="flex items-center gap-2 shrink-0">
+                        <button
+                          onClick={() => duplicar(e.instanceKey)}
+                          title="Duplicar con la misma configuración (franjas, consumo y arranque)"
+                          className="text-bluetti-cyan/60 hover:text-bluetti-cyan text-xs font-medium transition-colors"
+                        >
+                          ⧉ Duplicar
+                        </button>
+                        <button
+                          onClick={() => quitar(e.instanceKey)}
+                          title="Eliminar"
+                          className="flex items-center justify-center w-6 h-6 rounded-md bg-red-900/50 text-red-300 hover:bg-red-600 hover:text-white text-lg leading-none font-bold transition-colors"
+                        >
+                          ×
+                        </button>
+                      </div>
                     </div>
                     <div className="space-y-2 mb-2">
                       {e.franjas.map((f, idx) => (
