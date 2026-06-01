@@ -64,6 +64,83 @@
     "accesoriosCompatibles": []
   },
   {
+    "id": "es60",
+    "nombre": "ES60",
+    "tagline": "Sistema de Almacenamiento Industrial Líquido-Refrigerado",
+    "subtitulo": "Estación de Energía Industrial",
+    "descripcion": "Las plantas industriales, comercios de alto consumo y microrredes enfrentan cortes costosos, picos de demanda que disparan la factura y límites de capacidad de red que obligarían a costosas actualizaciones del transformador de la distribuidora.\nEl ES60 es un sistema de almacenamiento todo-en-uno de 60 kW / 128 kWh en gabinete integrado, con refrigeración líquida de grado industrial que mantiene la diferencia de temperatura entre celdas en ≤2,5 °C de –30 °C a 60 °C, e integra PCS, BMS y EMS en una sola unidad con acoplamiento solar DC de hasta 76,8 kW.\nConmuta automáticamente entre red y modo off-grid en menos de 20 ms, escala hasta 6 unidades en paralelo, pesa solo 1,8 toneladas (se instala con zorra manual, sin grúa) y cuenta con doble certificación IP67/IP54 y supresión inteligente de incendios. Recomendado para edificios comerciales, plantas industriales, microrredes e infraestructura crítica que necesitan respaldo y optimización energética a escala.",
+    "categoria": "Industrial / Comercial",
+    "tipoRed": "Híbrido",
+    "imagen": "es60.png",
+    "perfilUsuario": "Empresas industriales, comercios de alto consumo, operadores de microrredes, edificios comerciales o instalaciones críticas que necesitan respaldo de energía a escala, gestión de picos de demanda y autoconsumo solar sin tener que ampliar el transformador de la red.",
+    "casosDeUso": [
+      {
+        "etiqueta": "Industrial",
+        "descripcion": "Alimenta plantas y procesos industriales con 60 kW de potencia trifásica continua (66 kW de pico) y 128 kWh de capacidad."
+      },
+      {
+        "etiqueta": "Comercio / Empresa",
+        "descripcion": "Respaldo y autoconsumo solar para comercios de alto consumo, edificios y empresas que buscan continuidad operativa."
+      },
+      {
+        "etiqueta": "Microrred / Off-Grid",
+        "descripcion": "Conmutación automática red/off-grid en menos de 20 ms y hasta 6 unidades en paralelo para microrredes y sitios sin red estable."
+      },
+      {
+        "etiqueta": "Gestión de Picos de Demanda",
+        "descripcion": "Evita actualizar el transformador de la red: el EMS expande la capacidad disponible y recorta los picos de consumo."
+      },
+      {
+        "etiqueta": "Autoconsumo Solar",
+        "descripcion": "Acoplamiento solar DC de hasta 76,8 kW con 2 MPPT para maximizar el aprovechamiento fotovoltaico."
+      }
+    ],
+    "specs": {
+      "capacidadBateria": "128 kWh",
+      "potenciaSalidaAC": "60 kW (on-grid / off-grid)",
+      "potenciaMaxSalida": "66 kW",
+      "corrienteSalida": "87 A nominal / 95.7 A máx.",
+      "entradaSolarMax": "76.8 kW",
+      "rangoVoltajeFV": "200 V a 800 V (máx. 850 V), 2 MPPT / 2 strings",
+      "tipoBateria": "LiFePO4",
+      "voltajeBateria": "358.4 V a 460.8 V (1P × 64S × 2S)",
+      "corrienteCargaDescarga": "150 A máx. (según estrategia BMS)",
+      "expandible": true,
+      "notaExpansion": "Hasta 6 unidades en paralelo (on-grid / off-grid)",
+      "capacidadMaxConExpansion": "Hasta 768 kWh / 360 kW (6 unidades en paralelo)",
+      "conexionSolar": true,
+      "fase": "Trifásica (400 V, 3W+N+PE / 3W+PE)",
+      "frecuencia": "50 Hz",
+      "factorPotencia": "−1 (inductivo) a +1 (capacitivo)",
+      "sobrecarga": "1.1× potencia nominal (continua)",
+      "proteccion": "IP67 (compartimiento batería) / IP54 (compartimiento eléctrico)",
+      "refrigeracion": "Refrigeración líquida (Δ temp. entre celdas ≤2.5 °C)",
+      "ruido": "≤65 dB",
+      "peso": "~1,800 kg",
+      "dimensiones": "1,820 × 1,120 × 1,350 mm",
+      "conectividad": "EMS integrado (PCS + BMS + EMS)",
+      "switchoverUPS": "<20 ms",
+      "instalacion": "Fija (outdoor, se instala con zorra manual, sin grúa)",
+      "temperaturaOperacion": "-25°C a 55°C (derating sobre 45°C)",
+      "humedadOperacion": "0% a 95%",
+      "alturaOperacion": "≤4,000 m (derating sobre 2,000 m)",
+      "garantia": "5 años (10 años opcional)",
+      "certificaciones": "IEC 62619, EN/IEC 62109-1, EN/IEC 62109-2, EN/IEC 62477-1, IEC/EN 60529, EN/IEC 61000-6-4, EN/IEC 61000-6-2, UN 38.3"
+    },
+    "highlights": [
+      "Sistema todo-en-uno de 60 kW / 128 kWh: PCS + BMS + EMS integrados en un solo gabinete",
+      "Refrigeración líquida de grado industrial: diferencia entre celdas ≤2.5 °C de –30 °C a 60 °C",
+      "Conmutación automática red/off-grid en menos de 20 ms sin interrupciones",
+      "EMS con IA: expande la capacidad de red y evita actualizar el transformador de la distribuidora",
+      "Acoplamiento solar DC de hasta 76.8 kW con 2 MPPT para máxima eficiencia",
+      "Escalable hasta 6 unidades en paralelo (768 kWh / 360 kW)",
+      "Solo 1.8 toneladas: se instala con zorra manual, sin necesidad de grúa",
+      "Doble certificación IP67/IP54, acero Q235A y supresión inteligente de incendios con alertas en tiempo real",
+      "Arquitectura segregada vertical: separación PCS/batería con acceso frontal para mantenimiento sin desarmar"
+    ],
+    "accesoriosCompatibles": []
+  },
+  {
     "id": "rv5",
     "nombre": "RV5",
     "tagline": "Hub de Energía 5 en 1 para Casas Rodantes y Uso Móvil",

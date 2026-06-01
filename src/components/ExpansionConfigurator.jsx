@@ -5,6 +5,10 @@ const CFG = {
     paralelo: { min: 1, max: 4 },
     baterias: null,
   },
+  es60: {
+    paralelo: { min: 1, max: 6 },
+    baterias: null,
+  },
   rv5: {
     paralelo: null,
     baterias: {
@@ -50,6 +54,7 @@ function calcTotals(id, unidades, cantArr, tipoKwh) {
   const totalBat = cantArr.reduce((a, b) => a + b, 0)
   switch (id) {
     case 'es125x': return { kWh: unidades * 241, kW: unidades * 125 }
+    case 'es60': return { kWh: unidades * 128, kW: unidades * 60 }
     case 'rv5': return { kWh: totalBat * tipoKwh, kW: 5 }
     case 'ep2000': return { kWh: totalBat * 7.37, kW: unidades * 20 }
     case 'ep760': return { kWh: totalBat * 4.96, kW: 7.6 }
@@ -63,6 +68,7 @@ function isBase(id, unidades, cantArr) {
   const allEqual = v => cantArr.every(c => c === v)
   switch (id) {
     case 'es125x': return unidades === 1
+    case 'es60': return unidades === 1
     case 'rv5': return allEqual(2)
     case 'ep2000': return unidades === 1 && allEqual(4)
     case 'ep760': return allEqual(2)

@@ -4,6 +4,8 @@ import CatalogoCarousel from '../components/CatalogoCarousel'
 import { ScrollReveal, StaggerGroup, StaggerItem } from '../components/ScrollReveal'
 
 export default function Catalogo() {
+  const modelos = products.filter(p => p.categoria !== 'Accesorio')
+  const accesorios = products.filter(p => p.categoria === 'Accesorio')
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-1 pb-4">
@@ -92,12 +94,33 @@ export default function Catalogo() {
       </div>
 
       <StaggerGroup className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {products.map(product => (
+        {modelos.map(product => (
           <StaggerItem key={product.id}>
             <ProductCard product={product} />
           </StaggerItem>
         ))}
       </StaggerGroup>
+
+      {accesorios.length > 0 && (
+        <>
+          <div id="accesorios" className="mt-14 mb-8">
+            <h2 className="text-3xl font-bold text-white mb-2">
+              Accesorios <span className="text-bluetti-cyan">BLUETTI</span>
+            </h2>
+            <p className="text-bluetti-cyan">
+              Complementos para potenciar y controlar tus equipos
+            </p>
+          </div>
+
+          <StaggerGroup className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {accesorios.map(product => (
+              <StaggerItem key={product.id}>
+                <ProductCard product={product} />
+              </StaggerItem>
+            ))}
+          </StaggerGroup>
+        </>
+      )}
 
       <ScrollReveal as="section" className="mt-12 mb-8">
         <div id="descargas" />

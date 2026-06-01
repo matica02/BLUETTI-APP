@@ -233,6 +233,7 @@ const PERFILES = [
 
 const MODELOS = [
   { id: 'es125x', nombre: 'ES125 X' },
+  { id: 'es60', nombre: 'ES60' },
   { id: 'ep2000', nombre: 'EP2000' },
   { id: 'ep760', nombre: 'EP760' },
   { id: 'apex300', nombre: 'APEX 300' },
@@ -243,6 +244,7 @@ const MODELOS = [
 
 const MAX_SOLAR_W = {
   es125x: 12000,
+  es60:   76800,
   ep2000: 4800,
   ep760:  2400,
   apex300: 1200,
@@ -253,6 +255,7 @@ const MAX_SOLAR_W = {
 
 const MODEL_CFG = {
   es125x:  { paralelo: { min: 1, max: 4 },  bat: null },
+  es60:    { paralelo: { min: 1, max: 6 },  bat: null },
   ep2000:  { paralelo: { min: 1, max: 3 },  bat: { tipo: 'B700',  min: u => u > 1 ? 2 : 4, max: 7 } },
   ep760:   { paralelo: null,                bat: { tipo: 'B500',  min: 2, max: 4  } },
   apex300: { paralelo: { min: 1, max: 3 },  bat: { tipo: 'B300K', min: 0, max: 6  } },
@@ -266,6 +269,7 @@ function calcCapacity(modelId, unidades, baterias) {
   const totalBat = arr.reduce((a, b) => a + b, 0)
   switch (modelId) {
     case 'es125x':  return { kWh: unidades * 241, kW: unidades * 125 }
+    case 'es60':    return { kWh: unidades * 128, kW: unidades * 60 }
     case 'rv5':     return { kWh: totalBat * 5.12, kW: 5 }
     case 'ep2000':  return { kWh: totalBat * 7.37, kW: unidades * 20 }
     case 'ep760':   return { kWh: totalBat * 4.96, kW: 7.6 }
@@ -977,8 +981,9 @@ export default function Calculadora() {
       .filter(m => {
         if (movilidad) return m.id === 'rv5'
         if (m.id === 'rv5') return false
-        if (m.id === 'es125x' && contKw < 25) return false
-        if (m.id === 'ep2000' && effectiveKw <= 7.6) return false
+        if (m.id === 'es125x' && effectiveKw < 60) return false
+        if (m.id === 'es60' && effectiveKw < 30) return false
+        if (m.id === 'ep2000' && effectiveKw < 7.6) return false
         if (m.id === 'ep760' && effectiveKw <= 3.8) return false
         return effectiveKw <= maxKwForModel(m.id)
       })
@@ -1521,8 +1526,9 @@ export default function Calculadora() {
                     .filter(m => {
                       if (movilidad) return m.id === 'rv5'
                       if (m.id === 'rv5') return false
-                      if (m.id === 'es125x' && contKw < 25) return false
-                      if (m.id === 'ep2000' && effectiveKw <= 7.6) return false
+                      if (m.id === 'es125x' && effectiveKw < 60) return false
+                      if (m.id === 'es60' && effectiveKw < 30) return false
+                      if (m.id === 'ep2000' && effectiveKw < 7.6) return false
                       if (m.id === 'ep760' && effectiveKw <= 3.8) return false
                       return effectiveKw <= maxKwForModel(m.id)
                     })
