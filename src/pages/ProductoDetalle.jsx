@@ -9,10 +9,11 @@ import ExpansionConfigurator from '../components/ExpansionConfigurator'
 import { CATEGORIA_LABELS, CATEGORIA_COLORS, TIPO_RED_COLORS } from '../data/categorias'
 import { ScrollReveal } from '../components/ScrollReveal'
 
-const modelsWithManual = ['rv5', 'ep2000', 'ep760', 'apex300', 'ac200pl', 'charger1', 'ac180p']
+const modelsWithManual = ['rv5', 'ep2000', 'ep760', 'apex300', 'ac200pl', 'charger1', 'ac180p', 'ems']
 const modelsWithFlyer = ['rv5', 'ep2000', 'ep760', 'apex300', 'ac200pl', 'es125x', 'charger1', 'ac180p']
 const modelsWithAppManual = ['ep760', 'ep2000']
 const modelsWithInstallGuide = ['ep760', 'ep2000']
+const modelsWithoutVideo = ['ems']
 
 const installationVideos = {
   rv5: [
@@ -192,19 +193,21 @@ export default function ProductoDetalle() {
                 </svg>
               </button>
             )}
-            <button
-              onClick={() => {
-                const el = document.getElementById('videos-detalle')
-                const top = el.getBoundingClientRect().top + window.scrollY - 90
-                window.scrollTo({ top, behavior: 'smooth' })
-              }}
-              className="flex items-center gap-1 font-bold text-[10px] sm:text-sm pl-2 sm:pl-6 pr-1.5 sm:pr-3 py-1.5 sm:py-3 rounded-lg hover:brightness-110 transition-all text-bluetti-bg bg-bluetti-lime"
-            >
-              Videos
-              <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <polyline points="6 9 12 15 18 9" />
-              </svg>
-            </button>
+            {!modelsWithoutVideo.includes(product.id) && (
+              <button
+                onClick={() => {
+                  const el = document.getElementById('videos-detalle')
+                  const top = el.getBoundingClientRect().top + window.scrollY - 90
+                  window.scrollTo({ top, behavior: 'smooth' })
+                }}
+                className="flex items-center gap-1 font-bold text-[10px] sm:text-sm pl-2 sm:pl-6 pr-1.5 sm:pr-3 py-1.5 sm:py-3 rounded-lg hover:brightness-110 transition-all text-bluetti-bg bg-bluetti-lime"
+              >
+                Videos
+                <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <polyline points="6 9 12 15 18 9" />
+                </svg>
+              </button>
+            )}
           </div>
         </div>
       </div>
@@ -361,19 +364,21 @@ export default function ProductoDetalle() {
       )}
 
       <div id="videos-detalle" />
-      <ScrollReveal as="section" className="mb-12">
-        <h2 className="text-xl font-bold text-white mb-4">Video del producto</h2>
-        <div className="rounded-2xl overflow-hidden border border-bluetti-border">
-          <video
-            key={product.id}
-            controls
-            className="w-full aspect-video object-contain bg-black"
-            poster={`/images/${product.imagen}`}
-          >
-            <source src={`/videos/${product.id}.mp4`} type="video/mp4" />
-          </video>
-        </div>
-      </ScrollReveal>
+      {!modelsWithoutVideo.includes(product.id) && (
+        <ScrollReveal as="section" className="mb-12">
+          <h2 className="text-xl font-bold text-white mb-4">Video del producto</h2>
+          <div className="rounded-2xl overflow-hidden border border-bluetti-border">
+            <video
+              key={product.id}
+              controls
+              className="w-full aspect-video object-contain bg-black"
+              poster={`/images/${product.imagen}`}
+            >
+              <source src={`/videos/${product.id}.mp4`} type="video/mp4" />
+            </video>
+          </div>
+        </ScrollReveal>
+      )}
 
       {instVideos && (
         <ScrollReveal as="section" className="mb-12">

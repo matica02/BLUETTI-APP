@@ -265,7 +265,8 @@
       "3 entradas MPPT independientes de 3 kW cada una para máxima flexibilidad solar"
     ],
     "accesoriosCompatibles": [
-      "B500 (batería de expansión 4.96 kWh)"
+      "B500 (batería de expansión 4.96 kWh)",
+      { "nombre": "EMS Controller (controlador de gestión energética)", "id": "ems" }
     ]
   },
   {
@@ -538,6 +539,70 @@
       "Control y monitoreo desde la app BLUETTI vía Bluetooth",
       "Ultra compacto: 145 × 110 × 60 mm, solo 720 g",
       "Rango de temperatura amplio: -20°C a 60°C"
+    ],
+    "accesoriosCompatibles": []
+  },
+  {
+    "id": "ems",
+    "nombre": "EMS Controller",
+    "tagline": "Controlador de Gestión Energética con Pantalla Táctil",
+    "subtitulo": "Accesorio de Control y Monitoreo",
+    "descripcion": "Los sistemas de almacenamiento residenciales de BLUETTI (EP900 / EP800 / EP760) necesitan un cerebro que coordine inversores, baterías, generación solar y red eléctrica, y que permita al usuario operar el sistema sin depender únicamente del teléfono.\nEl EMS Controller es ese cerebro: un controlador de gestión energética con pantalla táctil a color de 4,3″ que controla y monitorea de 1 a 3 inversores simultáneamente, equilibra cargas de forma inteligente, optimiza el uso de la batería y maximiza el aprovechamiento de la energía solar.\nMuestra el flujo de energía en tiempo real (producción solar, red, batería y consumo del hogar) con animaciones simples de entender, y permite configurar tres modos de operación —Backup, Autoconsumo y Gestión Tarifaria (Time of Use)— directamente desde la pantalla, sin necesidad de la app. Incluye WiFi y Bluetooth para monitoreo remoto, función Disaster Alert que conmuta a modo Backup ante alertas meteorológicas, y certificación IP65 para instalación en pared interior o exterior.",
+    "categoria": "Accesorio",
+    "imagen": "ems.png",
+    "perfilUsuario": "Propietarios e instaladores de sistemas de almacenamiento residenciales BLUETTI (EP900, EP800, EP760) que quieren controlar y supervisar todo el sistema desde una pantalla táctil dedicada, sin depender exclusivamente del teléfono. Ideal para instalaciones con uno o varios inversores que requieren gestión tarifaria, backup y autoconsumo solar coordinados.",
+    "casosDeUso": [
+      {
+        "etiqueta": "Control Multi-Inversor",
+        "descripcion": "Controla y monitorea de 1 a 3 inversores simultáneamente, equilibrando cargas y optimizando el uso de la batería entre todas las unidades."
+      },
+      {
+        "etiqueta": "Monitoreo en Tiempo Real",
+        "descripcion": "Pantalla táctil 4,3″ con animación del flujo de energía: producción solar (PV), red, estado de carga (SoC) de la batería y consumo del hogar."
+      },
+      {
+        "etiqueta": "Gestión Tarifaria (ToU)",
+        "descripcion": "Programa carga en horas de tarifa baja (off-peak) y descarga en horas pico (peak) para máximo ahorro en la factura eléctrica."
+      },
+      {
+        "etiqueta": "Backup ante Cortes",
+        "descripcion": "Modo Backup que reserva la batería para emergencias. La función Disaster Alert conmuta automáticamente a Backup al recibir una alerta meteorológica."
+      },
+      {
+        "etiqueta": "Autoconsumo Solar",
+        "descripcion": "Modo Autoconsumo: prioriza la energía solar para alimentar el hogar y almacena el excedente en la batería para usarlo de noche o en picos de demanda."
+      }
+    ],
+    "specs": {
+      "modelo": "EMS Controller (para EP900 / EP800 / EP760)",
+      "funcion": "Controlador de gestión energética (EMS) para sistemas de almacenamiento residenciales BLUETTI",
+      "pantalla": "LCD color táctil de 4,3″ (480 × 272)",
+      "conectividad": "WiFi 2.4 GHz + Bluetooth 4.2",
+      "puertos": "3× RJ45 + 1× conector de 8 núcleos",
+      "interfacesCAN": "Hasta 3 interfaces CAN independientes (250 kbps)",
+      "inversoresSoportados": "1 a 3 inversores simultáneamente",
+      "modosOperacion": "Backup, Autoconsumo y Gestión Tarifaria (ToU) desde la pantalla — Modo personalizado vía app BLUETTI",
+      "entradaDC": "9–15 V DC",
+      "corrienteMaxEntrada": "600 mA",
+      "idiomas": "Chino, Inglés, Alemán, Japonés",
+      "proteccion": "IP65",
+      "temperaturaOperacion": "-20°C a 60°C",
+      "humedadOperacion": "5% a 95% RH",
+      "peso": "0.65 kg",
+      "dimensiones": "155 × 46 × 138 mm",
+      "instalacion": "Fija (montaje en pared, interior o exterior IP65)",
+      "garantia": "6 años"
+    },
+    "highlights": [
+      "Pantalla táctil a color de 4,3″ para operar y supervisar el sistema de forma visual, sin depender del teléfono",
+      "Controla y monitorea hasta 3 inversores simultáneamente, equilibrando cargas y optimizando la batería",
+      "3 modos configurables desde la pantalla: Backup, Autoconsumo y Gestión Tarifaria (ToU)",
+      "Visualización del flujo de energía en tiempo real: solar, red, batería (SoC) y consumo del hogar",
+      "WiFi 2.4 GHz + Bluetooth 4.2 para monitoreo y control remoto desde la app BLUETTI",
+      "Función Disaster Alert: conmuta automáticamente a modo Backup ante alertas meteorológicas",
+      "Conectividad industrial: 3× RJ45 y hasta 3 interfaces CAN independientes (250 kbps)",
+      "Certificación IP65 y rango de operación de -20°C a 60°C para instalación interior o exterior",
+      "Compatible con los sistemas de almacenamiento residenciales BLUETTI EP900, EP800 y EP760"
     ],
     "accesoriosCompatibles": []
   }
