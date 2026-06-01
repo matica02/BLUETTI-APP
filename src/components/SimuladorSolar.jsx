@@ -2,6 +2,7 @@ import { useState, useMemo } from 'react'
 
 const MODELOS = [
   { id: 'es125x',  nombre: 'ES125 X',   maxUnidades: 4, tieneBaterias: false },
+  { id: 'es60',    nombre: 'ES60',      maxUnidades: 6, tieneBaterias: false },
   { id: 'ep2000',  nombre: 'EP2000',    maxUnidades: 3, tieneBaterias: true, maxBaterias: 7,  minBaterias: u => u > 1 ? 2 : 4, batNombre: 'B700',   kwhBase: 0,     kwhBat: 7.37   },
   { id: 'ep760',   nombre: 'EP760',     maxUnidades: 1, tieneBaterias: true, maxBaterias: 4,  minBaterias: 2, batNombre: 'B500',   kwhBase: 0,     kwhBat: 4.96   },
   { id: 'apex300', nombre: 'APEX 300',  maxUnidades: 3, tieneBaterias: true, maxBaterias: 6,  minBaterias: 0, batNombre: 'B300K',  kwhBase: 2.76,  kwhBat: 2.76   },
@@ -18,6 +19,7 @@ function resolveMinBat(modelo, unidades) {
 
 const MAX_SOLAR_W = {
   es125x: 12000,
+  es60:   76800,
   ep2000: 4800,
   ep760:  2400,
   apex300: 1200,
@@ -28,6 +30,7 @@ const MAX_SOLAR_W = {
 
 function getKwh(modelo, unidades, bateriasArr) {
   if (modelo.id === 'es125x') return unidades * 241
+  if (modelo.id === 'es60') return unidades * 128
   const totalBat = bateriasArr.reduce((a, b) => a + b, 0)
   return unidades * (modelo.kwhBase || 0) + totalBat * (modelo.kwhBat || 0)
 }
