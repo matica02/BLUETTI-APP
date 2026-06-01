@@ -197,7 +197,8 @@
     ],
     "accesoriosCompatibles": [
       "B700 (batería de expansión 7.37 kWh)",
-      "HV800 (controlador de baterías de alta tensión)"
+      "HV800 (controlador de baterías de alta tensión)",
+      { "nombre": "EMS Controller (controlador de gestión energética)", "id": "ems" }
     ]
   },
   {
@@ -547,10 +548,10 @@
     "nombre": "EMS Controller",
     "tagline": "Controlador de Gestión Energética",
     "subtitulo": "Accesorio de Control y Monitoreo",
-    "descripcion": "Los sistemas de almacenamiento residenciales de BLUETTI (EP900 / EP800 / EP760) necesitan un cerebro que coordine inversores, baterías, generación solar y red eléctrica, y que permita al usuario operar el sistema sin depender únicamente del teléfono.\nEl EMS Controller es ese cerebro: un controlador de gestión energética con pantalla táctil a color de 4,3″ que controla y monitorea de 1 a 3 inversores simultáneamente, equilibra cargas de forma inteligente, optimiza el uso de la batería y maximiza el aprovechamiento de la energía solar.\nMuestra el flujo de energía en tiempo real (producción solar, red, batería y consumo del hogar) con animaciones simples de entender, y permite configurar tres modos de operación —Backup, Autoconsumo y Gestión Tarifaria (Time of Use)— directamente desde la pantalla, sin necesidad de la app. Incluye WiFi y Bluetooth para monitoreo remoto, función Disaster Alert que conmuta a modo Backup ante alertas meteorológicas, y certificación IP65 para instalación en pared interior o exterior.",
+    "descripcion": "Los sistemas de almacenamiento residenciales de BLUETTI (EP900 / EP800 / EP760 / EP2000) necesitan un cerebro que coordine inversores, baterías, generación solar y red eléctrica, y que permita al usuario operar el sistema sin depender únicamente del teléfono.\nEl EMS Controller es ese cerebro: un controlador de gestión energética con pantalla táctil a color de 4,3″ que controla y monitorea de 1 a 3 inversores simultáneamente, equilibra cargas de forma inteligente, optimiza el uso de la batería y maximiza el aprovechamiento de la energía solar.\nMuestra el flujo de energía en tiempo real (producción solar, red, batería y consumo del hogar) con animaciones simples de entender, y permite configurar tres modos de operación —Backup, Autoconsumo y Gestión Tarifaria (Time of Use)— directamente desde la pantalla, sin necesidad de la app. Incluye WiFi y Bluetooth para monitoreo remoto, función Disaster Alert que conmuta a modo Backup ante alertas meteorológicas, y certificación IP65 para instalación en pared interior o exterior.",
     "categoria": "Accesorio",
     "imagen": "ems.png",
-    "perfilUsuario": "Propietarios e instaladores de sistemas de almacenamiento residenciales BLUETTI (EP900, EP800, EP760) que quieren controlar y supervisar todo el sistema desde una pantalla táctil dedicada, sin depender exclusivamente del teléfono. Ideal para instalaciones con uno o varios inversores que requieren gestión tarifaria, backup y autoconsumo solar coordinados.",
+    "perfilUsuario": "Propietarios e instaladores de sistemas de almacenamiento residenciales BLUETTI (EP900, EP800, EP760, EP2000) que quieren controlar y supervisar todo el sistema desde una pantalla táctil dedicada, sin depender exclusivamente del teléfono. Ideal para instalaciones con uno o varios inversores que requieren gestión tarifaria, backup y autoconsumo solar coordinados.",
     "casosDeUso": [
       {
         "etiqueta": "Control Multi-Inversor",
@@ -574,7 +575,7 @@
       }
     ],
     "specs": {
-      "modelo": "EMS Controller (para EP900 / EP800 / EP760)",
+      "modelo": "EMS Controller (para EP900 / EP800 / EP760 / EP2000)",
       "funcion": "Controlador de gestión energética (EMS) para sistemas de almacenamiento residenciales BLUETTI",
       "pantalla": "LCD color táctil de 4,3″ (480 × 272)",
       "conectividad": "WiFi 2.4 GHz + Bluetooth 4.2",
@@ -602,7 +603,7 @@
       "Función Disaster Alert: conmuta automáticamente a modo Backup ante alertas meteorológicas",
       "Conectividad industrial: 3× RJ45 y hasta 3 interfaces CAN independientes (250 kbps)",
       "Certificación IP65 y rango de operación de -20°C a 60°C para instalación interior o exterior",
-      "Compatible con los sistemas de almacenamiento residenciales BLUETTI EP900, EP800 y EP760"
+      "Compatible con los sistemas de almacenamiento residenciales BLUETTI EP900, EP800, EP760 y EP2000"
     ],
     "accesoriosCompatibles": []
   }
