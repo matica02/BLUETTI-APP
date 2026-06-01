@@ -545,7 +545,7 @@
   {
     "id": "ems",
     "nombre": "EMS Controller",
-    "tagline": "Controlador de Gestión Energética con Pantalla Táctil",
+    "tagline": "Controlador de Gestión Energética",
     "subtitulo": "Accesorio de Control y Monitoreo",
     "descripcion": "Los sistemas de almacenamiento residenciales de BLUETTI (EP900 / EP800 / EP760) necesitan un cerebro que coordine inversores, baterías, generación solar y red eléctrica, y que permita al usuario operar el sistema sin depender únicamente del teléfono.\nEl EMS Controller es ese cerebro: un controlador de gestión energética con pantalla táctil a color de 4,3″ que controla y monitorea de 1 a 3 inversores simultáneamente, equilibra cargas de forma inteligente, optimiza el uso de la batería y maximiza el aprovechamiento de la energía solar.\nMuestra el flujo de energía en tiempo real (producción solar, red, batería y consumo del hogar) con animaciones simples de entender, y permite configurar tres modos de operación —Backup, Autoconsumo y Gestión Tarifaria (Time of Use)— directamente desde la pantalla, sin necesidad de la app. Incluye WiFi y Bluetooth para monitoreo remoto, función Disaster Alert que conmuta a modo Backup ante alertas meteorológicas, y certificación IP65 para instalación en pared interior o exterior.",
     "categoria": "Accesorio",
