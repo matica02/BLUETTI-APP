@@ -170,7 +170,7 @@
       }
     ],
     "specs": {
-      "capacidadBateria": "Sin batería incluida (requiere batería externa)",
+      "capacidadBateria": "10,24 kWh (2× B4810 de base)",
       "potenciaSalidaAC": "5,000 W (120VAC, 42A)",
       "salidaDC": "12V / 24V — hasta 1,620W",
       "entradaSolarMax": "1,800 W (PV1+PV2, 12–50V)",
@@ -182,8 +182,8 @@
       "tipoBateria": "Compatible LiFePO4 y plomo-ácido",
       "bateriaCompatible": "B4810, B1210, B1232, B300 series, lead-acid",
       "expandible": true,
-      "notaExpansion": "Hasta 4 packs B300. Capacidad depende de la batería conectada.",
-      "capacidadMaxConExpansion": "Variable según batería externa (hasta ~20,5 kWh con 4× B4810)",
+      "notaExpansion": "Hasta 24 baterías B4810.",
+      "capacidadMaxConExpansion": "Hasta ~122,9 kWh (con 24× B4810)",
       "potenciaMaxSalida": "5,000 W (sin sobrecarga separada)",
       "conexionSolar": true,
       "peso": "16 kg",
