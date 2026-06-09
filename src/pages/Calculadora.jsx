@@ -155,8 +155,12 @@ const PERFILES = [
         { inicio: 7, fin: 8, porcentaje: 15 },
         { inicio: 17, fin: 19, porcentaje: 15 },
       ] },
+      { id: 'microondas', cantidad: 1, franjas: [
+        { inicio: 7, fin: 8, porcentaje: 6 },
+        { inicio: 20, fin: 21, porcentaje: 6 },
+      ] },
       { id: 'bomba', cantidad: 1, franjas: [
-        { inicio: 7, fin: 9, porcentaje: 5 },
+        { inicio: 9, fin: 10, porcentaje: 5 },
         { inicio: 13, fin: 14, porcentaje: 5 },
         { inicio: 20, fin: 22, porcentaje: 5 },
       ] },
@@ -996,6 +1000,7 @@ export default function Calculadora() {
   }, [peak, movilidad, modelConfigs, fsFactor])
 
   function aplicarPerfil(perfil) {
+    setMovilidad(perfil.id === 'motorhome')
     const nuevos = []
     perfil.items.forEach(item => {
       const electro = ELECTRODOMESTICOS.find(e => e.id === item.id)
@@ -1219,7 +1224,7 @@ export default function Calculadora() {
               </div>
               {agregados.length > 0 && (
                 <button
-                  onClick={() => setAgregados([])}
+                  onClick={() => { setAgregados([]); setMovilidad(false) }}
                   className="px-3 py-1.5 rounded-full text-xs font-semibold border border-red-800 text-red-400 hover:bg-red-900/20 transition-all"
                 >
                   Limpiar
