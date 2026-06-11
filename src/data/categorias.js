@@ -9,19 +9,28 @@ export const CATEGORIA_LABELS = {
 }
 
 export const CATEGORIA_COLORS = {
-  Industrial: 'bg-orange-900/50 text-orange-300 border border-orange-700/50',
+  Industrial: 'bg-[#8ea930]/15 text-[#c5dd66] border border-[#8ea930]/40',
   Movilidad: 'bg-blue-900/50 text-blue-300 border border-blue-700/50',
-  Residencial: 'bg-green-900/50 text-green-300 border border-green-700/50',
-  Portátil: 'bg-purple-900/50 text-purple-300 border border-purple-700/50',
+  Residencial: 'bg-white/10 text-white border border-white/30',
+  Portátil: 'bg-orange-900/50 text-orange-300 border border-orange-700/50',
   Accesorio: 'bg-pink-900/50 text-pink-300 border border-pink-700/50',
 }
 
 export const CATEGORIA_BORDER_COLORS = {
-  Industrial: '#f97316',
+  Industrial: '#8ea930',
   Movilidad: '#60a5fa',
-  Residencial: '#4ade80',
-  Portátil: '#c084fc',
+  Residencial: '#ffffff',
+  Portátil: '#f97316',
   Accesorio: '#f472b6',
+}
+
+// Override de color por producto (se setea con el campo `color` en products.json).
+// Tiene prioridad sobre el color de la categoría.
+export const COLOR_OVERRIDES = {
+  naranja: { border: '#f97316', badge: 'bg-orange-900/50 text-orange-300 border border-orange-700/50' },
+  azul: { border: '#60a5fa', badge: 'bg-blue-900/50 text-blue-300 border border-blue-700/50' },
+  blanco: { border: '#ffffff', badge: 'bg-white/10 text-white border border-white/30' },
+  verde: { border: '#8ea930', badge: 'bg-[#8ea930]/15 text-[#c5dd66] border border-[#8ea930]/40' },
 }
 
 export const TODAS_CATEGORIAS = ['Todos', 'Industrial', 'Residencial', 'Portátil', 'Movilidad', 'Accesorio']

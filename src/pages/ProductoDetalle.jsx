@@ -6,7 +6,7 @@ import { useCompare } from '../components/CompareContext'
 import SpecsTable from '../components/SpecsTable'
 import HighlightsList from '../components/HighlightsList'
 import ExpansionConfigurator from '../components/ExpansionConfigurator'
-import { CATEGORIA_LABELS, CATEGORIA_COLORS, TIPO_RED_COLORS } from '../data/categorias'
+import { CATEGORIA_LABELS, CATEGORIA_COLORS, TIPO_RED_COLORS, COLOR_OVERRIDES } from '../data/categorias'
 import { ScrollReveal } from '../components/ScrollReveal'
 
 const modelsWithManual = ['rv5', 'ep2000', 'ep760', 'apex300', 'ac200pl', 'charger1', 'ac180p', 'ems', 'b300k']
@@ -71,7 +71,8 @@ export default function ProductoDetalle() {
   }
 
   const label = CATEGORIA_LABELS[product.categoria] ?? product.categoria
-  const colorClass = CATEGORIA_COLORS[label] ?? 'bg-gray-800 text-bluetti-cyan/80 border border-gray-700'
+  const override = product.color ? COLOR_OVERRIDES[product.color] : null
+  const colorClass = override?.badge ?? CATEGORIA_COLORS[label] ?? 'bg-gray-800 text-bluetti-cyan/80 border border-gray-700'
   const selected = isSelected(product.id)
   const disabled = isFull() && !selected
   const instVideos = installationVideos[product.id]
