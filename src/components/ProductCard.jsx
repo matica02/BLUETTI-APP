@@ -4,14 +4,15 @@ import { useCompare } from './CompareContext'
 import { CATEGORIA_LABELS, CATEGORIA_COLORS, CATEGORIA_BORDER_COLORS, COLOR_OVERRIDES } from '../data/categorias'
 
 export default function ProductCard({ product }) {
-  const { addToCompare, removeFromCompare, isSelected, isFull } = useCompare()
+  const { addToCompare, removeFromCompare, isSelected, isFull, canCompare } = useCompare()
 
   const label = CATEGORIA_LABELS[product.categoria] ?? product.categoria
   const override = product.color ? COLOR_OVERRIDES[product.color] : null
   const colorClass = override?.badge ?? CATEGORIA_COLORS[label] ?? 'bg-gray-800 text-bluetti-cyan/80 border border-gray-700'
   const categoryBorderColor = override?.border ?? CATEGORIA_BORDER_COLORS[label] ?? '#00d4ff'
+  const isAccesorio = product.categoria === 'Accesorio'
   const selected = isSelected(product.id)
-  const disabled = isFull() && !selected
+  const disabled = !selected && (isFull() || !canCompare(product.id))
 
   const allImages = [product.imagen, ...(product.imagenes ?? [])]
   const hasMultiple = allImages.length > 1
@@ -111,6 +112,11 @@ export default function ProductCard({ product }) {
             <span className={`text-xs px-2 py-1 rounded-full font-medium ${colorClass}`}>
               {label}
             </span>
+            {product.compatibleCon && (
+              <span className={`text-xs px-2 py-1 rounded-full font-medium ${colorClass}`}>
+                {product.compatibleCon}
+              </span>
+            )}
             {product.tipoRed && (
               <span className={`text-xs px-2 py-1 rounded-full font-medium ${colorClass}`}>
                 {product.tipoRed}
@@ -127,25 +133,27 @@ export default function ProductCard({ product }) {
           >
             Ver detalle
           </Link>
-          <button
-            onClick={handleCompareClick}
-            disabled={disabled}
-            className={`px-3 py-2 rounded-lg text-sm font-semibold border transition-all ${
-              disabled ? 'border-gray-700 text-gray-600 cursor-not-allowed' : ''
-            }`}
-            style={!disabled ? {
-              borderColor: categoryBorderColor,
-              color: selected ? '#0a0f1a' : categoryBorderColor,
-              backgroundColor: selected ? categoryBorderColor : 'transparent',
-            } : {}}
-            aria-label={
-              selected
-                ? `Quitar ${product.nombre} de comparación`
-                : `Agregar ${product.nombre} a comparación`
-            }
-          >
-            {selected ? '✓' : '+'}
-          </button>
+          {!isAccesorio && (
+            <button
+              onClick={handleCompareClick}
+              disabled={disabled}
+              className={`px-3 py-2 rounded-lg text-sm font-semibold border transition-all ${
+                disabled ? 'border-gray-700 text-gray-600 cursor-not-allowed' : ''
+              }`}
+              style={!disabled ? {
+                borderColor: categoryBorderColor,
+                color: selected ? '#0a0f1a' : categoryBorderColor,
+                backgroundColor: selected ? categoryBorderColor : 'transparent',
+              } : {}}
+              aria-label={
+                selected
+                  ? `Quitar ${product.nombre} de comparación`
+                  : `Agregar ${product.nombre} a comparación`
+              }
+            >
+              {selected ? '✓' : '+'}
+            </button>
+          )}
         </div>
       </div>
     </div>

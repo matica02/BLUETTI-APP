@@ -132,6 +132,11 @@ export default function ProductoDetalle() {
             <span className={`text-xs px-3 py-1 rounded-full font-medium w-fit ${colorClass}`}>
               {label}
             </span>
+            {product.compatibleCon && (
+              <span className={`text-xs px-3 py-1 rounded-full font-medium w-fit ${colorClass}`}>
+                {product.compatibleCon}
+              </span>
+            )}
             {product.tipoRed && (
               <span className={`text-xs px-3 py-1 rounded-full font-medium w-fit ${TIPO_RED_COLORS[product.tipoRed] || ''}`}>
                 {product.tipoRed}
