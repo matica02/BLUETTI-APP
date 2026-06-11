@@ -4,7 +4,8 @@ import CatalogoCarousel from '../components/CatalogoCarousel'
 import { ScrollReveal, StaggerGroup, StaggerItem } from '../components/ScrollReveal'
 
 export default function Catalogo() {
-  const modelos = products.filter(p => p.categoria !== 'Accesorio')
+  const modelos = products.filter(p => p.categoria !== 'Accesorio' && p.categoria !== 'Batería')
+  const baterias = products.filter(p => p.categoria === 'Batería')
   const accesorios = products.filter(p => p.categoria === 'Accesorio')
 
   return (
@@ -100,6 +101,27 @@ export default function Catalogo() {
           </StaggerItem>
         ))}
       </StaggerGroup>
+
+      {baterias.length > 0 && (
+        <>
+          <div id="baterias" className="mt-14 mb-8">
+            <h2 className="text-3xl font-bold text-white mb-2">
+              Baterías <span className="text-bluetti-cyan">BLUETTI</span>
+            </h2>
+            <p className="text-bluetti-cyan">
+              Módulos de expansión para ampliar la capacidad de tus equipos
+            </p>
+          </div>
+
+          <StaggerGroup className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {baterias.map(product => (
+              <StaggerItem key={product.id}>
+                <ProductCard product={product} />
+              </StaggerItem>
+            ))}
+          </StaggerGroup>
+        </>
+      )}
 
       {accesorios.length > 0 && (
         <>
