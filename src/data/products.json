@@ -149,7 +149,7 @@
     "categoria": "Movilidad / RV / Off-Grid",
     "tipoRed": "Off-Grid",
     "imagen": "rv5.png",
-    "imagenes": ["rv5-pack.png"],
+    "imagenes": ["b4810.png", "rv5-pack.png"],
     "perfilUsuario": "Propietarios de casas rodantes, barcos o cabañas off-grid que quieren un sistema de energía silencioso, eficiente y sin generador. Ideal para quienes quieren independencia total de campings o enchufes.",
     "casosDeUso": [
       {
@@ -202,7 +202,10 @@
       "Kit completo disponible: RV5 + B4810 + Epad + Epanel + PV100 FX solar"
     ],
     "accesoriosCompatibles": [
-      "B4810 (batería LiFePO4 48V 100Ah)",
+      {
+        "nombre": "B4810 (batería LiFePO4 48V 100Ah)",
+        "id": "b4810"
+      },
       "Epad (pantalla de control central)",
       "Epanel (panel de distribución inteligente)",
       "PV100 FX (panel solar flexible 100W)",
@@ -273,7 +276,7 @@
       "Instalación plug-and-play modular: 50% más rápida que la generación anterior"
     ],
     "accesoriosCompatibles": [
-      "B700 (batería de expansión 7.37 kWh)",
+      { "nombre": "B700 (batería de expansión 7.37 kWh)", "id": "b700" },
       "HV800 (controlador de baterías de alta tensión)",
       { "nombre": "EMS Controller (controlador de gestión energética)", "id": "ems" }
     ]
@@ -343,7 +346,7 @@
       "3 entradas MPPT independientes de 3 kW cada una para máxima flexibilidad solar"
     ],
     "accesoriosCompatibles": [
-      "B500 (batería de expansión 4.96 kWh)",
+      { "nombre": "B500 (batería de expansión 4.96 kWh)", "id": "b500" },
       { "nombre": "EMS Controller (controlador de gestión energética)", "id": "ems" }
     ]
   },
@@ -411,7 +414,10 @@
       "Con AT1 Smart Distribution Panel: backup total del hogar en 5 minutos de instalación"
     ],
     "accesoriosCompatibles": [
-      "B300K (batería de expansión 2.76 kWh)",
+      {
+        "nombre": "B300K (batería de expansión 2.76 kWh)",
+        "id": "b300k"
+      },
       "Hub A1 (conexión en paralelo de hasta 3 APEX 300)",
       "AT1 Smart Distribution Panel (backup total del hogar)",
       "Hub D1 (salidas DC para RV)",
@@ -681,6 +687,246 @@
       "Conectividad industrial: 3× RJ45 y hasta 3 interfaces CAN independientes (250 kbps)",
       "Certificación IP65 y rango de operación de -20°C a 60°C para instalación interior o exterior",
       "Compatible con los sistemas de almacenamiento residenciales BLUETTI EP900, EP800, EP760 y EP2000"
+    ],
+    "accesoriosCompatibles": []
+  },
+  {
+    "id": "b300k",
+    "nombre": "B300K",
+    "tagline": "Batería de Expansión 2.76 kWh",
+    "subtitulo": "Batería de Expansión LiFePO₄",
+    "descripcion": "La B300K es la batería de expansión modular de BLUETTI que amplía la capacidad de tus estaciones de energía para que el sistema crezca al ritmo de tus necesidades.\nCon 2.764,8 Wh de capacidad y celdas LiFePO₄ (litio-ferrofosfato) de última generación, ofrece más de 4.000 ciclos de carga —alrededor de una década de vida útil— y una garantía de 3+1 años.\nSe integra de forma nativa con las estaciones APEX 300, AC200L, AC200MAX, AC300 y AC500. Conectada a una APEX 300 admite de 1 a 6 baterías por unidad (hasta 19,3 kWh) y, en conexión en paralelo de hasta 3 APEX 300, escala hasta 18 baterías y 58 kWh totales.\nCon el cable de carga AC de 30A en una AC300/AC500 se recarga al 80% en apenas 45 minutos. Incluye un puerto USB-A (5V/2.4A, 12W) y un diseño con disipación de calor optimizada para un funcionamiento seguro y duradero.",
+    "categoria": "Accesorio",
+    "imagen": "b300k.png",
+    "perfilUsuario": "Usuarios de estaciones de energía BLUETTI (APEX 300, AC200L, AC200MAX, AC300 y AC500) que necesitan ampliar su autonomía —para el hogar, backup o aventuras off-grid/RV— y quieren escalar la capacidad de forma modular, agregando baterías a medida que crecen sus necesidades energéticas.",
+    "casosDeUso": [
+      {
+        "etiqueta": "Expansión Modular",
+        "descripcion": "Amplía la capacidad de tu estación de energía agregando de 1 a 6 baterías por unidad, escalando el sistema a medida que crecen tus necesidades."
+      },
+      {
+        "etiqueta": "Máxima Capacidad",
+        "descripcion": "Hasta 19,3 kWh con una sola APEX 300 y hasta 58 kWh conectando 3 APEX 300 en paralelo con 18 baterías."
+      },
+      {
+        "etiqueta": "Carga Rápida",
+        "descripcion": "Se recarga al 80% en solo 45 minutos usando una AC300/AC500 con el cable de carga AC de 30A."
+      },
+      {
+        "etiqueta": "Compatibilidad Amplia",
+        "descripcion": "Se integra con las estaciones APEX 300, AC200L, AC200MAX, AC300 y AC500 para un sistema de energía flexible y escalable."
+      },
+      {
+        "etiqueta": "Larga Vida Útil",
+        "descripcion": "Celdas LiFePO₄ de última generación con más de 4.000 ciclos de carga, cerca de una década de vida útil, y garantía de 3+1 años."
+      }
+    ],
+    "specs": {
+      "modelo": "B300K (batería de expansión para APEX 300 / AC200L / AC200MAX / AC300 / AC500)",
+      "tipo": "Batería de expansión LiFePO₄ (litio-ferrofosfato)",
+      "capacidad": "2.764,8 Wh",
+      "ciclosDeVida": "4.000+ ciclos",
+      "vidaUtilEstimada": "~10 años",
+      "compatibilidad": "APEX 300, AC200L, AC200MAX, AC300 y AC500",
+      "bateriasMaxApex300": "1 a 6 por unidad (hasta 19,3 kWh)",
+      "expansionParalelo": "Hasta 18 baterías con 3× APEX 300 en paralelo",
+      "capacidadMaximaParalelo": "58 kWh (3× APEX 300 con 18 baterías)",
+      "cargaRapida": "80% en 45 min (con AC300/AC500 y cable de carga AC de 30A)",
+      "corrienteDeCarga": "60 A máx.",
+      "puertoUSB": "1× USB-A (5V / 2.4A, 12W)",
+      "cableExpansion": "CA90 / P090A/D / P090D a P150D (según estación)",
+      "temperaturaCarga": "0°C a 40°C",
+      "temperaturaOperacion": "-20°C a 40°C",
+      "humedadOperacion": "5% a 95% RH",
+      "peso": "29,5 kg",
+      "dimensiones": "525 × 327 × 200 mm",
+      "garantia": "3+1 años"
+    },
+    "highlights": [
+      "2.764,8 Wh de capacidad con celdas LiFePO₄ de última generación, seguras y duraderas",
+      "Más de 4.000 ciclos de carga — alrededor de una década de vida útil",
+      "Diseño modular y escalable: de 1 a 6 baterías por unidad (hasta 19,3 kWh con APEX 300)",
+      "Hasta 58 kWh totales conectando 3 APEX 300 en paralelo con 18 baterías",
+      "Carga rápida: 80% en solo 45 minutos con AC300/AC500 y cable de carga AC de 30A",
+      "Compatible con APEX 300, AC200L, AC200MAX, AC300 y AC500 — mezclá y combiná",
+      "Puerto USB-A (5V/2.4A, 12W) y disipación de calor optimizada",
+      "Garantía de 3+1 años"
+    ],
+    "accesoriosCompatibles": []
+  },
+  {
+    "id": "b4810",
+    "nombre": "B4810",
+    "tagline": "Batería de Expansión 48V · 5.120 Wh",
+    "subtitulo": "Batería LiFePO₄ 51,2V · 100Ah",
+    "descripcion": "La B4810 es la batería de expansión de 48V del sistema BLUETTI RVSolar, diseñada para alimentar tu RV, embarcación o instalación off-grid con energía limpia y silenciosa.\nCon 5.120 Wh (100 Ah) de capacidad y celdas LiFePO₄ (litio-ferrofosfato), ofrece más de 6.000 ciclos de carga —cerca de 17 años de uso— y una garantía de 5 años.\nIncorpora autocalentamiento para operar en climas fríos hasta -20°C, certificación IP65 resistente al agua y al polvo, y una corriente de descarga continua de 100 A.\nEs totalmente modular: se conectan hasta 24 baterías en paralelo para escalar el sistema hasta 122 kWh totales. Se comunica por Bluetooth y RJ45 (CAN) para integrarse de forma nativa con el RV5.",
+    "categoria": "Accesorio",
+    "imagen": "b4810.png",
+    "perfilUsuario": "Usuarios del sistema BLUETTI RVSolar (RV5) —caravanas, motorhomes, embarcaciones e instalaciones off-grid— que necesitan ampliar su almacenamiento de energía de forma modular, con una batería robusta, resistente al agua (IP65) y apta para climas fríos gracias a su autocalentamiento.",
+    "casosDeUso": [
+      {
+        "etiqueta": "Energía para RV",
+        "descripcion": "Alimenta tu caravana o motorhome con 5.120 Wh por batería, en silencio y sin generador ni combustible."
+      },
+      {
+        "etiqueta": "Expansión Modular",
+        "descripcion": "Conectá hasta 24 baterías en paralelo para escalar el sistema hasta 122 kWh totales según tus necesidades."
+      },
+      {
+        "etiqueta": "Apta para Frío",
+        "descripcion": "Autocalentamiento integrado para cargar y operar en climas fríos hasta -20°C sin perder rendimiento."
+      },
+      {
+        "etiqueta": "Robusta y Duradera",
+        "descripcion": "Celdas LiFePO₄ con más de 6.000 ciclos (cerca de 17 años) y certificación IP65 resistente al agua y al polvo."
+      },
+      {
+        "etiqueta": "Off-Grid y Náutica",
+        "descripcion": "Ideal para embarcaciones e instalaciones off-grid, con 100 A de descarga continua y comunicación Bluetooth / RJ45 (CAN)."
+      }
+    ],
+    "specs": {
+      "modelo": "B4810 (batería de expansión 48V para RV5 / RVSolar)",
+      "tipo": "Batería LiFePO₄ (litio-ferrofosfato) con autocalentamiento",
+      "voltaje": "51,2 V",
+      "capacidad": "5.120 Wh (100 Ah)",
+      "ciclosDeVida": "6.000+ ciclos (al 80% de capacidad original) — ~17 años de uso",
+      "escalabilidad": "Hasta 24 baterías en paralelo (122 kWh totales)",
+      "corrienteDescargaMax": "100 A (descarga continua)",
+      "autocalentamiento": "Sí (para clima frío hasta -20°C)",
+      "temperaturaCarga": "0°C a 40°C",
+      "temperaturaDescarga": "-20°C a 40°C",
+      "temperaturaAlmacenamiento": "-20°C a 40°C",
+      "humedadOperacion": "5% a 95% RH",
+      "proteccion": "IP65",
+      "peso": "47 kg",
+      "comunicacion": "Bluetooth y RJ45 (CAN)",
+      "garantia": "5 años"
+    },
+    "highlights": [
+      "5.120 Wh (100 Ah) de capacidad con celdas LiFePO₄ a 51,2 V",
+      "Más de 6.000 ciclos de carga — cerca de 17 años de vida útil",
+      "Autocalentamiento para cargar y operar en climas fríos hasta -20°C",
+      "Certificación IP65: resistente al agua y al polvo",
+      "Escalable hasta 24 baterías en paralelo (122 kWh totales)",
+      "Corriente de descarga continua de 100 A",
+      "Comunicación Bluetooth y RJ45 (CAN) para integración nativa con el RV5",
+      "Garantía de 5 años"
+    ],
+    "accesoriosCompatibles": []
+  },
+  {
+    "id": "b500",
+    "nombre": "B500",
+    "tagline": "Batería de Expansión 4,96 kWh",
+    "subtitulo": "Módulo de Batería LiFePO₄ para EP760",
+    "descripcion": "La B500 es el módulo de batería de expansión del sistema de almacenamiento residencial BLUETTI EP760, pensado para ampliar la capacidad de tu hogar de forma modular y escalable.\nCada paquete aporta 4.960 Wh (4,96 kWh) con celdas LiFePO₄ (litio-ferrofosfato), y el sistema admite de 1 a 4 paquetes para alcanzar entre 4,96 y 19,84 kWh de capacidad total.\nCon certificación IP65 resistente al agua y al polvo, diseño apilable de instalación rápida y un completo set de certificaciones de seguridad internacionales (UL 1973, UL 9540A, EN IEC 62619), la B500 ofrece almacenamiento confiable y duradero para casas, villas pequeñas y granjas.\nGarantía de 10 años.",
+    "categoria": "Accesorio",
+    "imagen": "b500.png",
+    "perfilUsuario": "Propietarios de viviendas, villas pequeñas y granjas con un sistema de almacenamiento residencial BLUETTI EP760 que quieren ampliar su capacidad de energía de forma modular, agregando de 1 a 4 paquetes de batería según el consumo y el respaldo que necesiten.",
+    "casosDeUso": [
+      {
+        "etiqueta": "Energía del Hogar",
+        "descripcion": "Almacena energía solar o de red para alimentar tu casa, con 4,96 kWh por paquete de batería."
+      },
+      {
+        "etiqueta": "Capacidad Escalable",
+        "descripcion": "Apilá de 1 a 4 paquetes para lograr entre 4,96 y 19,84 kWh de capacidad total según tus necesidades."
+      },
+      {
+        "etiqueta": "Respaldo ante Cortes",
+        "descripcion": "Reserva energía para mantener tus cargas esenciales funcionando durante cortes de red."
+      },
+      {
+        "etiqueta": "Instalación Modular",
+        "descripcion": "Diseño apilable de instalación rápida que se integra directamente con el inversor híbrido EP760."
+      },
+      {
+        "etiqueta": "Segura y Duradera",
+        "descripcion": "Celdas LiFePO₄ con certificación IP65 y seguridad internacional (UL 1973, UL 9540A, EN IEC 62619)."
+      }
+    ],
+    "specs": {
+      "modelo": "B500 (batería de expansión para EP760 / sistema de almacenamiento residencial)",
+      "tipo": "Batería modular LiFePO₄ (litio-ferrofosfato)",
+      "capacidad": "4.960 Wh (4,96 kWh)",
+      "escalabilidad": "1 a 4 paquetes por sistema (4,96 – 19,84 kWh)",
+      "proteccion": "IP65",
+      "peso": "58 kg (127,8 lbs)",
+      "dimensiones": "636 × 325 × 338 mm",
+      "seguridad": "JIS C8715-2, EN IEC 62619, UL 1973, UL 9540A",
+      "emisiones": "EN/IEC 61000-6-3, EN/IEC 61000-6-1",
+      "certificados": "CE, CB, CETLUS, FCC, IC, RCM",
+      "transporte": "ONU 38.3",
+      "rohs": "2011/65/UE",
+      "garantia": "10 años"
+    },
+    "highlights": [
+      "4.960 Wh (4,96 kWh) de capacidad por paquete con celdas LiFePO₄",
+      "Escalable de 1 a 4 paquetes: 4,96 – 19,84 kWh de capacidad total",
+      "Diseño modular apilable de instalación rápida para el sistema EP760",
+      "Certificación IP65: resistente al agua y al polvo",
+      "Seguridad internacional: UL 1973, UL 9540A y EN IEC 62619",
+      "Compatible con acoplamiento de CA y CC para integración solar",
+      "Ideal para casas, villas pequeñas y granjas",
+      "Garantía de 10 años"
+    ],
+    "accesoriosCompatibles": []
+  },
+  {
+    "id": "b700",
+    "nombre": "B700",
+    "tagline": "Batería de Expansión 7,37 kWh",
+    "subtitulo": "Batería LiFePO₄ para EP2000",
+    "descripcion": "La B700 es la batería de expansión del sistema de almacenamiento de energía residencial BLUETTI EP2000, diseñada para alimentar villas, casas independientes, pequeños negocios y granjas con alta demanda de potencia.\nCada batería aporta 7.372,8 Wh (7,37 kWh) con celdas LiFePO₄ (litio-ferrofosfato). Junto al controlador HV800, el EP2000 admite de 2 a 7 baterías B700 para escalar la capacidad entre 14,7 y 51,6 kWh.\nEn conexión en paralelo de hasta 3 unidades EP2000, el sistema crece hasta 21 baterías y 154,8 kWh totales, con salida de hasta 60 kW.\nCon certificación IP65 resistente al agua y al polvo, química LFP segura y diseño modular plug-and-play, la B700 ofrece almacenamiento confiable para autoconsumo solar, respaldo y gestión tarifaria. Garantía de 10 años.",
+    "categoria": "Accesorio",
+    "imagen": "b700.png",
+    "perfilUsuario": "Propietarios de villas, casas independientes, pequeños negocios y granjas con un sistema de almacenamiento residencial BLUETTI EP2000 (y controlador HV800) que necesitan alta capacidad y potencia, y quieren escalar su energía de forma modular agregando de 2 a 7 baterías por unidad.",
+    "casosDeUso": [
+      {
+        "etiqueta": "Energía de Toda la Casa",
+        "descripcion": "Alimenta villas y grandes casas con 7,37 kWh por batería, cubriendo bombas de calor, hornos, cargadores EV y más."
+      },
+      {
+        "etiqueta": "Capacidad Escalable",
+        "descripcion": "De 2 a 7 baterías por EP2000+HV800 para lograr entre 14,7 y 51,6 kWh de capacidad total."
+      },
+      {
+        "etiqueta": "Sistema en Paralelo",
+        "descripcion": "Hasta 3 EP2000 en paralelo escalan a 21 baterías y 154,8 kWh totales, con salida de hasta 60 kW."
+      },
+      {
+        "etiqueta": "Autoconsumo y Respaldo",
+        "descripcion": "Maximiza el uso de la energía solar y mantiene tus cargas esenciales durante cortes, con conmutación menor a 10 ms."
+      },
+      {
+        "etiqueta": "Segura y Modular",
+        "descripcion": "Celdas LiFePO₄ con certificación IP65 y diseño plug-and-play de instalación rápida y fácil expansión."
+      }
+    ],
+    "specs": {
+      "modelo": "B700 (batería de expansión para EP2000 / sistema de almacenamiento residencial)",
+      "tipo": "Batería LiFePO₄ (litio-ferrofosfato)",
+      "capacidad": "7.372,8 Wh (7,37 kWh)",
+      "escalabilidad": "2 a 7 baterías por EP2000+HV800 (14,7 – 51,6 kWh)",
+      "expansionParalelo": "Hasta 21 baterías con 3 EP2000 en paralelo (154,8 kWh)",
+      "proteccion": "IP65",
+      "peso": "72 kg",
+      "dimensiones": "670 × 280 × 386 mm",
+      "seguridad": "IEC 62619, EN 62619, VDE-AR-E 2510-50, UN38.3",
+      "emisiones": "EN/IEC 61000-6-3, EN/IEC 61000-6-1",
+      "rohs": "2011/65/UE y (UE) 2015/863",
+      "garantia": "10 años"
+    },
+    "highlights": [
+      "7.372,8 Wh (7,37 kWh) de capacidad por batería con celdas LiFePO₄",
+      "Escalable de 2 a 7 baterías por EP2000: 14,7 – 51,6 kWh de capacidad total",
+      "Hasta 21 baterías y 154,8 kWh con 3 EP2000 en paralelo",
+      "Certificación IP65: resistente al agua y al polvo",
+      "Química LFP segura (IEC 62619, EN 62619, UN38.3)",
+      "Diseño modular plug-and-play de instalación rápida",
+      "Ideal para villas, casas independientes, negocios y granjas",
+      "Garantía de 10 años"
     ],
     "accesoriosCompatibles": []
   }
