@@ -983,7 +983,7 @@ export default function Calculadora() {
       : contKw
     return MODELOS
       .filter(m => {
-        if (movilidad) return m.id === 'rv5'
+        if (movilidad) return m.id === 'rv5' || m.id === 'apex300'
         if (m.id === 'rv5') return false
         if (m.id === 'es125x' && effectiveKw < 60) return false
         if (m.id === 'es60' && effectiveKw < 30) return false
@@ -1529,7 +1529,7 @@ export default function Calculadora() {
                     : contKw
                   return MODELOS
                     .filter(m => {
-                      if (movilidad) return m.id === 'rv5'
+                      if (movilidad) return m.id === 'rv5' || m.id === 'apex300'
                       if (m.id === 'rv5') return false
                       if (m.id === 'es125x' && effectiveKw < 60) return false
                       if (m.id === 'es60' && effectiveKw < 30) return false
