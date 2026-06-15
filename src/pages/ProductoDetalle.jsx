@@ -247,6 +247,34 @@ export default function ProductoDetalle() {
         <SpecsTable specs={product.specs} />
       </ScrollReveal>
 
+      {product.equipoCompatible?.length > 0 && (
+        <ScrollReveal as="section" className="mb-12">
+          <h2 className="text-xl font-bold text-white mb-4">Equipo Compatible</h2>
+          <ul className="space-y-2">
+            {product.equipoCompatible.map(eq => {
+              const isObj = typeof eq === 'object' && eq !== null
+              const nombre = isObj ? eq.nombre : eq
+              const id = isObj ? eq.id : null
+              return (
+                <li key={nombre} className="flex items-center gap-3 text-bluetti-cyan/80 text-sm">
+                  <span className="text-bluetti-cyan">→</span>
+                  {id ? (
+                    <Link
+                      to={`/producto/${id}`}
+                      className="text-bluetti-cyan hover:text-bluetti-lime hover:underline underline-offset-2 transition-colors"
+                    >
+                      {nombre}
+                    </Link>
+                  ) : (
+                    <span>{nombre}</span>
+                  )}
+                </li>
+              )
+            })}
+          </ul>
+        </ScrollReveal>
+      )}
+
       {product.accesoriosCompatibles.length > 0 && (
         <ScrollReveal as="section" className="mb-12">
           <h2 className="text-xl font-bold text-white mb-4">Accesorios compatibles</h2>
