@@ -872,6 +872,8 @@ export default function Calculadora() {
   const [solarHorasSol, setSolarHorasSol] = useState(5)
   const [simultaneidad, setSimultaneidad] = useState(0.7)
   const [aplicarFs, setAplicarFs] = useState(false)
+  const [electrosVisibles, setElectrosVisibles] = useState(false)
+  const [catalogoVisible, setCatalogoVisible] = useState(false)
 
   const [modelConfigs, setModelConfigs] = useState(() => {
     const initial = {}
@@ -1085,26 +1087,14 @@ export default function Calculadora() {
         ))}
       </div>
 
-      {totalKwh > 0 && (
-        <div className="mb-8 grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <div className="lg:col-span-2">
-            <DayChart
-              consumoPerSlot={consumoPerSlot}
-              solarPerSlot={solarPerSlot}
-              solarOn={solarActivo}
-              modelOptions={dayChartModelOptions}
-            />
-          </div>
-          <DayClock agregados={agregados} />
-        </div>
-      )}
-
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         {/* Columna izquierda */}
-        <div>
-          <h2 className="text-sm font-semibold text-bluetti-cyan uppercase tracking-wider mb-4">
-            Equipos disponibles
-          </h2>
+        <div className="lg:col-span-6">
+          <div className="flex items-center mb-4 min-h-[30px]">
+            <h2 className="text-sm font-semibold text-bluetti-cyan uppercase tracking-wider">
+              Equipos disponibles
+            </h2>
+          </div>
           <div className="mb-4 bg-bluetti-card border border-dashed border-bluetti-border rounded-xl p-4">
             <p className="text-xs font-semibold text-bluetti-cyan uppercase tracking-wider mb-3">
               Agregar equipo personalizado
@@ -1140,6 +1130,19 @@ export default function Calculadora() {
             </div>
           </div>
 
+          <button
+            onClick={() => setCatalogoVisible(v => !v)}
+            aria-expanded={catalogoVisible}
+            className="w-full flex items-center justify-between gap-2 px-4 py-3 mb-2 bg-bluetti-card border border-bluetti-border rounded-xl hover:bg-white/5 transition-colors"
+          >
+            <span className="text-sm font-medium text-white">
+              Lista de equipos
+              <span className="text-bluetti-cyan/50 font-normal"> · {catalogoVisible ? 'tocá para ocultar' : 'tocá para ver'}</span>
+            </span>
+            <span className={`text-bluetti-cyan text-xs transition-transform duration-200 ${catalogoVisible ? 'rotate-180' : ''}`}>▼</span>
+          </button>
+
+          {catalogoVisible && (
           <div className="space-y-2">
             {CATEGORIAS_ELECTRO.map(cat => {
               const isOpen = !!openCats[cat.id]
@@ -1187,11 +1190,13 @@ export default function Calculadora() {
               )
             })}
           </div>
+          )}
+
 
         </div>
 
-        {/* Columna derecha */}
-        <div className="space-y-6">
+        {/* Columna derecha — Mi instalación */}
+        <div className="lg:col-span-6 space-y-6">
           <div>
             <div className="flex items-center justify-between mb-4 gap-3 flex-wrap">
               <div className="flex items-center gap-3 flex-wrap">
@@ -1224,7 +1229,7 @@ export default function Calculadora() {
               </div>
               {agregados.length > 0 && (
                 <button
-                  onClick={() => { setAgregados([]); setMovilidad(false) }}
+                  onClick={() => { setAgregados([]); setMovilidad(false); setElectrosVisibles(false) }}
                   className="px-3 py-1.5 rounded-full text-xs font-semibold border border-red-800 text-red-400 hover:bg-red-900/20 transition-all"
                 >
                   Limpiar
@@ -1240,7 +1245,18 @@ export default function Calculadora() {
               </div>
             ) : (
               <div className="space-y-3">
-                {agregadosConNombre.map(e => (
+                <button
+                  onClick={() => setElectrosVisibles(v => !v)}
+                  aria-expanded={electrosVisibles}
+                  className="w-full flex items-center justify-between gap-2 px-4 py-3 bg-bluetti-card border border-bluetti-border rounded-xl hover:bg-white/5 transition-colors"
+                >
+                  <span className="text-sm font-medium text-white">
+                    {agregados.length} {agregados.length === 1 ? 'equipo cargado' : 'equipos cargados'}
+                    <span className="text-bluetti-cyan/50 font-normal"> · {electrosVisibles ? 'tocá para ocultar' : 'tocá para ver y editar'}</span>
+                  </span>
+                  <span className={`text-bluetti-cyan text-xs transition-transform duration-200 ${electrosVisibles ? 'rotate-180' : ''}`}>▼</span>
+                </button>
+                {electrosVisibles && agregadosConNombre.map(e => (
                   <div
                     key={e.instanceKey}
                     className="bg-bluetti-card border border-bluetti-border rounded-xl px-4 py-3"
@@ -1404,6 +1420,30 @@ export default function Calculadora() {
               </div>
             )}
           </div>
+        </div>
+      </div>
+
+      {/* Fila inferior: gráficos + resultados, alineados al desplegar las listas */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mt-8">
+          {/* Gráficos */}
+          <div className="lg:col-span-6">
+            {totalKwh > 0 && (
+              <div className="space-y-4">
+                <div className="h-[340px]">
+                  <DayChart
+                    consumoPerSlot={consumoPerSlot}
+                    solarPerSlot={solarPerSlot}
+                    solarOn={solarActivo}
+                    modelOptions={dayChartModelOptions}
+                  />
+                </div>
+                <DayClock agregados={agregados} />
+              </div>
+            )}
+          </div>
+
+          {/* Resultados de la instalación */}
+          <div className="lg:col-span-6 space-y-6">
 
           {/* Panel de resultados */}
           <div className="bg-bluetti-card border border-bluetti-border rounded-xl p-4 sm:p-5">
