@@ -247,14 +247,14 @@ const MODELOS = [
 ]
 
 const MAX_SOLAR_W = {
-  es125x: 12000,
+  es125x: 120000,
   es60:   76800,
-  ep2000: 4800,
-  ep760:  2400,
-  apex300: 1200,
+  ep2000: 30000,
+  ep760:  9000,
+  apex300: 2400,
   ac200pl: 1200,
   ac180p:  500,
-  rv5:    2000,
+  rv5:    1800,
 }
 
 const MODEL_CFG = {
