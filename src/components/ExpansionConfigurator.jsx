@@ -22,7 +22,7 @@ const CFG = {
     paralelo: { min: 1, max: 3 },
     baterias: {
       tipos: [{ id: 'b700', nombre: 'B700', kWh: 7.37, max: 7 }],
-      min: u => u > 1 ? 2 : 4,
+      min: u => u > 1 ? 4 : 2,
     },
   },
   ep760: {
@@ -50,13 +50,20 @@ const CFG = {
   },
 }
 
+// Potencia del EP2000 por unidad según cantidad de baterías: 2→10.5kW, 3→15.5kW, 4+→20kW
+function ep2000Kw(n) {
+  if (n <= 2) return 10.5
+  if (n === 3) return 15.5
+  return 20
+}
+
 function calcTotals(id, unidades, cantArr, tipoKwh) {
   const totalBat = cantArr.reduce((a, b) => a + b, 0)
   switch (id) {
     case 'es125x': return { kWh: unidades * 241, kW: unidades * 125 }
     case 'es60': return { kWh: unidades * 128, kW: unidades * 60 }
     case 'rv5': return { kWh: totalBat * tipoKwh, kW: 5 }
-    case 'ep2000': return { kWh: totalBat * 7.37, kW: unidades * 20 }
+    case 'ep2000': return { kWh: totalBat * 7.37, kW: cantArr.reduce((a, n) => a + ep2000Kw(n), 0) }
     case 'ep760': return { kWh: totalBat * 4.96, kW: 7.6 }
     case 'apex300': return { kWh: unidades * 2.76 + totalBat * 2.76, kW: unidades * 3.84 }
     case 'ac200pl': return { kWh: 2.304 + totalBat * tipoKwh, kW: 2.4 }
@@ -70,7 +77,7 @@ function isBase(id, unidades, cantArr) {
     case 'es125x': return unidades === 1
     case 'es60': return unidades === 1
     case 'rv5': return allEqual(2)
-    case 'ep2000': return unidades === 1 && allEqual(4)
+    case 'ep2000': return unidades === 1 && allEqual(2)
     case 'ep760': return allEqual(2)
     case 'apex300': return unidades === 1 && allEqual(0)
     case 'ac200pl': return allEqual(0)
