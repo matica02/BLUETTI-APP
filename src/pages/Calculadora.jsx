@@ -99,6 +99,47 @@ const PERFILES = [
   {
     id: 'casa',
     nombre: 'Casa',
+    // Instalación residencial completa: ~7 kW de pico de demanda y ~9 kW de pico de arranque
+    items: [
+      { id: 'heladera', cantidad: 1, franjas: [{ inicio: 0, fin: 24, porcentaje: 40 }] },
+      { id: 'freezer', cantidad: 1, franjas: [{ inicio: 0, fin: 24, porcentaje: 35 }] },
+      { id: 'aire', cantidad: 2, franjas: [{ inicio: 13, fin: 23, porcentaje: 60 }] },
+      { id: 'horno', cantidad: 1, franjas: [
+        { inicio: 12, fin: 13, porcentaje: 60 },
+        { inicio: 20, fin: 22, porcentaje: 70 },
+      ] },
+      { id: 'microondas', cantidad: 1, franjas: [
+        { inicio: 12, fin: 13, porcentaje: 10 },
+        { inicio: 20, fin: 21, porcentaje: 10 },
+      ] },
+      { id: 'pava', cantidad: 1, franjas: [
+        { inicio: 7, fin: 8, porcentaje: 20 },
+        { inicio: 20, fin: 21, porcentaje: 15 },
+      ] },
+      { id: 'cafetera', cantidad: 1, franjas: [{ inicio: 7, fin: 8, porcentaje: 25 }] },
+      { id: 'tostadora', cantidad: 1, franjas: [{ inicio: 7, fin: 8, porcentaje: 12 }] },
+      { id: 'ventilador', cantidad: 2, franjas: [{ inicio: 19, fin: 23, porcentaje: 70 }] },
+      { id: 'lavarropas', cantidad: 1, franjas: [{ inicio: 10, fin: 12, porcentaje: 25 }] },
+      { id: 'bomba', cantidad: 1, franjas: [
+        { inicio: 12, fin: 13, porcentaje: 25 },
+        { inicio: 19, fin: 20, porcentaje: 20 },
+      ] },
+      { id: 'led', cantidad: 3, franjas: [{ inicio: 19, fin: 24, porcentaje: 100 }] },
+      { id: 'tv', cantidad: 1, franjas: [{ inicio: 18, fin: 23, porcentaje: 100 }] },
+      { id: 'pc', cantidad: 1, franjas: [{ inicio: 9, fin: 18, porcentaje: 90 }] },
+      { id: 'notebook', cantidad: 1, franjas: [{ inicio: 9, fin: 18, porcentaje: 70 }] },
+      { id: 'wifi', cantidad: 1 },
+      { id: 'celular', cantidad: 4, franjas: [
+        { inicio: 0, fin: 7, porcentaje: 50 },
+        { inicio: 22, fin: 24, porcentaje: 50 },
+      ] },
+      { id: 'alarma', cantidad: 1 },
+      { id: 'camara', cantidad: 4 },
+    ],
+  },
+  {
+    id: 'departamento',
+    nombre: 'Departamento',
     items: [
       { id: 'heladera', cantidad: 1, franjas: [{ inicio: 0, fin: 24, porcentaje: 40 }] },
       { id: 'freezer', cantidad: 1, franjas: [{ inicio: 0, fin: 24, porcentaje: 35 }] },
