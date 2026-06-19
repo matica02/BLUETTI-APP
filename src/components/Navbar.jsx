@@ -8,28 +8,28 @@ export default function Navbar() {
     <div className="sticky top-0 z-40">
       <div className="w-full">
         <div>
-          <nav className="px-4 sm:px-8 h-16 flex items-center justify-between" style={{ background: '#FFFFFF' }}>
-            <Link to="/" className="flex flex-col sm:flex-row items-center gap-1 sm:gap-6">
+          <nav className="relative px-4 sm:px-8 h-16 flex items-center justify-between" style={{ background: '#FFFFFF' }}>
+            <Link
+              to="/"
+              className="bg-bluetti-cyan text-bluetti-bg font-semibold text-[9px] sm:text-sm px-1.5 sm:px-4 py-1 sm:py-2 rounded-lg border border-black hover:brightness-110 transition-all"
+            >
+              Inicio
+            </Link>
+
+            <Link to="/" className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col sm:flex-row items-center gap-1 sm:gap-6">
               <img src="/images/logo-naval.png" alt="Naval Motor" className="h-4 sm:h-10 object-contain sm:mt-4" />
-              <img src="/images/bluetti-logo.png.webp" alt="BLUETTI" className="h-4 sm:h-10 object-contain" />
             </Link>
 
             <div className="flex items-center gap-1 sm:gap-3">
               <Link
-                to="/"
-                className="bg-bluetti-cyan text-bluetti-bg font-semibold text-[9px] sm:text-sm px-1.5 sm:px-4 py-1 sm:py-2 rounded-lg hover:brightness-110 transition-all"
-              >
-                Inicio
-              </Link>
-              <Link
                 to="/calculadora"
-                className="bg-bluetti-cyan text-bluetti-bg font-semibold text-[9px] sm:text-sm px-1.5 sm:px-4 py-1 sm:py-2 rounded-lg hover:brightness-110 transition-all"
+                className="bg-bluetti-lime text-bluetti-bg font-semibold text-[9px] sm:text-sm px-1.5 sm:px-4 py-1 sm:py-2 rounded-lg border border-black hover:brightness-110 transition-all"
               >
                 Calculadora
               </Link>
               <Link
                 to="/simulador-solar"
-                className="bg-bluetti-cyan text-bluetti-bg font-semibold text-[9px] sm:text-sm px-1.5 sm:px-4 py-1 sm:py-2 rounded-lg hover:brightness-110 transition-all"
+                className="bg-bluetti-lime text-bluetti-bg font-semibold text-[9px] sm:text-sm px-1.5 sm:px-4 py-1 sm:py-2 rounded-lg border border-black hover:brightness-110 transition-all"
               >
                 Simulador Solar
               </Link>
@@ -46,6 +46,7 @@ export default function Navbar() {
               )}
             </div>
           </nav>
+          <div className="h-[3px] w-full" style={{ background: 'linear-gradient(to right, #00d4ff, #a3e635)' }} />
         </div>
       </div>
     </div>
