@@ -2,7 +2,7 @@
   {
     "id": "es125x",
     "nombre": "ES125 X",
-    "tagline": "Sistema de Almacenamiento Industrial Todo-en-Uno",
+    "tagline": "Sistema de Almacenamiento Industrial",
     "subtitulo": "Estación de Energía Industrial",
     "descripcion": "Las instalaciones comerciales e industriales enfrentan pérdidas significativas por interrupciones eléctricas y costos elevados por picos de demanda que los sistemas de respaldo tradicionales no resuelven de forma eficiente ni escalable.\nEl ES125X es un sistema de almacenamiento todo-en-uno de 125 kW / 257 kWh por gabinete que integra baterías LFP con gestión térmica por aire, inversor de potencia (PCS), sistema de transferencia estática (STS), BMS y EMS en una única unidad preconfigurada.\nEs escalable hasta 2.057 kWh, opera en rango de temperatura de –25 °C a 55 °C y cumple estándares industriales de seguridad. Recomendado para edificios comerciales, plantas industriales, sitios de telecomunicaciones e infraestructura crítica fuera de la red.",
     "categoria": "Industrial / Comercial",
@@ -66,7 +66,7 @@
   {
     "id": "es60",
     "nombre": "ES60",
-    "tagline": "Sistema de Almacenamiento Industrial Líquido-Refrigerado",
+    "tagline": "Sistema de Almacenamiento Industrial",
     "subtitulo": "Estación de Energía Industrial",
     "descripcion": "Las plantas industriales, comercios de alto consumo y microrredes enfrentan cortes costosos, picos de demanda que disparan la factura y límites de capacidad de red que obligarían a costosas actualizaciones del transformador de la distribuidora.\nEl ES60 es un sistema de almacenamiento todo-en-uno de 60 kW / 128 kWh en gabinete integrado, con refrigeración líquida de grado industrial que mantiene la diferencia de temperatura entre celdas en ≤2,5 °C de –30 °C a 60 °C, e integra PCS, BMS y EMS en una sola unidad con acoplamiento solar DC de hasta 76,8 kW.\nConmuta automáticamente entre red y modo off-grid en menos de 20 ms, escala hasta 6 unidades en paralelo, pesa solo 1,8 toneladas (se instala con zorra manual, sin grúa) y cuenta con doble certificación IP67/IP54 y supresión inteligente de incendios. Recomendado para edificios comerciales, plantas industriales, microrredes e infraestructura crítica que necesitan respaldo y optimización energética a escala.",
     "categoria": "Industrial / Comercial",
@@ -143,7 +143,7 @@
   {
     "id": "rv5",
     "nombre": "RV5",
-    "tagline": "Hub de Energía 5 en 1 para Casas Rodantes y Uso Móvil",
+    "tagline": "Hub de Energía 5 en 1 para Uso Móvil",
     "subtitulo": "Estación de Energía para Vehículos",
     "descripcion": "Convertir un motorhome o van en un hogar rodante autosuficiente implica coordinar múltiples componentes de energía (inversor, controlador solar, cargador de alternador, conversor DC) que generalmente requieren instalación profesional compleja y costosa.\nEl RV5 resuelve esto con un Power Hub 5-en-1 que unifica todos esos componentes en un solo equipo de 5 kW, combinado con la batería LiFePO4 B4810 (51,2 V / 100 Ah = 5,12 kWh), certificación IP65 y pantalla táctil Epad HD para monitoreo completo.\nEl sistema incluye autocalentamiento hasta –20 °C, 100 A de salida DC a 12 V para accesorios de vehículo y una instalación DIY estimada en un día. Ideal para motorhomes, camper vans, botes y cualquier vehículo de vida off-grid.",
     "categoria": "Movilidad / RV / Off-Grid",
