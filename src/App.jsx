@@ -6,6 +6,18 @@ function ScrollToTop() {
   useEffect(() => { window.scrollTo(0, 0) }, [pathname])
   return null
 }
+
+function Banner() {
+  const { pathname } = useLocation()
+  if (pathname !== '/') return null
+  return (
+    <img
+      src="/images/banner catalogo.png"
+      alt="Banner BLUETTI"
+      className="hidden sm:block w-full h-auto"
+    />
+  )
+}
 import { CompareProvider } from './components/CompareContext'
 import { CalculadoraProvider } from './components/CalculadoraContext'
 import Navbar from './components/Navbar'
@@ -34,6 +46,7 @@ export default function App() {
           <ScrollToTop />
           <ScrollProgress />
           <Navbar />
+          <Banner />
           <main className="pb-24">
             <Routes>
               <Route path="/" element={<Catalogo />} />

@@ -1,21 +1,14 @@
-import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useCompare } from './CompareContext'
 
 export default function Navbar() {
   const { selectedIds } = useCompare()
-  const [hovered, setHovered] = useState(false)
 
   return (
-    <div className="sticky top-0 z-40 py-2 pt-4">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div
-          className="rounded-xl p-[3px] transition-all duration-200 hover:scale-[1.03]"
-          style={{ background: 'linear-gradient(to right, #00d4ff, #a3e635)' }}
-          onMouseEnter={() => setHovered(true)}
-          onMouseLeave={() => setHovered(false)}
-        >
-          <nav className="rounded-xl px-6 sm:px-8 h-16 flex items-center justify-between" style={{ background: '#F5F2EC' }}>
+    <div className="sticky top-0 z-40">
+      <div className="w-full">
+        <div>
+          <nav className="px-4 sm:px-8 h-16 flex items-center justify-between" style={{ background: '#FFFFFF' }}>
             <Link to="/" className="flex flex-col sm:flex-row items-center gap-1 sm:gap-6">
               <img src="/images/logo-naval.png" alt="Naval Motor" className="h-4 sm:h-10 object-contain sm:mt-4" />
               <img src="/images/bluetti-logo.png.webp" alt="BLUETTI" className="h-4 sm:h-10 object-contain" />
@@ -30,13 +23,13 @@ export default function Navbar() {
               </Link>
               <Link
                 to="/calculadora"
-                className="bg-bluetti-lime text-bluetti-bg font-semibold text-[9px] sm:text-sm px-1.5 sm:px-4 py-1 sm:py-2 rounded-lg hover:brightness-110 transition-all"
+                className="bg-bluetti-cyan text-bluetti-bg font-semibold text-[9px] sm:text-sm px-1.5 sm:px-4 py-1 sm:py-2 rounded-lg hover:brightness-110 transition-all"
               >
                 Calculadora
               </Link>
               <Link
                 to="/simulador-solar"
-                className="bg-bluetti-lime text-bluetti-bg font-semibold text-[9px] sm:text-sm px-1.5 sm:px-4 py-1 sm:py-2 rounded-lg hover:brightness-110 transition-all"
+                className="bg-bluetti-cyan text-bluetti-bg font-semibold text-[9px] sm:text-sm px-1.5 sm:px-4 py-1 sm:py-2 rounded-lg hover:brightness-110 transition-all"
               >
                 Simulador Solar
               </Link>

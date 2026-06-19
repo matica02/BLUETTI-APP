@@ -1,10 +1,11 @@
 import { useState, useEffect, useRef } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useCompare } from './CompareContext'
 import { CATEGORIA_LABELS, CATEGORIA_COLORS, CATEGORIA_BORDER_COLORS, COLOR_OVERRIDES } from '../data/categorias'
 
 export default function ProductCard({ product }) {
   const { addToCompare, removeFromCompare, isSelected, isFull, canCompare } = useCompare()
+  const navigate = useNavigate()
 
   const label = CATEGORIA_LABELS[product.categoria] ?? product.categoria
   const override = product.color ? COLOR_OVERRIDES[product.color] : null
@@ -53,7 +54,8 @@ export default function ProductCard({ product }) {
     }
   }, [animated])
 
-  function handleCompareClick() {
+  function handleCompareClick(e) {
+    e.stopPropagation()
     if (selected) {
       removeFromCompare(product.id)
     } else {
@@ -66,12 +68,16 @@ export default function ProductCard({ product }) {
 
   return (
     <div
-      className={`bg-white/5 backdrop-blur-sm border rounded-xl overflow-hidden flex flex-col transition-all duration-200 hover:scale-105 hover:z-10 ${
+      className={`bg-white/5 backdrop-blur-sm border rounded-xl overflow-hidden flex flex-col transition-all duration-200 hover:scale-105 hover:z-10 cursor-pointer ${
         selected ? 'border-bluetti-cyan' : 'border-bluetti-border'
       }`}
       style={hovered ? { borderColor: categoryBorderColor } : {}}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
+      onClick={() => navigate(`/producto/${product.id}`)}
+      role="link"
+      tabIndex={0}
+      onKeyDown={e => { if (e.key === 'Enter') navigate(`/producto/${product.id}`) }}
     >
       <div
         className="relative overflow-hidden h-48 sm:h-80"

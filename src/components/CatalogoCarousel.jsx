@@ -90,7 +90,7 @@ export default function CatalogoCarousel() {
     <div
       className="relative w-full rounded-2xl overflow-hidden bg-black transition-transform duration-300 hover:scale-[1.02]"
     >
-      <div className="relative w-full" style={{ aspectRatio: '16/9' }}>
+      <div className="relative w-full" style={{ aspectRatio: '21/9' }}>
         {SLIDES.map((slide, i) => (
           <div key={i} className="absolute inset-0" style={getStyle(i)}>
             {slide.type === 'video' ? (
