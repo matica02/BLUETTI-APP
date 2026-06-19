@@ -37,6 +37,8 @@ export default function ProductoDetalle() {
   const product = products.find(p => p.id === id)
   const { addToCompare, removeFromCompare, isSelected, isFull } = useCompare()
   const allImages = product ? [product.imagen, ...(product.imagenes || [])] : []
+  // escala opcional por imagen (igual que en la card del catálogo)
+  const scaleFor = (img) => product?.imgScales?.[img] ?? (img === product?.imagen ? product?.imgScale : undefined)
   const [selectedImage, setSelectedImage] = useState(0)
   // Reset selected image when product changes
   const [lastId, setLastId] = useState(id)
@@ -100,7 +102,7 @@ export default function ProductoDetalle() {
             <motion.img
               src={`/images/${allImages[selectedImage]}`}
               alt={product.nombre}
-              style={{ y: heroY }}
+              style={{ y: heroY, scale: scaleFor(allImages[selectedImage]) ?? 1 }}
               className="w-full max-h-72 sm:max-h-[480px] object-contain"
               onError={e => { e.target.style.display = 'none' }}
             />

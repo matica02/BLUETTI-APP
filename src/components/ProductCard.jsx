@@ -16,6 +16,8 @@ export default function ProductCard({ product }) {
   const disabled = !selected && (isFull() || !canCompare(product.id))
 
   const allImages = [product.imagen, ...(product.imagenes ?? [])]
+  // escala opcional por imagen (para igualar el tamaño visual del producto entre fotos)
+  const scaleFor = (img) => product.imgScales?.[img] ?? (img === product.imagen ? product.imgScale : undefined)
   const hasMultiple = allImages.length > 1
   // Strip with clone of first image at the end for seamless looping
   const stripImages = hasMultiple ? [...allImages, allImages[0]] : allImages
@@ -101,6 +103,7 @@ export default function ProductCard({ product }) {
                 src={`/images/${img}`}
                 alt={product.nombre}
                 className="max-h-full max-w-full object-contain"
+                style={scaleFor(img) ? { transform: `scale(${scaleFor(img)})` } : undefined}
                 onError={e => { e.target.style.display = 'none' }}
               />
             </div>

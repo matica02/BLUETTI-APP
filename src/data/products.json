@@ -8,6 +8,8 @@
     "categoria": "Industrial / Comercial",
     "tipoRed": "Híbrido",
     "imagen": "es125x.png",
+    "imagenes": ["es125x-2.png"],
+    "imgScales": { "es125x-2.png": 1.6 },
     "perfilUsuario": "Empresas industriales, granjas solares, comercios de alto consumo, edificios comerciales o instalaciones críticas que necesitan respaldo total de energía a escala.",
     "casosDeUso": [
       {
@@ -72,6 +74,8 @@
     "categoria": "Industrial / Comercial",
     "tipoRed": "Híbrido",
     "imagen": "es60.png",
+    "imagenes": ["es60-paralelo.png"],
+    "imgScales": { "es60-paralelo.png": 1.7 },
     "perfilUsuario": "Empresas industriales, comercios de alto consumo, operadores de microrredes, edificios comerciales o instalaciones críticas que necesitan respaldo de energía a escala, gestión de picos de demanda y autoconsumo solar sin tener que ampliar el transformador de la red.",
     "casosDeUso": [
       {
@@ -436,6 +440,8 @@
     "categoria": "Portátil / Compacto",
     "tipoRed": "Off-Grid",
     "imagen": "ac200pl.png",
+    "imagenes": ["ac200pl-frente.png", "ac200pl-arriba.png", "ac200pl-pack.png"],
+    "imgScales": { "ac200pl-frente.png": 1.45, "ac200pl-arriba.png": 1.45, "ac200pl-pack.png": 1.45 },
     "perfilUsuario": "Personas que buscan una solución portátil completa para camping, viajes, trabajo en exteriores o backup básico del hogar. También ideal para pequeños negocios que necesitan energía de respaldo sin instalación permanente.",
     "casosDeUso": [
       {
@@ -501,6 +507,9 @@
     "categoria": "Portátil / Compacto",
     "tipoRed": "Off-Grid",
     "imagen": "ac180p.png",
+    "imgScale": 1.55,
+    "imagenes": ["ac180p-2.png", "ac180p-costado.png"],
+    "imgScales": { "ac180p-2.png": 1.55 },
     "perfilUsuario": "Personas que necesitan una estación portátil de tamaño medio para camping, motorhome, eventos al aire libre o backup doméstico básico. También útil para trabajos remotos, food trucks chicos y filmaciones outdoor donde el ruido y el humo de un generador no son opción.",
     "casosDeUso": [
       {
