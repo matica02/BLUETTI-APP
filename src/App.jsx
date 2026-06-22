@@ -50,37 +50,24 @@ function Banner() {
         ))}
       </div>
 
-      {/* Flechas */}
       <button
         onClick={prev}
-        className="absolute left-3 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full flex items-center justify-center bg-black/40 hover:bg-black/60 transition-colors"
+        className="absolute left-3 top-1/2 -translate-y-1/2 z-10 text-white/40 hover:text-white/80 hover:scale-[2] transition-all"
         aria-label="Anterior"
       >
-        <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+        <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
           <polyline points="15 18 9 12 15 6" />
         </svg>
       </button>
       <button
         onClick={next}
-        className="absolute right-3 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full flex items-center justify-center bg-black/40 hover:bg-black/60 transition-colors"
+        className="absolute right-3 top-1/2 -translate-y-1/2 z-10 text-white/40 hover:text-white/80 hover:scale-[2] transition-all"
         aria-label="Siguiente"
       >
-        <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+        <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
           <polyline points="9 18 15 12 9 6" />
         </svg>
       </button>
-
-      {/* Dots */}
-      <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-2 z-10">
-        {BANNER_IMAGES.map((_, i) => (
-          <button
-            key={i}
-            onClick={() => setCurrent(i)}
-            className={`w-2.5 h-2.5 rounded-full transition-all ${i === current ? 'bg-white scale-125' : 'bg-white/50'}`}
-            aria-label={`Ir a imagen ${i + 1}`}
-          />
-        ))}
-      </div>
     </div>
   )
 }
