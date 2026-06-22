@@ -7,15 +7,82 @@ function ScrollToTop() {
   return null
 }
 
+const BANNER_IMAGES = [
+  '/images/banner-1.jpg',
+  '/images/banner-2.jpg',
+  '/images/banner-3.jpg',
+  '/images/banner-4.jpg',
+  '/images/banner-5.jpg',
+  '/images/banner-6.jpg',
+  '/images/banner-7.jpg',
+  '/images/banner-8.jpg',
+]
+
 function Banner() {
   const { pathname } = useLocation()
+  const [current, setCurrent] = useState(0)
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrent(prev => (prev + 1) % BANNER_IMAGES.length)
+    }, 5000)
+    return () => clearInterval(timer)
+  }, [])
+
   if (pathname !== '/') return null
+
+  const prev = () => setCurrent(i => (i - 1 + BANNER_IMAGES.length) % BANNER_IMAGES.length)
+  const next = () => setCurrent(i => (i + 1) % BANNER_IMAGES.length)
+
   return (
-    <img
-      src="/images/banner catalogo.png"
-      alt="Banner BLUETTI"
-      className="hidden sm:block w-full h-auto"
-    />
+    <div className="relative hidden sm:block w-full overflow-hidden">
+      <div
+        className="flex transition-transform duration-700 ease-in-out"
+        style={{ transform: `translateX(-${current * 100}%)` }}
+      >
+        {BANNER_IMAGES.map((src, i) => (
+          <img
+            key={i}
+            src={src}
+            alt={`Banner BLUETTI ${i + 1}`}
+            className="w-full h-auto flex-shrink-0"
+            style={{ minWidth: '100%' }}
+          />
+        ))}
+      </div>
+
+      {/* Flechas */}
+      <button
+        onClick={prev}
+        className="absolute left-3 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full flex items-center justify-center bg-black/40 hover:bg-black/60 transition-colors"
+        aria-label="Anterior"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+          <polyline points="15 18 9 12 15 6" />
+        </svg>
+      </button>
+      <button
+        onClick={next}
+        className="absolute right-3 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full flex items-center justify-center bg-black/40 hover:bg-black/60 transition-colors"
+        aria-label="Siguiente"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+          <polyline points="9 18 15 12 9 6" />
+        </svg>
+      </button>
+
+      {/* Dots */}
+      <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-2 z-10">
+        {BANNER_IMAGES.map((_, i) => (
+          <button
+            key={i}
+            onClick={() => setCurrent(i)}
+            className={`w-2.5 h-2.5 rounded-full transition-all ${i === current ? 'bg-white scale-125' : 'bg-white/50'}`}
+            aria-label={`Ir a imagen ${i + 1}`}
+          />
+        ))}
+      </div>
+    </div>
   )
 }
 import { CompareProvider } from './components/CompareContext'
