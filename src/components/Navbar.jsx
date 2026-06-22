@@ -16,8 +16,8 @@ export default function Navbar() {
               Inicio
             </Link>
 
-            <Link to="/" className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col sm:flex-row items-center gap-1 sm:gap-6">
-              <img src="/images/logo-naval.png" alt="Naval Motor" className="h-4 sm:h-10 object-contain sm:mt-4" />
+            <Link to="/" className="absolute left-[38%] top-[58%] sm:left-1/2 sm:top-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col sm:flex-row items-center gap-1 sm:gap-6">
+              <img src="/images/logo-naval.png" alt="Naval Motor" className="h-5 sm:h-10 object-contain sm:mt-4" />
             </Link>
 
             <div className="flex items-center gap-1 sm:gap-3">
@@ -31,7 +31,8 @@ export default function Navbar() {
                 to="/simulador-solar"
                 className="bg-bluetti-lime text-bluetti-bg font-semibold text-[9px] sm:text-sm px-1.5 sm:px-4 py-1 sm:py-2 rounded-lg border border-black hover:brightness-110 transition-all"
               >
-                Simulador Solar
+                <span className="sm:hidden">Solar</span>
+                <span className="hidden sm:inline">Simulador Solar</span>
               </Link>
               {selectedIds.length > 0 && (
                 <Link
