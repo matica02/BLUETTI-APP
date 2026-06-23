@@ -3,7 +3,6 @@ const COLORS = [
   '#c084fc', '#38bdf8', '#fb7185', '#34d399', '#a5b4fc',
 ]
 
-const MAX_RINGS = 10
 
 function polar(cx, cy, r, angle) {
   return { x: cx + r * Math.cos(angle), y: cy + r * Math.sin(angle) }
@@ -50,8 +49,7 @@ export default function DayClock({ agregados }) {
   if (!agregados || agregados.length === 0) return null
 
   const groups = groupByName(agregados)
-  const visibleGroups = groups.slice(0, MAX_RINGS)
-  const hiddenCount = groups.length - visibleGroups.length
+  const visibleGroups = groups
 
   const size = 360
   const cx = size / 2
@@ -152,9 +150,6 @@ export default function DayClock({ agregados }) {
             </span>
           </div>
         ))}
-        {hiddenCount > 0 && (
-          <span className="text-xs text-bluetti-cyan/50">+{hiddenCount} más</span>
-        )}
       </div>
     </div>
   )

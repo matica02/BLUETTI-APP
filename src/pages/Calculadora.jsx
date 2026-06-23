@@ -1116,7 +1116,7 @@ export default function Calculadora() {
       surgeActiveItems.map(e => `• ${e.displayName} (${e.watts} W${e.arranqueW ? `, arranca a ${e.arranqueW} W` : ''})`).join('\n')
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div className="w-full px-4 sm:px-6 lg:px-8 py-8">
       <h1 className="text-2xl font-bold text-white mb-2">Calculadora de Autonomía</h1>
       <p className="text-bluetti-cyan text-sm mb-8">
         Seleccioná los equipos que querés alimentar y calculá cuánto tiempo te dura cada modelo BLUETTI.
