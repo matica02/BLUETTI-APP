@@ -88,19 +88,30 @@ function isBase(id, unidades, cantArr) {
 function getConfigBadge(id, unidades, cantArr) {
   if (id === 'ep2000') {
     if (unidades > 1) {
-      return { label: 'Expandido', cls: 'bg-bluetti-lime/10 text-bluetti-lime border border-bluetti-lime/30' }
+      return { label: 'Expandido', cls: 'bg-bluetti-lime/10 text-bluetti-lime border border-bluetti-lime/30', tooltip: null }
     }
     const bats = cantArr[0] ?? 2
-    if (bats <= 3) {
-      return { label: 'Potencia Limitada', cls: 'bg-yellow-400/10 text-yellow-300 border border-yellow-400/30' }
+    if (bats === 2) {
+      return {
+        label: 'Potencia Limitada',
+        cls: 'bg-yellow-400/10 text-yellow-300 border border-yellow-400/30',
+        tooltip: 'Con 2 baterías B700 la potencia máxima es 10.5 kW.\nAgregá 1 batería para subir a 15.5 kW, o 2 para llegar a 20 kW (Configuración Base).',
+      }
+    }
+    if (bats === 3) {
+      return {
+        label: 'Potencia Limitada',
+        cls: 'bg-yellow-400/10 text-yellow-300 border border-yellow-400/30',
+        tooltip: 'Con 3 baterías B700 la potencia máxima es 15.5 kW.\nAgregá 1 batería más para alcanzar los 20 kW (Configuración Base).',
+      }
     }
     if (bats === 4) {
-      return { label: 'Configuración Base', cls: 'bg-bluetti-cyan/10 text-bluetti-cyan border border-bluetti-cyan/30' }
+      return { label: 'Configuración Base', cls: 'bg-bluetti-cyan/10 text-bluetti-cyan border border-bluetti-cyan/30', tooltip: null }
     }
-    return { label: 'Expandido', cls: 'bg-bluetti-lime/10 text-bluetti-lime border border-bluetti-lime/30' }
+    return { label: 'Expandido', cls: 'bg-bluetti-lime/10 text-bluetti-lime border border-bluetti-lime/30', tooltip: null }
   }
   if (isBase(id, unidades, cantArr)) {
-    return { label: 'Configuración Base', cls: 'bg-bluetti-cyan/10 text-bluetti-cyan border border-bluetti-cyan/30' }
+    return { label: 'Configuración Base', cls: 'bg-bluetti-cyan/10 text-bluetti-cyan border border-bluetti-cyan/30', tooltip: null }
   }
   return null
 }
@@ -151,6 +162,7 @@ export default function ExpansionConfigurator({ product }) {
   if (!cfg) return null
 
   const configBadge = getConfigBadge(product.id, unidades, cantBatPorUnidad)
+  const [badgeHovered, setBadgeHovered] = useState(false)
 
   function handleTipoBat(nuevoId) {
     const nuevoTipo = cfg.baterias.tipos.find(t => t.id === nuevoId)
@@ -165,9 +177,20 @@ export default function ExpansionConfigurator({ product }) {
           ⚡ Configurador de Sistema
         </h2>
         {configBadge && (
-          <span className={`text-xs font-bold px-3 py-1 rounded-full ${configBadge.cls}`}>
-            {configBadge.label}
-          </span>
+          <div
+            className="relative"
+            onPointerEnter={() => configBadge.tooltip && setBadgeHovered(true)}
+            onPointerLeave={() => setBadgeHovered(false)}
+          >
+            <span className={`text-xs font-bold px-3 py-1 rounded-full cursor-default ${configBadge.cls}${configBadge.tooltip ? ' underline decoration-dotted underline-offset-2' : ''}`}>
+              {configBadge.label}
+            </span>
+            {badgeHovered && configBadge.tooltip && (
+              <div className="absolute right-0 top-full mt-2 px-3 py-2 bg-bluetti-bg border border-yellow-400/40 rounded text-xs font-medium text-yellow-200 whitespace-pre-line pointer-events-none shadow-lg z-30 w-64 leading-relaxed">
+                {configBadge.tooltip}
+              </div>
+            )}
+          </div>
         )}
       </div>
 
