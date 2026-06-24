@@ -487,9 +487,37 @@ function computeConsumoPerSlot(agregados) {
   )
 }
 
-function simulateAutonomy(capacityKwh, consumoPerSlot, solarPerSlot, maxDays = MAX_SIM_DAYS) {
+function simulateAutonomy(capacityKwh, consumoPerSlot, solarPerSlot, maxDays = MAX_SIM_DAYS, corteSlot = null) {
   if (capacityKwh <= 0) return { autosuficiente: false, horas: 0 }
   const usableCapacity = capacityKwh * DOD_BATERIA
+
+  if (corteSlot !== null) {
+    // Before corte: grid handles consumption, solar still charges battery
+    let soc = usableCapacity
+    for (let s = 0; s < corteSlot && s < SLOTS_PER_DAY; s++) {
+      soc = Math.min(usableCapacity, soc + solarPerSlot[s])
+    }
+    // After corte: battery takes over (single event, grid doesn't return)
+    let hours = 0
+    for (let s = corteSlot; s < SLOTS_PER_DAY; s++) {
+      const consumoDC = consumoPerSlot[s] / EFICIENCIA_INVERSOR
+      soc = Math.max(0, Math.min(usableCapacity, soc + solarPerSlot[s] - consumoDC))
+      hours += SLOT_HOURS
+      if (soc <= 0) return { autosuficiente: false, horas: hours }
+    }
+    for (let day = 1; day < maxDays; day++) {
+      for (let s = 0; s < SLOTS_PER_DAY; s++) {
+        const consumoDC = consumoPerSlot[s] / EFICIENCIA_INVERSOR
+        soc = Math.max(0, Math.min(usableCapacity, soc + solarPerSlot[s] - consumoDC))
+        hours += SLOT_HOURS
+        if (soc <= 0) return { autosuficiente: false, horas: hours }
+      }
+    }
+    const dailySolarC = solarPerSlot.reduce((a, b) => a + b, 0)
+    const dailyConsumoDCC = consumoPerSlot.reduce((a, b) => a + b, 0) / EFICIENCIA_INVERSOR
+    return { autosuficiente: dailySolarC >= dailyConsumoDCC, horas: hours }
+  }
+
   const dailySolar = solarPerSlot.reduce((a, b) => a + b, 0)
   const dailyConsumoAC = consumoPerSlot.reduce((a, b) => a + b, 0)
   const dailyConsumoDC = dailyConsumoAC / EFICIENCIA_INVERSOR
@@ -599,7 +627,7 @@ function HoverTooltip({ content, children, className = '' }) {
   )
 }
 
-function ModelCard({ modelo, totalKwh, totalKw, solarOn, consumoPerSlot, solarPerSlot, config, onChangeConfig }) {
+function ModelCard({ modelo, totalKwh, totalKw, solarOn, consumoPerSlot, solarPerSlot, config, onChangeConfig, corteSlot = null }) {
   const cfg = MODEL_CFG[modelo.id]
   const baseUnidades = cfg.paralelo?.min ?? 1
   const baseBateriasPorUnidad = batMin(cfg, baseUnidades)
@@ -653,13 +681,13 @@ function ModelCard({ modelo, totalKwh, totalKw, solarOn, consumoPerSlot, solarPe
 
   const sinSolar = useMemo(() => {
     if (!consumoPerSlot) return null
-    return simulateAutonomy(kWh, consumoPerSlot, ZERO_SLOTS)
-  }, [kWh, consumoPerSlot])
+    return simulateAutonomy(kWh, consumoPerSlot, ZERO_SLOTS, MAX_SIM_DAYS, corteSlot)
+  }, [kWh, consumoPerSlot, corteSlot])
 
   const conSolar = useMemo(() => {
     if (!solarOn || !consumoPerSlot || !effectiveSolarPerSlot) return null
-    return simulateAutonomy(kWh, consumoPerSlot, effectiveSolarPerSlot)
-  }, [solarOn, consumoPerSlot, effectiveSolarPerSlot, kWh])
+    return simulateAutonomy(kWh, consumoPerSlot, effectiveSolarPerSlot, MAX_SIM_DAYS, corteSlot)
+  }, [solarOn, consumoPerSlot, effectiveSolarPerSlot, kWh, corteSlot])
 
   const sinSolarFmt = sinSolar ? formatDuracion(sinSolar.horas) : null
   const conSolarFmt = conSolar ? formatDuracion(conSolar.horas) : null
@@ -716,7 +744,7 @@ function ModelCard({ modelo, totalKwh, totalKw, solarOn, consumoPerSlot, solarPe
                 {sinSolarFmt?.val}
               </span>
               <span className="text-bluetti-lime text-sm sm:text-base font-semibold">
-                {sinSolarFmt?.unit} de autonomía
+                {corteSlot !== null ? `${sinSolarFmt?.unit} desde el corte` : `${sinSolarFmt?.unit} de autonomía`}
               </span>
             </div>
             <Link
@@ -941,6 +969,8 @@ export default function Calculadora() {
   const [electrosVisibles, setElectrosVisibles] = useState(false)
   const [catalogoVisible, setCatalogoVisible] = useState(false)
   const [perfilActivo, setPerfilActivo] = useState(null)
+  const [corteOn, setCorteOn] = useState(false)
+  const [corteHora, setCorteHora] = useState(18)
 
   const [modelConfigs, setModelConfigs] = useState(() => {
     const initial = {}
@@ -1042,6 +1072,7 @@ export default function Calculadora() {
   const solarPerSlot = useMemo(() => computeSolarPerSlot(dailySolar), [dailySolar])
   const consumoPerSlot = useMemo(() => computeConsumoPerSlot(agregados), [agregados])
   const solarActivo = solarOn && dailySolar > 0
+  const corteSlot = corteOn ? Math.max(0, Math.min(SLOTS_PER_DAY - 1, Math.round(corteHora * 2))) : null
 
   const fsFactor = aplicarFs ? simultaneidad : 1.0
 
@@ -1498,6 +1529,53 @@ export default function Calculadora() {
               </div>
             )}
           </div>
+
+          {/* Corte de luz */}
+          <div className="bg-bluetti-card border border-bluetti-border rounded-xl p-4">
+            <button
+              onClick={() => setCorteOn(v => !v)}
+              className="w-full flex items-center justify-between gap-3"
+            >
+              <div className="flex items-center gap-2 flex-wrap">
+                <span className="text-white text-sm font-semibold">⚡ Corte de luz</span>
+                {corteOn && (
+                  <span className="text-orange-300 text-xs font-semibold">
+                    desde las {corteHora.toString().padStart(2, '0')}:00
+                  </span>
+                )}
+              </div>
+              <span
+                className={`relative inline-block w-10 h-5 rounded-full transition-colors shrink-0 ${
+                  corteOn ? 'bg-orange-400' : 'bg-bluetti-border'
+                }`}
+              >
+                <span
+                  className={`absolute top-0.5 left-0.5 w-4 h-4 rounded-full bg-bluetti-bg transition-transform ${
+                    corteOn ? 'translate-x-5' : 'translate-x-0'
+                  }`}
+                />
+              </span>
+            </button>
+            {corteOn && (
+              <div className="mt-4 pt-4 border-t border-bluetti-border space-y-3">
+                <div className="flex items-center justify-between gap-3">
+                  <span className="text-bluetti-cyan/80 text-xs uppercase tracking-wider">Hora del corte</span>
+                  <select
+                    value={corteHora}
+                    onChange={e => setCorteHora(Number(e.target.value))}
+                    className="bg-black/30 border border-bluetti-border rounded-lg px-3 py-1.5 text-white text-sm focus:outline-none focus:border-bluetti-cyan"
+                  >
+                    {Array.from({ length: 24 }, (_, h) => (
+                      <option key={h} value={h}>{h.toString().padStart(2, '0')}:00</option>
+                    ))}
+                  </select>
+                </div>
+                <p className="text-orange-300/70 text-[11px] leading-snug">
+                  Antes de las {corteHora.toString().padStart(2, '0')}:00 la red abastece el consumo (la batería solo recibe carga solar). Después del corte, la batería toma el control. La autonomía mostrada en cada modelo cuenta desde ese momento.
+                </p>
+              </div>
+            )}
+          </div>
         </div>
       </div>
 
@@ -1514,6 +1592,7 @@ export default function Calculadora() {
                     solarPerSlot={solarPerSlot}
                     solarOn={solarActivo}
                     modelOptions={dayChartModelOptions}
+                    corteHora={corteOn ? corteHora : null}
                   />
                 </div>
                 <DayClock agregados={agregados} />
@@ -1673,6 +1752,7 @@ export default function Calculadora() {
                         solarPerSlot={solarPerSlot}
                         config={modelConfigs[modelo.id]}
                         onChangeConfig={newCfg => updateModelConfig(modelo.id, newCfg)}
+                        corteSlot={corteSlot}
                       />
                     ))
                 })()}

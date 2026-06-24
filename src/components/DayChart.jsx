@@ -1,5 +1,5 @@
 import { useState, useMemo, useEffect } from 'react'
-import { ComposedChart, Area, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, Legend } from 'recharts'
+import { ComposedChart, Area, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, Legend, ReferenceLine } from 'recharts'
 
 const SLOT_HOURS = 0.5
 const EFICIENCIA_INVERSOR = 0.92
@@ -11,7 +11,7 @@ function formatHour(t) {
   return `${h}:${m.toString().padStart(2, '0')}`
 }
 
-export default function DayChart({ consumoPerSlot, solarPerSlot, solarOn, modelOptions = [] }) {
+export default function DayChart({ consumoPerSlot, solarPerSlot, solarOn, modelOptions = [], corteHora = null }) {
   const [selectedModelId, setSelectedModelId] = useState(modelOptions[0]?.id ?? null)
 
   useEffect(() => {
@@ -31,11 +31,13 @@ export default function DayChart({ consumoPerSlot, solarPerSlot, solarOn, modelO
     const capPerSlot = selectedModel
       ? (selectedModel.maxSolarW * SLOT_HOURS) / 1000
       : Infinity
+    const corteSlot = corteHora !== null ? Math.round(corteHora * 2) : null
     let soc = usable
     return consumoPerSlot.map((c, s) => {
       const rawSolar = solarOn ? (solarPerSlot[s] ?? 0) : 0
       const solarEff = Math.min(rawSolar, capPerSlot)
-      const consumoDC = c / EFICIENCIA_INVERSOR
+      // Before corte: grid handles consumption, battery only receives solar
+      const consumoDC = (corteSlot !== null && s < corteSlot) ? 0 : c / EFICIENCIA_INVERSOR
       soc = Math.max(0, Math.min(usable, soc + solarEff - consumoDC))
       const socPct = usable > 0 ? (soc / usable) * 100 : 0
       return {
@@ -45,7 +47,7 @@ export default function DayChart({ consumoPerSlot, solarPerSlot, solarOn, modelO
         socPct,
       }
     })
-  }, [consumoPerSlot, solarPerSlot, solarOn, selectedModel])
+  }, [consumoPerSlot, solarPerSlot, solarOn, selectedModel, corteHora])
 
   return (
     <div className="bg-bluetti-card border border-bluetti-border rounded-xl p-4 sm:p-5 h-full flex flex-col">
@@ -158,6 +160,16 @@ export default function DayChart({ consumoPerSlot, solarPerSlot, solarOn, modelO
                 strokeWidth={2}
                 dot={false}
                 isAnimationActive={false}
+              />
+            )}
+            {corteHora !== null && (
+              <ReferenceLine
+                x={corteHora}
+                yAxisId="left"
+                stroke="#fb923c"
+                strokeWidth={2}
+                strokeDasharray="5 3"
+                label={{ value: `Corte ${corteHora}h`, position: 'insideTopLeft', fill: '#fb923c', fontSize: 10, dy: -2 }}
               />
             )}
           </ComposedChart>
