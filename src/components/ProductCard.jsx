@@ -83,8 +83,6 @@ export default function ProductCard({ product }) {
     >
       <div
         className="relative overflow-hidden h-48 sm:h-80"
-        onMouseEnter={() => { paused.current = true }}
-        onMouseLeave={() => { paused.current = false }}
       >
         <div
           className={animated ? 'flex h-full transition-transform duration-500 ease-in-out' : 'flex h-full'}
