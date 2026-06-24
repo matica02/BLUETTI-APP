@@ -211,6 +211,33 @@ const PERFILES = [
     ],
   },
   {
+    id: 'barco',
+    nombre: 'Barco',
+    items: [
+      { id: 'heladera', cantidad: 1, franjas: [{ inicio: 0, fin: 24, porcentaje: 40 }] },
+      { id: 'freezer', cantidad: 1, franjas: [{ inicio: 0, fin: 24, porcentaje: 35 }] },
+      { id: 'aire', cantidad: 2, franjas: [{ inicio: 10, fin: 22, porcentaje: 65 }] },
+      { id: 'ventilador', cantidad: 2, franjas: [{ inicio: 14, fin: 20, porcentaje: 80 }] },
+      { id: 'bomba', cantidad: 1, franjas: [
+        { inicio: 7, fin: 9, porcentaje: 20 },
+        { inicio: 21, fin: 23, porcentaje: 15 },
+      ] },
+      { id: 'microondas', cantidad: 1, franjas: [
+        { inicio: 12, fin: 13, porcentaje: 12 },
+        { inicio: 20, fin: 21, porcentaje: 12 },
+      ] },
+      { id: 'tv_32', cantidad: 1, franjas: [{ inicio: 19, fin: 23, porcentaje: 100 }] },
+      { id: 'notebook', cantidad: 2, franjas: [{ inicio: 8, fin: 20, porcentaje: 70 }] },
+      { id: 'wifi', cantidad: 1 },
+      { id: 'led', cantidad: 2, franjas: [{ inicio: 19, fin: 24, porcentaje: 100 }] },
+      { id: 'celular', cantidad: 4, franjas: [
+        { inicio: 0, fin: 7, porcentaje: 50 },
+        { inicio: 22, fin: 24, porcentaje: 50 },
+      ] },
+      { id: 'camara', cantidad: 2, franjas: [{ inicio: 0, fin: 24, porcentaje: 100 }] },
+    ],
+  },
+  {
     id: 'comercio',
     nombre: 'Comercio',
     items: [
@@ -922,6 +949,7 @@ export default function Calculadora() {
   const [aplicarFs, setAplicarFs] = useState(false)
   const [electrosVisibles, setElectrosVisibles] = useState(false)
   const [catalogoVisible, setCatalogoVisible] = useState(false)
+  const [perfilActivo, setPerfilActivo] = useState(null)
 
   const [modelConfigs, setModelConfigs] = useState(() => {
     const initial = {}
@@ -1050,7 +1078,8 @@ export default function Calculadora() {
   }, [peak, movilidad, modelConfigs, fsFactor])
 
   function aplicarPerfil(perfil) {
-    setMovilidad(perfil.id === 'motorhome')
+    setMovilidad(perfil.id === 'motorhome' || perfil.id === 'barco')
+    setPerfilActivo(perfil.id)
     const nuevos = []
     perfil.items.forEach(item => {
       const electro = ELECTRODOMESTICOS.find(e => e.id === item.id)
@@ -1128,7 +1157,11 @@ export default function Calculadora() {
           <button
             key={perfil.id}
             onClick={() => aplicarPerfil(perfil)}
-            className="px-4 py-2 rounded-xl border border-bluetti-border text-sm font-medium text-bluetti-cyan/80 hover:border-bluetti-cyan hover:text-bluetti-cyan transition-all"
+            className={`px-4 py-2 rounded-xl border text-sm font-medium transition-all ${
+              perfilActivo === perfil.id
+                ? 'border-bluetti-cyan text-bluetti-cyan bg-bluetti-cyan/10'
+                : 'border-bluetti-border text-bluetti-cyan/80 hover:border-bluetti-cyan hover:text-bluetti-cyan'
+            }`}
           >
             {perfil.nombre}
           </button>
@@ -1277,7 +1310,7 @@ export default function Calculadora() {
               </div>
               {agregados.length > 0 && (
                 <button
-                  onClick={() => { setAgregados([]); setMovilidad(false); setElectrosVisibles(false) }}
+                  onClick={() => { setAgregados([]); setMovilidad(false); setElectrosVisibles(false); setPerfilActivo(null) }}
                   className="px-3 py-1.5 rounded-full text-xs font-semibold border border-red-800 text-red-400 hover:bg-red-900/20 transition-all"
                 >
                   Limpiar
