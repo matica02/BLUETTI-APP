@@ -13,6 +13,7 @@ const modelsWithManual = ['rv5', 'ep2000', 'ep760', 'apex300', 'ac200pl', 'charg
 const modelsWithFlyer = ['rv5', 'ep2000', 'ep760', 'apex300', 'ac200pl', 'es125x', 'es60', 'charger1', 'ac180p', 'b300k', 'b4810', 'b500', 'b700']
 const modelsWithAppManual = ['ep760', 'ep2000']
 const modelsWithInstallGuide = ['ep760', 'ep2000']
+const modelsWithParallelGuide = ['ep2000']
 const modelsWithoutVideo = ['ems', 'es60', 'b300k', 'b4810', 'b500', 'b700']
 
 const installationVideos = {
@@ -326,6 +327,29 @@ export default function ProductoDetalle() {
               Descargar Manual de Usuario
             </a>
             <p className="text-bluetti-cyan/70 text-sm">Archivo PDF · Manual oficial del fabricante</p>
+          </div>
+        </ScrollReveal>
+      )}
+
+      {modelsWithParallelGuide.includes(product.id) && (
+        <ScrollReveal as="section" className="mb-12">
+          <h2 className="text-xl font-bold text-white mb-4">Conexionado en paralelo</h2>
+          <div className="bg-white/5 backdrop-blur-sm border border-bluetti-border rounded-2xl p-6 flex flex-col items-start gap-3">
+            <a
+              href="/pdf/ep2000-paralelo.pdf"
+              download
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-3 border border-bluetti-cyan text-bluetti-cyan font-semibold px-6 py-3 rounded-xl hover:bg-bluetti-cyan hover:text-bluetti-bg transition-all"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                <polyline points="7 10 12 15 17 10" />
+                <line x1="12" y1="15" x2="12" y2="3" />
+              </svg>
+              Descargar Guía de Conexionado en Paralelo
+            </a>
+            <p className="text-bluetti-cyan/70 text-sm">Archivo PDF · Instrucciones de conexionado en paralelo para el EP2000</p>
           </div>
         </ScrollReveal>
       )}

@@ -40,10 +40,6 @@ export default function Catalogo() {
         </button>
       </div>
 
-      <section className="sm:hidden mb-4 relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] w-screen px-4">
-        <CatalogoCarousel />
-      </section>
-
       <div className="flex sm:hidden justify-center mb-4">
         <button
           onClick={() => {
@@ -119,7 +115,7 @@ export default function Catalogo() {
         </>
       )}
 
-      <section className="hidden sm:block mt-14 mb-14 relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] w-screen px-4 sm:px-8">
+      <section className="mt-14 mb-14 relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] w-screen px-4 sm:px-8">
         <CatalogoCarousel />
       </section>
 
