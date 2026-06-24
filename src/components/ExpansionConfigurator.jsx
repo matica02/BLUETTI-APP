@@ -77,12 +77,32 @@ function isBase(id, unidades, cantArr) {
     case 'es125x': return unidades === 1
     case 'es60': return unidades === 1
     case 'rv5': return allEqual(2)
-    case 'ep2000': return unidades === 1 && allEqual(2)
+    case 'ep2000': return unidades === 1 && allEqual(4)
     case 'ep760': return allEqual(2)
     case 'apex300': return unidades === 1 && allEqual(0)
     case 'ac200pl': return allEqual(0)
     default: return true
   }
+}
+
+function getConfigBadge(id, unidades, cantArr) {
+  if (id === 'ep2000') {
+    if (unidades > 1) {
+      return { label: 'Expandido', cls: 'bg-bluetti-lime/10 text-bluetti-lime border border-bluetti-lime/30' }
+    }
+    const bats = cantArr[0] ?? 2
+    if (bats <= 3) {
+      return { label: 'Potencia Limitada', cls: 'bg-yellow-400/10 text-yellow-300 border border-yellow-400/30' }
+    }
+    if (bats === 4) {
+      return { label: 'Configuración Base', cls: 'bg-bluetti-cyan/10 text-bluetti-cyan border border-bluetti-cyan/30' }
+    }
+    return { label: 'Expandido', cls: 'bg-bluetti-lime/10 text-bluetti-lime border border-bluetti-lime/30' }
+  }
+  if (isBase(id, unidades, cantArr)) {
+    return { label: 'Configuración Base', cls: 'bg-bluetti-cyan/10 text-bluetti-cyan border border-bluetti-cyan/30' }
+  }
+  return null
 }
 
 function resolveBatMin(cfg, unidades) {
@@ -130,7 +150,7 @@ export default function ExpansionConfigurator({ product }) {
 
   if (!cfg) return null
 
-  const enBase = isBase(product.id, unidades, cantBatPorUnidad)
+  const configBadge = getConfigBadge(product.id, unidades, cantBatPorUnidad)
 
   function handleTipoBat(nuevoId) {
     const nuevoTipo = cfg.baterias.tipos.find(t => t.id === nuevoId)
@@ -144,9 +164,9 @@ export default function ExpansionConfigurator({ product }) {
         <h2 className="text-xl font-bold text-white flex items-center gap-2">
           ⚡ Configurador de Sistema
         </h2>
-        {enBase && (
-          <span className="text-xs font-bold px-3 py-1 rounded-full bg-bluetti-cyan/10 text-bluetti-cyan border border-bluetti-cyan/30">
-            Configuración Base
+        {configBadge && (
+          <span className={`text-xs font-bold px-3 py-1 rounded-full ${configBadge.cls}`}>
+            {configBadge.label}
           </span>
         )}
       </div>
