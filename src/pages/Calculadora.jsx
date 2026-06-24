@@ -1060,6 +1060,12 @@ export default function Calculadora() {
         if (m.id === 'ep760' && effectiveKw <= 3.8) return false
         return effectiveKw <= maxKwForModel(m.id)
       })
+      .sort((a, b) => {
+        if (!movilidad) return 0
+        if (a.id === 'rv5') return -1
+        if (b.id === 'rv5') return 1
+        return 0
+      })
       .map(m => {
         const { unidades, bateriasPorUnidad } = modelConfigs[m.id]
         const { kWh: capacityKwh } = calcCapacity(m.id, unidades, bateriasPorUnidad)
@@ -1503,6 +1509,7 @@ export default function Calculadora() {
               <div className="space-y-4">
                 <div className="h-[340px]">
                   <DayChart
+                    key={movilidad ? 'mobile' : 'fixed'}
                     consumoPerSlot={consumoPerSlot}
                     solarPerSlot={solarPerSlot}
                     solarOn={solarActivo}
@@ -1648,6 +1655,12 @@ export default function Calculadora() {
                       if (m.id === 'ep2000' && effectiveKw < 7.6) return false
                       if (m.id === 'ep760' && effectiveKw <= 3.8) return false
                       return effectiveKw <= maxKwForModel(m.id)
+                    })
+                    .sort((a, b) => {
+                      if (!movilidad) return 0
+                      if (a.id === 'rv5') return -1
+                      if (b.id === 'rv5') return 1
+                      return 0
                     })
                     .map(modelo => (
                       <ModelCard
