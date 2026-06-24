@@ -6,8 +6,8 @@ import DayClock from '../components/DayClock'
 
 const CATEGORIAS_ELECTRO = [
   { id: 'climatizacion', nombre: 'Climatización', items: [
-    { id: 'aire', nombre: 'Aire acondicionado (split 3000 frigs.)', watts: 900, arranqueW: 2700, franjasDefault: [{ inicio: 12, fin: 22, porcentaje: 60 }] },
-    { id: 'aire_grande', nombre: 'Aire acondicionado (split 5000 frigs.)', watts: 1500, arranqueW: 4500, franjasDefault: [{ inicio: 12, fin: 22, porcentaje: 60 }] },
+    { id: 'aire', nombre: 'Aire acondicionado (split 3000 frigs.)', watts: 900, arranqueW: 1600, franjasDefault: [{ inicio: 12, fin: 22, porcentaje: 60 }] },
+    { id: 'aire_grande', nombre: 'Aire acondicionado (split 5000 frigs.)', watts: 1500, arranqueW: 2500, franjasDefault: [{ inicio: 12, fin: 22, porcentaje: 60 }] },
     { id: 'ventilador', nombre: 'Ventilador de pie', watts: 60, franjasDefault: [{ inicio: 14, fin: 20, porcentaje: 70 }] },
     { id: 'calefactor', nombre: 'Calefactor eléctrico', watts: 1500, franjasDefault: [{ inicio: 18, fin: 23, porcentaje: 80 }] },
   ]},
@@ -200,11 +200,6 @@ const PERFILES = [
         { inicio: 7, fin: 8, porcentaje: 6 },
         { inicio: 20, fin: 21, porcentaje: 6 },
       ] },
-      { id: 'bomba', cantidad: 1, franjas: [
-        { inicio: 9, fin: 10, porcentaje: 5 },
-        { inicio: 13, fin: 14, porcentaje: 5 },
-        { inicio: 20, fin: 22, porcentaje: 5 },
-      ] },
       { id: 'notebook', cantidad: 1, franjas: [{ inicio: 9, fin: 17, porcentaje: 60 }] },
       { id: 'tv_32', cantidad: 1, franjas: [{ inicio: 19, fin: 23, porcentaje: 100 }] },
       { id: 'wifi', cantidad: 1 },
@@ -218,10 +213,6 @@ const PERFILES = [
       { id: 'freezer', cantidad: 1, franjas: [{ inicio: 0, fin: 24, porcentaje: 35 }] },
       { id: 'aire', cantidad: 2, franjas: [{ inicio: 10, fin: 22, porcentaje: 65 }] },
       { id: 'ventilador', cantidad: 2, franjas: [{ inicio: 14, fin: 20, porcentaje: 80 }] },
-      { id: 'bomba', cantidad: 1, franjas: [
-        { inicio: 7, fin: 9, porcentaje: 20 },
-        { inicio: 21, fin: 23, porcentaje: 15 },
-      ] },
       { id: 'microondas', cantidad: 1, franjas: [
         { inicio: 12, fin: 13, porcentaje: 12 },
         { inicio: 20, fin: 21, porcentaje: 12 },
