@@ -1,8 +1,9 @@
+import { useState, useRef } from 'react'
+
 const COLORS = [
   '#22d3ee', '#fde047', '#a3e635', '#fb923c', '#f472b6',
   '#c084fc', '#38bdf8', '#fb7185', '#34d399', '#a5b4fc',
 ]
-
 
 function polar(cx, cy, r, angle) {
   return { x: cx + r * Math.cos(angle), y: cy + r * Math.sin(angle) }
@@ -46,6 +47,10 @@ function groupByName(agregados) {
 }
 
 export default function DayClock({ agregados }) {
+  const [hovered, setHovered] = useState(null)
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 })
+  const containerRef = useRef(null)
+
   if (!agregados || agregados.length === 0) return null
 
   const groups = groupByName(agregados)
@@ -59,8 +64,37 @@ export default function DayClock({ agregados }) {
   const gap = 2
   const ringWidth = (outerR - innerR - gap * (visibleGroups.length - 1)) / visibleGroups.length
 
+  function handlePointerMove(e) {
+    if (!containerRef.current) return
+    const rect = containerRef.current.getBoundingClientRect()
+    setMousePos({ x: e.clientX - rect.left, y: e.clientY - rect.top })
+  }
+
+  // Tooltip content
+  const tt = hovered
+  const ttCantidad = tt ? tt.group.instances.length : 0
+  const ttWattsTotal = tt ? tt.group.watts * ttCantidad * (tt.franja.porcentaje / 100) : 0
+
+  // Clamp tooltip so it doesn't overflow the container
+  const TT_W = 200
+  const TT_H = 96
+  let ttLeft = mousePos.x + 14
+  let ttTop = mousePos.y - 14
+  if (containerRef.current) {
+    const cw = containerRef.current.offsetWidth
+    const ch = containerRef.current.offsetHeight
+    if (ttLeft + TT_W > cw - 4) ttLeft = mousePos.x - TT_W - 10
+    if (ttTop + TT_H > ch - 4) ttTop = mousePos.y - TT_H - 4
+    if (ttTop < 4) ttTop = 4
+    if (ttLeft < 4) ttLeft = 4
+  }
+
   return (
-    <div className="bg-bluetti-card border border-bluetti-border rounded-xl p-4 sm:p-5">
+    <div
+      ref={containerRef}
+      className="bg-bluetti-card border border-bluetti-border rounded-xl p-4 sm:p-5 relative"
+      onPointerMove={handlePointerMove}
+    >
       <h3 className="text-sm font-semibold text-bluetti-cyan uppercase tracking-wider mb-3">
         Reloj de uso 24h
       </h3>
@@ -115,6 +149,8 @@ export default function DayClock({ agregados }) {
               e.franjas
                 .filter(f => f.porcentaje > 0)
                 .map((f, fIdx) => {
+                  const key = `${i}-${instIdx}-${fIdx}`
+                  const isHov = hovered?.key === key
                   const startA = hourToAngle(f.inicio)
                   const endA = f.fin <= f.inicio
                     ? hourToAngle(f.fin + 24)
@@ -122,15 +158,22 @@ export default function DayClock({ agregados }) {
                   const opacity = 0.35 + 0.6 * (f.porcentaje / 100)
                   return (
                     <path
-                      key={`${i}-${instIdx}-${fIdx}`}
+                      key={key}
                       d={arcPath(cx, cy, rIn, rOut, startA, endA)}
                       fill={color}
-                      fillOpacity={opacity}
+                      fillOpacity={isHov ? Math.min(1, opacity + 0.25) : opacity}
                       stroke={color}
-                      strokeWidth={0.5}
-                    >
-                      <title>{g.nombre} · {f.porcentaje}% · {f.inicio}h–{f.fin}h</title>
-                    </path>
+                      strokeWidth={isHov ? 2 : 0.5}
+                      strokeOpacity={isHov ? 0.9 : 1}
+                      style={{
+                        transformOrigin: `${cx}px ${cy}px`,
+                        transform: isHov ? 'scale(1.06)' : 'scale(1)',
+                        transition: 'transform 0.12s ease, fill-opacity 0.1s ease',
+                        cursor: 'pointer',
+                      }}
+                      onPointerEnter={() => setHovered({ key, group: g, instance: e, franja: f, color })}
+                      onPointerLeave={() => setHovered(null)}
+                    />
                   )
                 })
             )
@@ -151,6 +194,32 @@ export default function DayClock({ agregados }) {
           </div>
         ))}
       </div>
+
+      {hovered && (
+        <div
+          className="absolute pointer-events-none z-30 bg-bluetti-bg border rounded-xl px-3 py-2.5 shadow-xl text-xs leading-relaxed"
+          style={{
+            left: ttLeft,
+            top: ttTop,
+            width: TT_W,
+            borderColor: hovered.color + '60',
+          }}
+        >
+          <p className="font-bold mb-1 truncate" style={{ color: hovered.color }}>
+            {hovered.group.nombre}
+            {ttCantidad > 1 && <span className="font-normal text-white/60 ml-1">×{ttCantidad}</span>}
+          </p>
+          <p className="text-white/70">
+            <span className="text-white/90 font-semibold">{hovered.franja.inicio}h – {hovered.franja.fin}h</span>
+            <span className="mx-1.5 text-white/30">·</span>
+            {hovered.franja.porcentaje}% activo
+          </p>
+          <p className="text-white/70 mt-0.5">
+            {hovered.group.watts} W × {ttCantidad} = <span className="text-white/90 font-semibold">{hovered.group.watts * ttCantidad} W</span>
+            <span className="text-white/50 ml-1">(~{ttWattsTotal.toFixed(0)} W promedio)</span>
+          </p>
+        </div>
+      )}
     </div>
   )
 }
