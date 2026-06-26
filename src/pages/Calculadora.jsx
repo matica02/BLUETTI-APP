@@ -211,14 +211,14 @@ const PERFILES = [
     items: [
       { id: 'heladera', cantidad: 1, franjas: [{ inicio: 0, fin: 24, porcentaje: 40 }] },
       { id: 'freezer', cantidad: 1, franjas: [{ inicio: 0, fin: 24, porcentaje: 35 }] },
-      { id: 'aire', cantidad: 2, franjas: [{ inicio: 10, fin: 22, porcentaje: 65 }] },
+      { id: 'aire', cantidad: 1, franjas: [{ inicio: 10, fin: 22, porcentaje: 65 }] },
       { id: 'ventilador', cantidad: 2, franjas: [{ inicio: 14, fin: 20, porcentaje: 80 }] },
       { id: 'microondas', cantidad: 1, franjas: [
         { inicio: 12, fin: 13, porcentaje: 12 },
         { inicio: 20, fin: 21, porcentaje: 12 },
       ] },
       { id: 'tv_32', cantidad: 1, franjas: [{ inicio: 19, fin: 23, porcentaje: 100 }] },
-      { id: 'notebook', cantidad: 2, franjas: [{ inicio: 8, fin: 20, porcentaje: 70 }] },
+      { id: 'notebook', cantidad: 1, franjas: [{ inicio: 8, fin: 20, porcentaje: 70 }] },
       { id: 'wifi', cantidad: 1 },
       { id: 'led', cantidad: 2, franjas: [{ inicio: 19, fin: 24, porcentaje: 100 }] },
       { id: 'celular', cantidad: 4, franjas: [
