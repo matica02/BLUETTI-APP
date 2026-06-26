@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useCallback } from 'react'
 
 const COLORS = [
   '#22d3ee', '#fde047', '#a3e635', '#fb923c', '#f472b6',
@@ -50,6 +50,7 @@ export default function DayClock({ agregados }) {
   const [hovered, setHovered] = useState(null)
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 })
   const containerRef = useRef(null)
+  const leaveTimer = useRef(null)
 
   if (!agregados || agregados.length === 0) return null
 
@@ -59,9 +60,9 @@ export default function DayClock({ agregados }) {
   const size = 360
   const cx = size / 2
   const cy = size / 2
-  const outerR = 145
-  const innerR = 50
-  const gap = 2
+  const outerR = 148
+  const innerR = 44
+  const gap = 1
   const ringWidth = (outerR - innerR - gap * (visibleGroups.length - 1)) / visibleGroups.length
 
   function handlePointerMove(e) {
@@ -69,6 +70,15 @@ export default function DayClock({ agregados }) {
     const rect = containerRef.current.getBoundingClientRect()
     setMousePos({ x: e.clientX - rect.left, y: e.clientY - rect.top })
   }
+
+  const handleEnter = useCallback((data) => {
+    clearTimeout(leaveTimer.current)
+    setHovered(data)
+  }, [])
+
+  const handleLeave = useCallback(() => {
+    leaveTimer.current = setTimeout(() => setHovered(null), 120)
+  }, [])
 
   // Tooltip content
   const tt = hovered
@@ -101,14 +111,14 @@ export default function DayClock({ agregados }) {
 
       <div className="flex justify-center">
         <svg viewBox={`0 0 ${size} ${size}`} className="w-full max-w-[360px]" role="img" aria-label="Reloj de uso 24h">
-          <circle cx={cx} cy={cy} r={outerR + 2} fill="none" stroke="#1e3a52" strokeWidth={1} />
-          <circle cx={cx} cy={cy} r={innerR - 2} fill="none" stroke="#1e3a52" strokeWidth={1} />
+          <circle cx={cx} cy={cy} r={outerR + 3} fill="none" stroke="#1e3a52" strokeWidth={1} />
+          <circle cx={cx} cy={cy} r={innerR - 3} fill="none" stroke="#1e3a52" strokeWidth={1} />
 
           {[0, 3, 6, 9, 12, 15, 18, 21].map(h => {
             const angle = hourToAngle(h)
-            const tickStart = polar(cx, cy, outerR + 2, angle)
-            const tickEnd = polar(cx, cy, outerR + 10, angle)
-            const labelPos = polar(cx, cy, outerR + 22, angle)
+            const tickStart = polar(cx, cy, outerR + 3, angle)
+            const tickEnd = polar(cx, cy, outerR + 11, angle)
+            const labelPos = polar(cx, cy, outerR + 23, angle)
             return (
               <g key={h}>
                 <line
@@ -127,8 +137,8 @@ export default function DayClock({ agregados }) {
 
           {[0, 6, 12, 18].map(h => {
             const angle = hourToAngle(h)
-            const end = polar(cx, cy, outerR + 2, angle)
-            const start = polar(cx, cy, innerR - 2, angle)
+            const end = polar(cx, cy, outerR + 3, angle)
+            const start = polar(cx, cy, innerR - 3, angle)
             return (
               <line
                 key={`grid-${h}`}
@@ -171,8 +181,8 @@ export default function DayClock({ agregados }) {
                         transition: 'transform 0.12s ease, fill-opacity 0.1s ease',
                         cursor: 'pointer',
                       }}
-                      onPointerEnter={() => setHovered({ key, group: g, instance: e, franja: f, color })}
-                      onPointerLeave={() => setHovered(null)}
+                      onPointerEnter={() => handleEnter({ key, group: g, instance: e, franja: f, color })}
+                      onPointerLeave={handleLeave}
                     />
                   )
                 })
