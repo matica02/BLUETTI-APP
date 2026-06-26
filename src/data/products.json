@@ -9,6 +9,7 @@
     "tipoRed": "Híbrido",
     "imagen": "es125x.png",
     "imagenes": ["es125x-2.png"],
+    "imagenesDetalle": ["es125x-aplicacion.webp", "es125x-aplicacion-2.webp", "es125x-aplicacion-3.webp", "es125x-aplicacion-4.webp"],
     "imgScales": { "es125x-2.png": 1.6 },
     "perfilUsuario": "Empresas industriales, granjas solares, comercios de alto consumo, edificios comerciales o instalaciones críticas que necesitan respaldo total de energía a escala.",
     "casosDeUso": [
@@ -75,6 +76,7 @@
     "tipoRed": "Híbrido",
     "imagen": "es60.png",
     "imagenes": ["es60-paralelo.png"],
+    "imagenesDetalle": ["es60-aplicacion.webp", "es60-aplicacion-2.webp", "es60-aplicacion-3.webp"],
     "imgScales": { "es60-paralelo.png": 1.7 },
     "perfilUsuario": "Empresas industriales, comercios de alto consumo, operadores de microrredes, edificios comerciales o instalaciones críticas que necesitan respaldo de energía a escala, gestión de picos de demanda y autoconsumo solar sin tener que ampliar el transformador de la red.",
     "casosDeUso": [
@@ -154,6 +156,7 @@
     "tipoRed": "Off-Grid",
     "imagen": "rv5.png",
     "imagenes": ["b4810.png", "rv5-pack.png"],
+    "imagenesDetalle": ["rv5-aplicacion.jpg", "rv5-aplicacion-2.jpg.webp", "rv5-aplicacion-3.png.webp", "rv5-aplicacion-4.png.webp"],
     "perfilUsuario": "Propietarios de casas rodantes, barcos o cabañas off-grid que quieren un sistema de energía silencioso, eficiente y sin generador. Ideal para quienes quieren independencia total de campings o enchufes.",
     "casosDeUso": [
       {
@@ -226,6 +229,7 @@
     "tipoRed": "Híbrido",
     "imagen": "ep2000.png",
     "imagenes": ["b700.png", "ep2000-pack.png"],
+    "imagenesDetalle": ["ep2000-aplicacion-opt.jpg", "ep2000-aplicacion-2-opt.jpg", "ep2000-aplicacion-3.jpg"],
     "perfilUsuario": "Propietarios de viviendas grandes, villas, pequeñas empresas o granjas con alta demanda eléctrica y sistema trifásico. Ideal para quienes quieren autoconsumo solar total y backup completo de la casa.",
     "casosDeUso": [
       {
@@ -295,6 +299,7 @@
     "tipoRed": "Híbrido",
     "imagen": "ep760.png",
     "imagenes": ["b500.png", "EP760-pack.png"],
+    "imagenesDetalle": ["ep760-aplicacion-opt.jpg", "ep760-aplicacion-2-opt.jpg", "ep760-aplicacion-3-opt.jpg"],
     "perfilUsuario": "Propietarios de viviendas unifamiliares o pequeñas villas en zonas con electricidad monofásica (UK, Europa, Australia) que quieren instalar o ampliar su sistema solar con almacenamiento.",
     "casosDeUso": [
       {

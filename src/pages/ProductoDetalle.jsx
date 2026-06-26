@@ -14,6 +14,23 @@ const modelsWithFlyer = ['rv5', 'ep2000', 'ep760', 'apex300', 'ac200pl', 'es125x
 const modelsWithAppManual = ['ep760', 'ep2000']
 const modelsWithInstallGuide = ['ep760', 'ep2000']
 const modelsWithParallelGuide = ['ep2000']
+
+const MAG_LENS = 280
+const MAG_ZOOM = 2.5
+
+function getImgContentRect(img) {
+  const { naturalWidth, naturalHeight } = img
+  const r = img.getBoundingClientRect()
+  if (!naturalWidth || !naturalHeight) return { left: 0, top: 0, width: r.width, height: r.height }
+  const aspect = naturalWidth / naturalHeight
+  const boxAspect = r.width / r.height
+  if (aspect > boxAspect) {
+    const ih = r.width / aspect
+    return { left: 0, top: (r.height - ih) / 2, width: r.width, height: ih }
+  }
+  const iw = r.height * aspect
+  return { left: (r.width - iw) / 2, top: 0, width: iw, height: r.height }
+}
 const modelsWithoutVideo = ['ems', 'es60', 'b300k', 'b4810', 'b500', 'b700']
 
 const installationVideos = {
@@ -37,7 +54,7 @@ export default function ProductoDetalle() {
   const navigate = useNavigate()
   const product = products.find(p => p.id === id)
   const { addToCompare, removeFromCompare, isSelected, isFull } = useCompare()
-  const allImages = product ? [product.imagen, ...(product.imagenes || [])] : []
+  const allImages = product ? [product.imagen, ...(product.imagenes || []), ...(product.imagenesDetalle || [])] : []
   // escala opcional por imagen (igual que en la card del catálogo)
   const scaleFor = (img) => product?.imgScales?.[img] ?? (img === product?.imagen ? product?.imgScale : undefined)
   const [selectedImage, setSelectedImage] = useState(0)
@@ -54,6 +71,8 @@ export default function ProductoDetalle() {
     offset: ['start end', 'end start'],
   })
   const heroY = useTransform(heroProgress, [0, 1], [-40, 40])
+  const imgRef = useRef(null)
+  const [mag, setMag] = useState(null)
 
   if (!product) {
     return (
@@ -88,6 +107,28 @@ export default function ProductoDetalle() {
     }
   }
 
+  function handleMagMove(e) {
+    const img = imgRef.current
+    if (!img) return
+    const box = img.getBoundingClientRect()
+    const ir = getImgContentRect(img)
+    const mx = e.clientX - box.left - ir.left
+    const my = e.clientY - box.top - ir.top
+    if (mx < 0 || my < 0 || mx > ir.width || my > ir.height) { setMag(null); return }
+    const bgW = ir.width * MAG_ZOOM
+    const bgH = ir.height * MAG_ZOOM
+    setMag({
+      left: e.clientX - MAG_LENS / 2,
+      top: e.clientY - MAG_LENS / 2,
+      bgX: -(mx / ir.width * bgW - MAG_LENS / 2),
+      bgY: -(my / ir.height * bgH - MAG_LENS / 2),
+      bgW,
+      bgH,
+    })
+  }
+
+  function handleMagLeave() { setMag(null) }
+
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <button
@@ -99,12 +140,18 @@ export default function ProductoDetalle() {
 
       <div className="relative grid grid-cols-1 lg:grid-cols-2 gap-10 mb-12">
         <div className="flex flex-col gap-3">
-          <div ref={heroRef} className="relative flex items-center justify-center p-4 min-h-64 sm:min-h-96 overflow-hidden">
+          <div
+            ref={heroRef}
+            className="relative flex items-center justify-center p-4 min-h-64 sm:min-h-96 overflow-hidden"
+            onMouseMove={handleMagMove}
+            onMouseLeave={handleMagLeave}
+          >
             <motion.img
+              ref={imgRef}
               src={`/images/${allImages[selectedImage]}`}
               alt={product.nombre}
               style={{ y: heroY, scale: scaleFor(allImages[selectedImage]) ?? 1 }}
-              className="w-full max-h-72 sm:max-h-[480px] object-contain"
+              className={`w-full max-h-72 sm:max-h-[480px] object-contain ${mag ? 'cursor-none' : 'cursor-crosshair'}`}
               onError={e => { e.target.style.display = 'none' }}
             />
           </div>
@@ -464,6 +511,22 @@ export default function ProductoDetalle() {
         </ScrollReveal>
       )}
 
+      {mag && (
+        <div
+          className="fixed pointer-events-none z-50 rounded-full overflow-hidden border-2 border-white/30 shadow-2xl ring-1 ring-white/10"
+          style={{
+            width: MAG_LENS,
+            height: MAG_LENS,
+            left: mag.left,
+            top: mag.top,
+            backgroundImage: `url(/images/${allImages[selectedImage]})`,
+            backgroundSize: `${mag.bgW}px ${mag.bgH}px`,
+            backgroundPosition: `${mag.bgX}px ${mag.bgY}px`,
+            backgroundRepeat: 'no-repeat',
+            backgroundColor: '#0d1f2d',
+          }}
+        />
+      )}
     </div>
   )
 }
