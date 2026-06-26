@@ -171,16 +171,10 @@ export default function DayClock({ agregados }) {
                       key={key}
                       d={arcPath(cx, cy, rIn, rOut, startA, endA)}
                       fill={color}
-                      fillOpacity={isHov ? Math.min(1, opacity + 0.25) : opacity}
+                      fillOpacity={opacity}
                       stroke={color}
-                      strokeWidth={isHov ? 2 : 0.5}
-                      strokeOpacity={isHov ? 0.9 : 1}
-                      style={{
-                        transformOrigin: `${cx}px ${cy}px`,
-                        transform: isHov ? 'scale(1.06)' : 'scale(1)',
-                        transition: 'transform 0.12s ease, fill-opacity 0.1s ease',
-                        cursor: 'pointer',
-                      }}
+                      strokeWidth={0.5}
+                      style={{ cursor: 'pointer' }}
                       onPointerEnter={() => handleEnter({ key, group: g, instance: e, franja: f, color })}
                       onPointerLeave={handleLeave}
                     />
