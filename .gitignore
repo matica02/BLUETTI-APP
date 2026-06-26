@@ -34,3 +34,4 @@ public/videos/
 # Netlify
 .netlify/
 .playwright-mcp/
+.claude-flow/

@@ -17,7 +17,7 @@ export default function ProductCard({ product }) {
 
   const allImages = [product.imagen, ...(product.imagenes ?? [])]
   // escala opcional por imagen (para igualar el tamaño visual del producto entre fotos)
-  const scaleFor = (img) => product.imgScales?.[img] ?? (img === product.imagen ? product.imgScale : undefined)
+  const scaleFor = (img) => product.imgScales?.[img] ?? product.imgScale
   const hasMultiple = allImages.length > 1
   // Strip with clone of first image at the end for seamless looping
   const stripImages = hasMultiple ? [...allImages, allImages[0]] : allImages

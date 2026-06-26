@@ -514,7 +514,7 @@
     "imagen": "ac180p.png",
     "imgScale": 1.55,
     "imagenes": ["ac180p-2.png", "ac180p-costado.png"],
-    "imgScales": { "ac180p-2.png": 1.55 },
+    "imgScales": { "ac180p-2.png": 1.55, "ac180p-costado.png": 1.0 },
     "perfilUsuario": "Personas que necesitan una estación portátil de tamaño medio para camping, motorhome, eventos al aire libre o backup doméstico básico. También útil para trabajos remotos, food trucks chicos y filmaciones outdoor donde el ruido y el humo de un generador no son opción.",
     "casosDeUso": [
       {
