@@ -110,7 +110,7 @@ export default function DayClock({ agregados }) {
       </h3>
 
       <div className="flex justify-center">
-        <svg viewBox={`0 0 ${size} ${size}`} className="w-full max-w-[480px]" role="img" aria-label="Reloj de uso 24h">
+        <svg viewBox={`0 0 ${size} ${size}`} className="w-full max-w-[560px]" role="img" aria-label="Reloj de uso 24h">
           <circle cx={cx} cy={cy} r={outerR + 3} fill="none" stroke="#1e3a52" strokeWidth={1} />
           <circle cx={cx} cy={cy} r={innerR - 3} fill="none" stroke="#1e3a52" strokeWidth={1} />
 
@@ -188,16 +188,6 @@ export default function DayClock({ agregados }) {
         </svg>
       </div>
 
-      <div className="flex flex-wrap gap-x-3 gap-y-1.5 mt-3">
-        {visibleGroups.map((g, i) => (
-          <div key={g.nombre} className="flex items-center gap-1.5">
-            <span className="w-2.5 h-2.5 rounded-full shrink-0" style={{ backgroundColor: COLORS[i % COLORS.length] }} />
-            <span className="text-xs text-bluetti-cyan/80 truncate max-w-[140px]" title={g.nombre}>
-              {g.nombre}
-            </span>
-          </div>
-        ))}
-      </div>
 
       {hovered && (
         <div
