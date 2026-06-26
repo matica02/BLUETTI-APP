@@ -159,6 +159,7 @@ const PERFILES = [
       ] },
       { id: 'lavarropas', cantidad: 1, franjas: [{ inicio: 10, fin: 12, porcentaje: 25 }] },
       { id: 'notebook', cantidad: 1, franjas: [{ inicio: 9, fin: 18, porcentaje: 70 }] },
+      { id: 'aire', cantidad: 1, franjas: [{ inicio: 13, fin: 23, porcentaje: 60 }] },
     ],
   },
   {
@@ -212,7 +213,7 @@ const PERFILES = [
       { id: 'heladera', cantidad: 1, franjas: [{ inicio: 0, fin: 24, porcentaje: 40 }] },
       { id: 'freezer', cantidad: 1, franjas: [{ inicio: 0, fin: 24, porcentaje: 35 }] },
       { id: 'aire', cantidad: 1, franjas: [{ inicio: 10, fin: 22, porcentaje: 65 }] },
-      { id: 'ventilador', cantidad: 2, franjas: [{ inicio: 14, fin: 20, porcentaje: 80 }] },
+      { id: 'ventilador', cantidad: 1, franjas: [{ inicio: 14, fin: 20, porcentaje: 80 }] },
       { id: 'microondas', cantidad: 1, franjas: [
         { inicio: 12, fin: 13, porcentaje: 12 },
         { inicio: 20, fin: 21, porcentaje: 12 },
@@ -221,11 +222,10 @@ const PERFILES = [
       { id: 'notebook', cantidad: 1, franjas: [{ inicio: 8, fin: 20, porcentaje: 70 }] },
       { id: 'wifi', cantidad: 1 },
       { id: 'led', cantidad: 2, franjas: [{ inicio: 19, fin: 24, porcentaje: 100 }] },
-      { id: 'celular', cantidad: 4, franjas: [
+      { id: 'celular', cantidad: 3, franjas: [
         { inicio: 0, fin: 7, porcentaje: 50 },
         { inicio: 22, fin: 24, porcentaje: 50 },
       ] },
-      { id: 'camara', cantidad: 2, franjas: [{ inicio: 0, fin: 24, porcentaje: 100 }] },
     ],
   },
   {
@@ -282,13 +282,12 @@ const PERFILES = [
     id: 'industrial',
     nombre: 'Industrial',
     items: [
-      { id: 'compresor_20hp', cantidad: 1, franjas: [{ inicio: 7, fin: 19, porcentaje: 55 }] },
-      { id: 'compresor_10hp', cantidad: 1, franjas: [{ inicio: 7, fin: 19, porcentaje: 55 }] },
-      { id: 'soldadora_mig', cantidad: 3, franjas: [{ inicio: 8, fin: 17, porcentaje: 35 }] },
-      { id: 'torno_industrial', cantidad: 2, franjas: [{ inicio: 8, fin: 17, porcentaje: 50 }] },
-      { id: 'fresadora_cnc', cantidad: 2, franjas: [{ inicio: 8, fin: 17, porcentaje: 50 }] },
-      { id: 'motor_trifasico', cantidad: 2, franjas: [{ inicio: 7, fin: 19, porcentaje: 70 }] },
-      { id: 'iluminacion_galpon', cantidad: 5, franjas: [{ inicio: 7, fin: 22, porcentaje: 100 }] },
+      { id: 'compresor_20hp', cantidad: 1, franjas: [{ inicio: 7, fin: 19, porcentaje: 45 }] },
+      { id: 'soldadora_mig', cantidad: 2, franjas: [{ inicio: 8, fin: 17, porcentaje: 35 }] },
+      { id: 'torno_industrial', cantidad: 1, franjas: [{ inicio: 8, fin: 17, porcentaje: 50 }] },
+      { id: 'fresadora_cnc', cantidad: 1, franjas: [{ inicio: 8, fin: 17, porcentaje: 50 }] },
+      { id: 'motor_trifasico', cantidad: 1, franjas: [{ inicio: 7, fin: 19, porcentaje: 70 }] },
+      { id: 'iluminacion_galpon', cantidad: 2, franjas: [{ inicio: 7, fin: 22, porcentaje: 100 }] },
       { id: 'extractor_industrial', cantidad: 1, franjas: [{ inicio: 7, fin: 19, porcentaje: 80 }] },
     ],
   },
@@ -374,6 +373,12 @@ function formatDuracion(hours) {
   if (hours >= maxHours) return { val: `${MAX_SIM_DAYS}+`, unit: 'días' }
   if (hours >= 24) return { val: (hours / 24).toFixed(1), unit: 'días' }
   return { val: hours.toFixed(1), unit: 'hs' }
+}
+
+function formatClock(totalHoras) {
+  const h = Math.floor(totalHoras) % 24
+  const m = Math.round((totalHoras % 1) * 60)
+  return `${h}:${m.toString().padStart(2, '0')}`
 }
 
 function formatTime(t) {
@@ -528,7 +533,7 @@ function simulateAutonomy(capacityKwh, consumoPerSlot, solarPerSlot, maxDays = M
   for (let day = 0; day < maxDays; day++) {
     for (let s = 0; s < SLOTS_PER_DAY; s++) {
       const consumoDC = consumoPerSlot[s] / EFICIENCIA_INVERSOR
-      soc = Math.min(usableCapacity, soc + solarPerSlot[s] - consumoDC)
+      soc = Math.max(0, Math.min(usableCapacity, soc + solarPerSlot[s] - consumoDC))
       hours += SLOT_HOURS
       if (soc <= 0) return { autosuficiente: false, horas: hours }
     }
@@ -691,6 +696,9 @@ function ModelCard({ modelo, totalKwh, totalKw, solarOn, consumoPerSlot, solarPe
 
   const sinSolarFmt = sinSolar ? formatDuracion(sinSolar.horas) : null
   const conSolarFmt = conSolar ? formatDuracion(conSolar.horas) : null
+  const corteHora = corteSlot !== null ? corteSlot * SLOT_HOURS : 0
+  const sinUntilH = sinSolar && sinSolar.horas < 24 ? (corteHora + sinSolar.horas - SLOT_HOURS + 24) % 24 : null
+  const conUntilH = conSolar && !conSolar.autosuficiente && conSolar.horas < 24 ? (corteHora + conSolar.horas - SLOT_HOURS + 24) % 24 : null
 
   return (
     <div className={`rounded-xl border ${styles.border} ${styles.bg} px-3 sm:px-5 py-3 sm:py-4`}>
@@ -740,12 +748,17 @@ function ModelCard({ modelo, totalKwh, totalKw, solarOn, consumoPerSlot, solarPe
         <div className="space-y-1">
           <div className="flex items-center justify-between gap-2 flex-wrap">
             <div className="flex items-baseline gap-1.5">
-              <span className="text-bluetti-lime text-2xl sm:text-3xl font-bold leading-none">
-                {sinSolarFmt?.val}
-              </span>
-              <span className="text-bluetti-lime text-sm sm:text-base font-semibold">
-                {corteSlot !== null ? `${sinSolarFmt?.unit} desde el corte` : `${sinSolarFmt?.unit} de autonomía`}
-              </span>
+              {sinUntilH !== null ? (
+                <span className="text-bluetti-lime text-sm sm:text-base font-semibold leading-snug">
+                  {corteSlot !== null ? 'Autonomía desde el corte hasta las' : 'Autonomía hasta las'}{' '}
+                  <span className="text-2xl sm:text-3xl font-bold">{formatClock(sinUntilH)}</span>
+                </span>
+              ) : (
+                <>
+                  <span className="text-bluetti-lime text-2xl sm:text-3xl font-bold leading-none">{sinSolarFmt?.val}</span>
+                  <span className="text-bluetti-lime text-sm sm:text-base font-semibold">{sinSolarFmt?.unit} de autonomía</span>
+                </>
+              )}
             </div>
             <Link
               to={`/producto/${modelo.id}`}
@@ -766,7 +779,9 @@ function ModelCard({ modelo, totalKwh, totalKw, solarOn, consumoPerSlot, solarPe
                 <div className="flex items-baseline gap-1.5 mt-1 flex-wrap">
                   <span className="text-yellow-200/90 text-sm sm:text-base font-semibold">☀ Con solar:</span>
                   <span className="text-yellow-300 text-sm sm:text-base font-bold">
-                    {conSolarFmt?.val} {conSolarFmt?.unit}
+                    {conUntilH !== null
+                      ? `hasta las ${formatClock(conUntilH)}`
+                      : `${conSolarFmt?.val} ${conSolarFmt?.unit}`}
                   </span>
                 </div>
               )}
