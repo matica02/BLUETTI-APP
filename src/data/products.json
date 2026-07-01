@@ -8,9 +8,9 @@
     "categoria": "Industrial / Comercial",
     "tipoRed": "Híbrido",
     "imagen": "es125x.png",
-    "imagenes": ["es125x-2.png"],
+    "imagenes": [],
     "imagenesDetalle": ["es125x-aplicacion.webp", "es125x-aplicacion-2.webp", "es125x-aplicacion-3.webp", "es125x-aplicacion-4.webp"],
-    "imgScales": { "es125x-2.png": 1.6 },
+    "imgScales": {},
     "perfilUsuario": "Empresas industriales, granjas solares, comercios de alto consumo, edificios comerciales o instalaciones críticas que necesitan respaldo total de energía a escala.",
     "casosDeUso": [
       {
@@ -75,9 +75,9 @@
     "categoria": "Industrial / Comercial",
     "tipoRed": "Híbrido",
     "imagen": "es60.png",
-    "imagenes": ["es60-paralelo.png"],
+    "imagenes": [],
     "imagenesDetalle": ["es60-aplicacion.webp", "es60-aplicacion-2.webp", "es60-aplicacion-3.webp"],
-    "imgScales": { "es60-paralelo.png": 1.7 },
+    "imgScales": {},
     "perfilUsuario": "Empresas industriales, comercios de alto consumo, operadores de microrredes, edificios comerciales o instalaciones críticas que necesitan respaldo de energía a escala, gestión de picos de demanda y autoconsumo solar sin tener que ampliar el transformador de la red.",
     "casosDeUso": [
       {
