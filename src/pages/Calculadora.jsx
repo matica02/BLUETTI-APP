@@ -1213,7 +1213,7 @@ export default function Calculadora() {
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         {/* Columna izquierda */}
-        <div className="lg:col-span-6">
+        <div className="lg:col-span-6 bg-black/40 backdrop-blur-sm rounded-2xl p-4">
           <div className="flex items-center mb-4 min-h-[30px]">
             <h2 className="text-sm font-semibold text-bluetti-cyan uppercase tracking-wider">
               Equipos disponibles
@@ -1320,7 +1320,7 @@ export default function Calculadora() {
         </div>
 
         {/* Columna derecha — Mi instalación */}
-        <div className="lg:col-span-6 space-y-6">
+        <div className="lg:col-span-6 space-y-6 bg-black/40 backdrop-blur-sm rounded-2xl p-4">
           <div>
             <div className="flex items-center justify-between mb-4 gap-3 flex-wrap">
               <div className="flex items-center gap-3 flex-wrap">
@@ -1597,7 +1597,7 @@ export default function Calculadora() {
       {/* Fila inferior: gráficos + resultados, alineados al desplegar las listas */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mt-8">
           {/* Gráficos */}
-          <div className="lg:col-span-6">
+          <div className="lg:col-span-6 bg-black/40 backdrop-blur-sm rounded-2xl p-4">
             {totalKwh > 0 && (
               <div className="space-y-4">
                 <div className="h-[340px]">
@@ -1616,7 +1616,7 @@ export default function Calculadora() {
           </div>
 
           {/* Resultados de la instalación */}
-          <div className="lg:col-span-6 space-y-6">
+          <div className="lg:col-span-6 space-y-6 bg-black/40 backdrop-blur-sm rounded-2xl p-4">
 
           {/* Panel de resultados */}
           <div className="bg-bluetti-card border border-bluetti-border rounded-xl p-4 sm:p-5">

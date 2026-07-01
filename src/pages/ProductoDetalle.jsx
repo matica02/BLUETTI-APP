@@ -358,7 +358,7 @@ export default function ProductoDetalle() {
       {modelsWithManual.includes(product.id) && (
         <ScrollReveal as="section" className="mb-12">
           <h2 className="text-xl font-bold text-white mb-4">Manual de Usuario</h2>
-          <div className="bg-white/5 backdrop-blur-sm border border-bluetti-border rounded-2xl p-6 flex flex-col items-start gap-3">
+          <div className="bg-transparent rounded-2xl p-6 flex flex-col items-start gap-3">
             <a
               href={`/pdf/${product.id}.pdf`}
               download
@@ -381,7 +381,7 @@ export default function ProductoDetalle() {
       {modelsWithParallelGuide.includes(product.id) && (
         <ScrollReveal as="section" className="mb-12">
           <h2 className="text-xl font-bold text-white mb-4">Conexionado en paralelo</h2>
-          <div className="bg-white/5 backdrop-blur-sm border border-bluetti-border rounded-2xl p-6 flex flex-col items-start gap-3">
+          <div className="bg-transparent rounded-2xl p-6 flex flex-col items-start gap-3">
             <a
               href="/pdf/ep2000-paralelo.pdf"
               download
@@ -404,7 +404,7 @@ export default function ProductoDetalle() {
       {modelsWithFlyer.includes(product.id) && (
         <ScrollReveal as="section" className="mb-12">
           <h2 className="text-xl font-bold text-white mb-4">Flyer / Datasheet</h2>
-          <div className="bg-white/5 backdrop-blur-sm border border-bluetti-border rounded-2xl p-6 flex flex-col items-start gap-3">
+          <div className="bg-transparent rounded-2xl p-6 flex flex-col items-start gap-3">
             <a
               href={`/flyer/${product.id}.pdf`}
               download
@@ -427,7 +427,7 @@ export default function ProductoDetalle() {
       {modelsWithAppManual.includes(product.id) && (
         <ScrollReveal as="section" className="mb-12">
           <h2 className="text-xl font-bold text-white mb-4">Manual para APP Bluetti</h2>
-          <div className="bg-white/5 backdrop-blur-sm border border-bluetti-border rounded-2xl p-6 flex flex-col items-start gap-3">
+          <div className="bg-transparent rounded-2xl p-6 flex flex-col items-start gap-3">
             <a
               href={`/pdf/${product.id}-app.pdf`}
               download
@@ -450,7 +450,7 @@ export default function ProductoDetalle() {
       {modelsWithInstallGuide.includes(product.id) && (
         <ScrollReveal as="section" className="mb-12">
           <h2 className="text-xl font-bold text-white mb-4">Guía de Instalación</h2>
-          <div className="bg-white/5 backdrop-blur-sm border border-bluetti-border rounded-2xl p-6 flex flex-col items-start gap-3">
+          <div className="bg-transparent rounded-2xl p-6 flex flex-col items-start gap-3">
             <a
               href={`/pdf/${product.id}-guia.pdf`}
               download

@@ -74,6 +74,7 @@ function Banner() {
 }
 import { CompareProvider } from './components/CompareContext'
 import { CalculadoraProvider } from './components/CalculadoraContext'
+import ParticleBackground from './components/ParticleBackground'
 import Navbar from './components/Navbar'
 import CompareBar from './components/CompareBar'
 import ScrollProgress from './components/ScrollProgress'
@@ -97,6 +98,7 @@ export default function App() {
       <CompareProvider>
         <CalculadoraProvider>
         <div className="min-h-screen text-white">
+          <ParticleBackground />
           <ScrollToTop />
           <ScrollProgress />
           <Navbar />

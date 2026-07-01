@@ -70,7 +70,7 @@ export default function ProductCard({ product }) {
 
   return (
     <div
-      className={`bg-white/5 backdrop-blur-sm border rounded-xl overflow-hidden flex flex-col transition-all duration-200 hover:scale-105 hover:z-10 cursor-pointer ${
+      className={`bg-transparent border rounded-xl overflow-hidden flex flex-col transition-all duration-200 hover:scale-105 hover:z-10 cursor-pointer ${
         selected ? 'border-bluetti-cyan' : 'border-bluetti-border'
       }`}
       style={hovered ? { borderColor: categoryBorderColor } : {}}
