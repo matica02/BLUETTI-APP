@@ -103,7 +103,7 @@ export default function App() {
           <ScrollProgress />
           <Navbar />
           <Banner />
-          <main className="pb-24">
+          <main className="relative z-10 pb-24">
             <Routes>
               <Route path="/" element={<Catalogo />} />
               <Route path="/producto/:id" element={<ProductoDetalle />} />
