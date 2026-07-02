@@ -135,6 +135,7 @@ export default function ProductCard({ product }) {
         <div className="flex gap-2 mt-auto">
           <Link
             to={`/producto/${product.id}`}
+            onClick={e => e.stopPropagation()}
             className="flex-1 text-center text-bluetti-bg font-semibold text-sm py-2 rounded-lg hover:brightness-110 transition-all"
             style={{ backgroundColor: categoryBorderColor }}
           >

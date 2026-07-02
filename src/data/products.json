@@ -701,6 +701,10 @@
       "Certificación IP65 y rango de operación de -20°C a 60°C para instalación interior o exterior",
       "Compatible con los sistemas de almacenamiento residenciales BLUETTI EP900, EP800, EP760 y EP2000"
     ],
+    "equipoCompatible": [
+      { "nombre": "EP2000", "id": "ep2000" },
+      { "nombre": "EP760", "id": "ep760" }
+    ],
     "accesoriosCompatibles": []
   },
   {
