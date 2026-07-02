@@ -8,7 +8,7 @@ export default function Navbar() {
     <div className="sticky top-0 z-40">
       <div className="w-full">
         <div>
-          <nav className="relative px-4 sm:px-8 h-16 flex items-center justify-between" style={{ background: '#FFFFFF' }}>
+          <nav className="relative px-4 sm:px-8 h-16 flex items-center justify-between bg-white/60 backdrop-blur-md">
             <Link
               to="/"
               className="bg-bluetti-cyan text-bluetti-bg font-semibold text-[9px] sm:text-sm px-1.5 sm:px-4 py-1 sm:py-2 rounded-lg border border-black hover:brightness-110 transition-all"

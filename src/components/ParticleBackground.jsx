@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react'
 
-const PARTICLE_COUNT = 280
+const PARTICLE_COUNT = 500
 const MAX_DIST = 130
 const SPEED = 0.4
 

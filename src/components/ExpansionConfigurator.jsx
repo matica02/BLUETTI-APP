@@ -158,11 +158,11 @@ export default function ExpansionConfigurator({ product }) {
     () => cfg ? calcTotals(product.id, unidades, cantBatPorUnidad, tipoSel?.kWh ?? 0) : { kWh: 0, kW: 0 },
     [cfg, product.id, unidades, cantBatPorUnidad, tipoSel]
   )
+  const [badgeHovered, setBadgeHovered] = useState(false)
 
   if (!cfg) return null
 
   const configBadge = getConfigBadge(product.id, unidades, cantBatPorUnidad)
-  const [badgeHovered, setBadgeHovered] = useState(false)
 
   function handleTipoBat(nuevoId) {
     const nuevoTipo = cfg.baterias.tipos.find(t => t.id === nuevoId)
