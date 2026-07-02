@@ -23,7 +23,7 @@ export function ScrollReveal({ children, className, as: As = 'div', delay = 0 })
       className={className}
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: false, margin: '-50px' }}
+      viewport={{ once: true, margin: '-50px' }}
       transition={{ duration: 0.9, ease: 'easeOut', delay }}
     >
       {children}
@@ -37,7 +37,7 @@ export function StaggerGroup({ children, className }) {
       className={className}
       initial="hidden"
       whileInView="visible"
-      viewport={{ once: false, margin: '-50px' }}
+      viewport={{ once: true, margin: '-50px' }}
       variants={containerVariants}
     >
       {children}

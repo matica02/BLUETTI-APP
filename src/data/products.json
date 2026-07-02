@@ -583,6 +583,149 @@
     ]
   },
   {
+    "id": "elite300",
+    "comingSoon": true,
+    "nombre": "Elite 300",
+    "tagline": "Estación de Energía Portátil Compacta",
+    "subtitulo": "Potencia y autonomía para el hogar y la ruta",
+    "descripcion": "Cuando un corte de luz se extiende varias horas o un viaje te aleja de la red eléctrica, la energía de un power bank o la cigarrera del auto se queda corta — necesitás algo capaz de sostener heladera, herramientas o electrodomésticos por horas, no minutos.\nEl BLUETTI Elite 300 es una estación portátil de 3.014,4 Wh con batería LiFePO₄ de 6.000+ ciclos, potencia continua de 2.400 W (pico de 4.800 W) y salida AC de onda sinusoidal pura. Carga pasante para usarla como UPS con conmutación ≤10 ms, entrada solar de hasta 1.200 W para recarga full off-grid en poco más de 4 horas, y control completo por Bluetooth y WiFi desde la app BLUETTI.\nSus salidas incluyen 2 tomas AC de 230V, USB-C de hasta 140 W, USB-A, puerto de 12V/30A y encendedor de 120 W — suficiente para notebooks, herramientas eléctricas, heladeras y equipos de trabajo remoto a la vez. Con 26,3 kg y 366×305×297,5 mm, es fácil de trasladar entre el hogar, el motorhome o el lugar de trabajo. Ideal para backup doméstico de mediana potencia, camping, obra y viajes largos.",
+    "categoria": "Portátil / Compacto",
+    "tipoRed": "Off-Grid",
+    "imagen": "elite300.png",
+    "imagenes": ["elite300-2.png", "elite300-3.png"],
+    "imagenesDetalle": ["elite300-aplicacion.jpg", "elite300-aplicacion-2.jpg", "elite300-aplicacion-3.jpg"],
+    "perfilUsuario": "Personas que necesitan una estación portátil de mayor capacidad que una compacta básica, para respaldo doméstico de mediana potencia, motorhome, obra o trabajo remoto, sin llegar a un sistema residencial fijo.",
+    "casosDeUso": [
+      {
+        "etiqueta": "Backup Hogareño",
+        "descripcion": "Carga pasante y UPS con conmutación ≤10 ms — protege heladera, WiFi y electrónica sensible durante cortes de luz."
+      },
+      {
+        "etiqueta": "Camping / Motorhome",
+        "descripcion": "3.014 Wh de capacidad y 2.400 W continuos alimentan aire acondicionado chico, heladera portátil y electrónica varios días."
+      },
+      {
+        "etiqueta": "Herramientas y Obra",
+        "descripcion": "Pico de 4.800 W soporta herramientas eléctricas y equipos de arranque exigente en obra o taller móvil."
+      },
+      {
+        "etiqueta": "Trabajo Remoto",
+        "descripcion": "Notebooks, monitores y equipos de filmación cubiertos con salidas USB-C de 100 W y 140 W simultáneas."
+      },
+      {
+        "etiqueta": "Autoconsumo Solar",
+        "descripcion": "Entrada solar de hasta 1.200 W — recarga completa en aproximadamente 4,1 horas de sol pleno."
+      }
+    ],
+    "specs": {
+      "capacidadBateria": "3.014,4 Wh (314 Ah)",
+      "tipoBateria": "LiFePO4 (litio hierro fosfato)",
+      "ciclosVida": "6,000+",
+      "potenciaPico": "4.800 W",
+      "tipoInversor": "4.800 W",
+      "potenciaSalidaAC": "2.400 W Max., 230 V, 50/60 Hz",
+      "salidaACBypass": "2.300 W Max., 230 V, 50/60 Hz",
+      "puertosSalida": "2× tomas AC estándar, 1× 12V/30A, 1× USB-C 100W, 1× USB-C 140W, 2× USB-A 15W, 1× encendedor 120W máx.",
+      "entradaAC": "2.300 W, 10 A Max., 230 V, 50/60 Hz",
+      "entradaACDC": "2.400 W Max.",
+      "entradaSolarMax": "1.200 W máx. (4,1 h a 100%)",
+      "entradaDC": "1.200 W máx., 12–60 V, 22 A (conector XT60)",
+      "peso": "26,3 kg",
+      "dimensiones": "366 × 305 × 297,5 mm",
+      "temperaturaCarga": "0°C a 40°C",
+      "temperaturaDescarga": "-20°C a 40°C",
+      "switchoverUPS": "≤10 ms",
+      "conectividad": "Bluetooth y WiFi",
+      "cargaPasante": true,
+      "garantia": "5 años"
+    },
+    "highlights": [
+      "Batería LiFePO4 de 3.014,4 Wh con 6.000+ ciclos hasta 80% de capacidad",
+      "Potencia continua de 2.400 W con pico de 4.800 W para cargas exigentes",
+      "Carga pasante (pass-through) con UPS de conmutación ≤10 ms",
+      "Entrada solar de hasta 1.200 W — recarga completa en ~4,1 horas",
+      "Salidas USB-C de 100 W y 140 W, además de 2 tomas AC de 230 V",
+      "Puerto de 12V/30A y encendedor de 120 W para uso vehicular",
+      "Control y monitoreo completo desde la app BLUETTI vía Bluetooth y WiFi",
+      "26,3 kg — portátil entre el hogar, el trabajo y la ruta",
+      "Garantía de 5 años"
+    ],
+    "accesoriosCompatibles": []
+  },
+  {
+    "id": "elite400",
+    "comingSoon": true,
+    "nombre": "Elite 400",
+    "tagline": "Estación de Energía Portátil Sobre Ruedas",
+    "subtitulo": "3.840 Wh con ruedas y manija telescópica",
+    "descripcion": "Un respaldo de alta capacidad suele significar un equipo pesado y difícil de mover — cargarlo entre habitaciones, subirlo al auto o llevarlo hasta el fondo de un evento se vuelve un problema en sí mismo, justo cuando más se necesita energía portátil.\nEl BLUETTI Elite 400 resuelve esto con 3.840 Wh de capacidad LiFePO4 y 2.600 W de potencia continua (pico de 3.900 W en Power Lifting Mode), montado sobre ruedas con amortiguación de impactos y manija telescópica — el diseño más liviano de su clase para esta capacidad. Carga pasante con UPS de conmutación ≤15 ms, entrada combinada AC+Solar de hasta 3.300 W (0 a 80% en 70 minutos) y entrada solar MPPT de hasta 1.000 W.\nCuenta con 7 puertos de salida (2× AC, 2× USB-C 100W, 2× USB-A, encendedor 120W), es compatible con el cargador vehicular Charger 1, y se controla por completo desde la app BLUETTI vía Bluetooth y WiFi. Ideal para backup hogareño de alta capacidad, food trucks y puestos móviles, eventos al aire libre y herramientas de obra que necesitan arranque exigente.",
+    "categoria": "Portátil / Compacto",
+    "tipoRed": "Off-Grid",
+    "imagen": "elite400.png",
+    "imagenes": ["elite400-2.png", "elite400-3.png"],
+    "imagenesDetalle": ["elite400-aplicacion.jpg", "elite400-aplicacion-2.jpg", "elite400-aplicacion-3.jpg"],
+    "perfilUsuario": "Personas que necesitan un respaldo de alta capacidad pero fácil de trasladar entre ambientes de la casa, el trabajo o distintos puntos de un evento, sin depender de cargar un equipo pesado a pulso.",
+    "casosDeUso": [
+      {
+        "etiqueta": "Backup Hogareño",
+        "descripcion": "UPS con conmutación ≤15 ms — mantiene heladera, WiFi y electrónica funcionando durante horas en un corte de luz."
+      },
+      {
+        "etiqueta": "Fácil de Trasladar",
+        "descripcion": "Ruedas con amortiguación de impactos y manija telescópica: el diseño más liviano de su clase para 3,8 kWh de capacidad."
+      },
+      {
+        "etiqueta": "Food Truck / Puesto Móvil",
+        "descripcion": "Alimenta cafetera, heladera chica, luces y caja registradora en emprendimientos ambulantes."
+      },
+      {
+        "etiqueta": "Eventos al Aire Libre",
+        "descripcion": "Parlantes, luces y heladera portátil para reuniones, fiestas y jornadas outdoor."
+      },
+      {
+        "etiqueta": "Obra y Herramientas",
+        "descripcion": "Pico de 3.900 W en Power Lifting Mode para herramientas eléctricas con arranque exigente."
+      }
+    ],
+    "specs": {
+      "capacidadBateria": "3.840 Wh (100 Ah)",
+      "tipoBateria": "LiFePO4",
+      "potenciaPico": "3.900 W (Power Lifting Mode)",
+      "potenciaSalidaAC": "2.600 W Max., 230 V, 50/60 Hz",
+      "puertosSalida": "2× tomas AC estándar (2.600W total), 2× USB-A 15W (30W total), 2× USB-C 100W, 1× encendedor 120W máx.",
+      "entradaAC": "2.300 W Max., 230 V, 50/60 Hz",
+      "entradaSolarMax": "1.000 W máx. (MPPT)",
+      "entradaDC": "1.000 W máx., 12–60 V, 20 A (conector XT60)",
+      "entradaACSolarCombinada": "3.300 W Max. (0 a 80% en 70 min)",
+      "cargaPorAlternador": "Compatible con Charger 1",
+      "peso": "39 kg",
+      "dimensiones": "432 × 288 × 490 mm sin manija / 432 × 288 × 1.042 mm con manija extendida",
+      "temperaturaCarga": "0°C a 40°C",
+      "temperaturaDescarga": "-20°C a 40°C",
+      "switchoverUPS": "≤15 ms",
+      "alturaOperacion": "≤2.000 m",
+      "proteccion": "IP20",
+      "conectividad": "Bluetooth y WiFi",
+      "cargaPasante": true,
+      "garantia": "5 años"
+    },
+    "highlights": [
+      "Batería LiFePO4 de 3.840 Wh, entre las más grandes de su categoría portátil",
+      "Potencia continua de 2.600 W con pico de 3.900 W en Power Lifting Mode",
+      "Diseño rodante: ruedas con amortiguación de impactos + manija telescópica — el más liviano de su clase para 3,8 kWh",
+      "Carga pasante (pass-through) con UPS de conmutación ≤15 ms",
+      "Carga combinada AC+Solar de hasta 3.300 W — 0 a 80% en 70 minutos",
+      "Entrada solar de hasta 1.000 W con MPPT integrado",
+      "7 puertos de salida: 2× AC, 2× USB-C 100W, 2× USB-A, encendedor 120W",
+      "Compatible con Charger 1 para carga desde el alternador del vehículo",
+      "Control completo desde la app BLUETTI vía Bluetooth y WiFi",
+      "Garantía de 5 años"
+    ],
+    "accesoriosCompatibles": [
+      { "nombre": "Charger 1 (cargador de alternador 560W)", "id": "charger1" }
+    ]
+  },
+  {
     "id": "charger1",
     "nombre": "Charger 1",
     "tagline": "Cargador de Alternador 560 W",

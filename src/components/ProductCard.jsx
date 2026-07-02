@@ -84,6 +84,11 @@ export default function ProductCard({ product }) {
       <div
         className="relative overflow-hidden h-48 sm:h-80"
       >
+        {product.comingSoon && (
+          <span className="absolute top-2 left-2 z-10 text-[10px] sm:text-xs font-bold uppercase tracking-wider px-2 sm:px-3 py-1 rounded-full bg-amber-400 text-bluetti-bg shadow-md">
+            Coming Soon
+          </span>
+        )}
         <div
           className={animated ? 'flex h-full transition-transform duration-500 ease-in-out' : 'flex h-full'}
           style={{
@@ -102,6 +107,7 @@ export default function ProductCard({ product }) {
                 alt={product.nombre}
                 className="max-h-full max-w-full object-contain"
                 style={scaleFor(img) ? { transform: `scale(${scaleFor(img)})` } : undefined}
+                decoding="async"
                 onError={e => { e.target.style.display = 'none' }}
               />
             </div>
