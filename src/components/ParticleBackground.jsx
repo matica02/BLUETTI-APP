@@ -1,6 +1,8 @@
 import { useEffect, useRef } from 'react'
 
 const PARTICLE_COUNT = 500
+const PARTICLE_COUNT_MOBILE = 150
+const MOBILE_BREAKPOINT = 768
 const MAX_DIST = 130
 const SPEED = 0.4
 
@@ -25,7 +27,8 @@ export default function ParticleBackground() {
     }
     window.addEventListener('mousemove', onMouse)
 
-    const particles = Array.from({ length: PARTICLE_COUNT }, () => ({
+    const count = window.innerWidth < MOBILE_BREAKPOINT ? PARTICLE_COUNT_MOBILE : PARTICLE_COUNT
+    const particles = Array.from({ length: count }, () => ({
       x: Math.random() * window.innerWidth,
       y: Math.random() * window.innerHeight,
       vx: (Math.random() - 0.5) * SPEED,
@@ -83,12 +86,24 @@ export default function ParticleBackground() {
       animRef.current = requestAnimationFrame(draw)
     }
 
-    animRef.current = requestAnimationFrame(draw)
+    const onVisibilityChange = () => {
+      if (document.hidden) {
+        cancelAnimationFrame(animRef.current)
+      } else {
+        animRef.current = requestAnimationFrame(draw)
+      }
+    }
+    document.addEventListener('visibilitychange', onVisibilityChange)
+
+    if (!document.hidden) {
+      animRef.current = requestAnimationFrame(draw)
+    }
 
     return () => {
       cancelAnimationFrame(animRef.current)
       window.removeEventListener('resize', resize)
       window.removeEventListener('mousemove', onMouse)
+      document.removeEventListener('visibilitychange', onVisibilityChange)
     }
   }, [])
 
