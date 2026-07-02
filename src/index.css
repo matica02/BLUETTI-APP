@@ -7,11 +7,13 @@
 html {
   min-height: 100%;
   background-color: #0a0a0f;
+  overscroll-behavior-y: none;
 }
 
 body {
   min-height: 100%;
-  background: linear-gradient(135deg, #0d5c9e 0%, #0a0a0f 50%, #3a7a10 100%);
+  background: linear-gradient(135deg, #062947 0%, #0a0a0f 50%, #1a3707 100%);
   background-color: #0a0a0f;
   color: #ffffff;
+  overscroll-behavior-y: none;
 }
