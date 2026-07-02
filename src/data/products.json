@@ -637,6 +637,12 @@
       "Ultra compacto: 145 × 110 × 60 mm, solo 720 g",
       "Rango de temperatura amplio: -20°C a 60°C"
     ],
+    "equipoCompatible": [
+      { "nombre": "AC180P", "id": "ac180p" },
+      { "nombre": "AC200P L", "id": "ac200pl" },
+      { "nombre": "APEX 300", "id": "apex300" },
+      { "nombre": "RV5", "id": "rv5" }
+    ],
     "accesoriosCompatibles": []
   },
   {
