@@ -790,7 +790,9 @@
       { "nombre": "AC180P", "id": "ac180p" },
       { "nombre": "AC200P L", "id": "ac200pl" },
       { "nombre": "APEX 300", "id": "apex300" },
-      { "nombre": "RV5", "id": "rv5" }
+      { "nombre": "RV5", "id": "rv5" },
+      { "nombre": "Elite 300", "id": "elite300" },
+      { "nombre": "Elite 400", "id": "elite400" }
     ],
     "accesoriosCompatibles": []
   },
