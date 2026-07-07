@@ -1611,7 +1611,7 @@ export default function Calculadora() {
               className="w-full flex items-center justify-between gap-3"
             >
               <div className="flex items-center gap-2 flex-wrap">
-                <span className="text-white text-sm font-semibold">⚡ Corte de luz</span>
+                <span className="text-white text-sm font-semibold">⚡ Corte de luz (Agrega un horario específico para el corte)</span>
                 {corteOn && (
                   <span className="text-orange-300 text-xs font-semibold">
                     desde las {corteHoraFmt}
@@ -1743,7 +1743,7 @@ export default function Calculadora() {
                       }`}
                     />
                   </span>
-                  {aplicarFs ? 'Fs aplicado a la recomendación de modelos' : 'Aplicar Fs a la recomendación de modelos'}
+                  {aplicarFs ? 'Factor de Simultaneidad aplicado a la recomendación de modelos' : 'Aplicar Factor de Simultaneidad a la recomendación de modelos'}
                 </button>
                 {aplicarFs && (
                   <>
