@@ -470,19 +470,35 @@ function dailySolarKwh(paneles, panelW, horasSol, efic = 0.8) {
   return (paneles * panelW / 1000) * horasSol * efic
 }
 
-function computeSolarPerSlot(totalDailyKwh) {
+// Reparte la energía solar diaria en una curva tipo campana centrada al mediodía.
+// El pico de la curva se fija en nameplateW * efic (lo que da un panel real a pleno sol),
+// y "horas pico de sol" define el ANCHO de la ventana productiva (no la altura del pico),
+// que es la interpretación estándar de "peak sun hours" en dimensionamiento solar.
+function computeSolarPerSlot(nameplateW, horasSol, efic = 0.8) {
   const arr = new Array(SLOTS_PER_DAY).fill(0)
-  if (totalDailyKwh <= 0) return arr
-  let sum = 0
+  if (nameplateW <= 0 || horasSol <= 0) return arr
+
+  const totalDailyKwh = (nameplateW / 1000) * horasSol * efic
+  const peakW = nameplateW * efic
+  const fullWindow = SUN_END - SUN_START
+  const width = Math.min(fullWindow, horasSol * (Math.PI / 2))
+  const center = (SUN_START + SUN_END) / 2
+  const winStart = center - width / 2
+  const winEnd = center + width / 2
+
+  let sumKwh = 0
   for (let s = 0; s < SLOTS_PER_DAY; s++) {
     const t = s * SLOT_HOURS
-    if (t < SUN_START || t >= SUN_END) continue
-    const x = (t - SUN_START) / (SUN_END - SUN_START)
-    arr[s] = Math.sin(Math.PI * x)
-    sum += arr[s]
+    if (t < winStart || t >= winEnd) continue
+    const x = (t - winStart) / width
+    arr[s] = (peakW * Math.sin(Math.PI * x) * SLOT_HOURS) / 1000
+    sumKwh += arr[s]
   }
-  if (sum === 0) return arr
-  for (let s = 0; s < SLOTS_PER_DAY; s++) arr[s] = arr[s] * totalDailyKwh / sum
+  if (sumKwh === 0) return arr
+  // Renormaliza para que el total del día coincida exactamente con dailySolarKwh,
+  // incluso si el ancho quedó recortado por el máximo de horas de luz (6h-18h).
+  const scale = totalDailyKwh / sumKwh
+  for (let s = 0; s < SLOTS_PER_DAY; s++) arr[s] *= scale
   return arr
 }
 
@@ -1091,7 +1107,10 @@ export default function Calculadora() {
     () => solarOn ? dailySolarKwh(solarPaneles, solarPanelW, solarHorasSol) : 0,
     [solarOn, solarPaneles, solarPanelW, solarHorasSol]
   )
-  const solarPerSlot = useMemo(() => computeSolarPerSlot(dailySolar), [dailySolar])
+  const solarPerSlot = useMemo(
+    () => solarOn ? computeSolarPerSlot(solarPaneles * solarPanelW, solarHorasSol) : new Array(SLOTS_PER_DAY).fill(0),
+    [solarOn, solarPaneles, solarPanelW, solarHorasSol]
+  )
   const solarPeakW = useMemo(
     () => solarPerSlot.length ? (Math.max(...solarPerSlot) * 1000) / SLOT_HOURS : 0,
     [solarPerSlot]
