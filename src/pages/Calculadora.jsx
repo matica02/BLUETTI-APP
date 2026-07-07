@@ -784,6 +784,11 @@ function ModelCard({ modelo, totalKwh, totalKw, solarOn, consumoPerSlot, solarPe
                       ? `hasta las ${formatClock(conUntilH)}`
                       : `${conSolarFmt?.val} ${conSolarFmt?.unit}`}
                   </span>
+                  {conUntilH !== null && (
+                    <span className="text-xs sm:text-sm font-semibold text-yellow-300/70">
+                      ({formatClock(Math.max(0, conSolar.horas - SLOT_HOURS))} hs de uso)
+                    </span>
+                  )}
                 </div>
               )}
               {solarRecortado && (
