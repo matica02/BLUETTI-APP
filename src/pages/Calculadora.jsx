@@ -751,7 +751,8 @@ function ModelCard({ modelo, totalKwh, totalKw, solarOn, consumoPerSlot, solarPe
               {sinUntilH !== null ? (
                 <span className="text-bluetti-lime text-sm sm:text-base font-semibold leading-snug">
                   {corteSlot !== null ? 'Autonomía desde el corte hasta las' : 'Autonomía hasta las'}{' '}
-                  <span className="text-2xl sm:text-3xl font-bold">{formatClock(sinUntilH)}</span>
+                  <span className="text-2xl sm:text-3xl font-bold">{formatClock(sinUntilH)}</span>{' '}
+                  <span className="text-2xl sm:text-3xl font-bold text-bluetti-lime/70">({formatClock(Math.max(0, sinSolar.horas - SLOT_HOURS))} hs de uso)</span>
                 </span>
               ) : (
                 <>
@@ -986,6 +987,7 @@ export default function Calculadora() {
   const [perfilActivo, setPerfilActivo] = useState(null)
   const [corteOn, setCorteOn] = useState(false)
   const [corteHora, setCorteHora] = useState(18)
+  const corteHoraFmt = `${Math.floor(corteHora).toString().padStart(2, '0')}:${corteHora % 1 === 0 ? '00' : '30'}`
 
   const [modelConfigs, setModelConfigs] = useState(() => {
     const initial = {}
@@ -1085,6 +1087,10 @@ export default function Calculadora() {
     [solarOn, solarPaneles, solarPanelW, solarHorasSol]
   )
   const solarPerSlot = useMemo(() => computeSolarPerSlot(dailySolar), [dailySolar])
+  const solarPeakW = useMemo(
+    () => solarPerSlot.length ? (Math.max(...solarPerSlot) * 1000) / SLOT_HOURS : 0,
+    [solarPerSlot]
+  )
   const consumoPerSlot = useMemo(() => computeConsumoPerSlot(agregados), [agregados])
   const solarActivo = solarOn && dailySolar > 0
   const corteSlot = corteOn ? Math.max(0, Math.min(SLOTS_PER_DAY - 1, Math.round(corteHora * 2))) : null
@@ -1119,6 +1125,18 @@ export default function Calculadora() {
         return { id: m.id, nombre: m.nombre, capacityKwh, maxSolarW }
       })
   }, [peak, movilidad, modelConfigs, fsFactor])
+
+  const equiposConSolarLimitado = useMemo(() => {
+    if (!solarOn || dailySolar <= 0) return []
+    const totalSolar = solarPerSlot.reduce((a, b) => a + b, 0)
+    if (totalSolar <= 0) return []
+    return dayChartModelOptions.map(m => {
+      if (m.maxSolarW <= 0) return null
+      const capPerSlot = m.maxSolarW * SLOT_HOURS / 1000
+      const efectivo = solarPerSlot.reduce((a, s) => a + Math.min(s, capPerSlot), 0)
+      return totalSolar > efectivo + 0.001 ? { id: m.id, nombre: m.nombre, capW: m.maxSolarW } : null
+    }).filter(Boolean)
+  }, [solarOn, dailySolar, solarPerSlot, dayChartModelOptions])
 
   function aplicarPerfil(perfil) {
     setMovilidad(perfil.id === 'motorhome' || perfil.id === 'barco')
@@ -1470,7 +1488,7 @@ export default function Calculadora() {
                 <span className="text-white text-sm font-semibold">☀ Paneles Solares</span>
                 {solarActivo && (
                   <span className="text-yellow-300 text-xs font-semibold">
-                    +{dailySolar.toFixed(2)} kWh/día
+                    +{dailySolar.toFixed(2)} kWh/día · {Math.round(solarPeakW).toLocaleString('es-AR')} W pico
                   </span>
                 )}
               </div>
@@ -1499,8 +1517,8 @@ export default function Calculadora() {
                     >−</button>
                     <span className="text-bluetti-cyan font-bold text-base w-6 text-center">{solarPaneles}</span>
                     <button
-                      onClick={() => setSolarPaneles(p => Math.min(40, p + 1))}
-                      disabled={solarPaneles >= 40}
+                      onClick={() => setSolarPaneles(p => Math.min(60, p + 1))}
+                      disabled={solarPaneles >= 60}
                       className="w-8 h-8 rounded-lg bg-bluetti-border hover:bg-bluetti-cyan hover:text-bluetti-bg text-bluetti-cyan/80 font-bold flex items-center justify-center transition-all disabled:opacity-30"
                     >+</button>
                   </div>
@@ -1523,6 +1541,13 @@ export default function Calculadora() {
                   </div>
                 </div>
 
+                <HoverTooltip content={`Pico instantáneo estimado, no la potencia nominal de los paneles (paneles × Wp).\n\nLa generación diaria se reparte en una curva a lo largo de las horas de sol —floja al amanecer/atardecer, máxima al mediodía— y se aplica un 80% de eficiencia. Por eso el pico real siempre queda por debajo del nominal.\n\nEste es el valor que se compara contra el máximo de entrada solar de cada equipo para avisar si hay recorte.`}>
+                  <div className="flex items-center justify-between gap-3 bg-black/30 rounded-lg px-3 py-2 cursor-help">
+                    <span className="text-bluetti-cyan/80 text-xs uppercase tracking-wider">Generando ⓘ</span>
+                    <span className="text-yellow-300 font-bold text-sm">{Math.round(solarPeakW).toLocaleString('es-AR')} W pico</span>
+                  </div>
+                </HoverTooltip>
+
                 <div>
                   <div className="flex items-center justify-between mb-1">
                     <span className="text-bluetti-cyan/80 text-xs uppercase tracking-wider">Horas pico de sol</span>
@@ -1541,6 +1566,16 @@ export default function Calculadora() {
                     <span>Pleno verano (8)</span>
                   </div>
                 </div>
+
+                {equiposConSolarLimitado.length > 0 && (
+                  <div className="pt-3 border-t border-bluetti-border space-y-1">
+                    {equiposConSolarLimitado.map(e => (
+                      <p key={e.id} className="text-yellow-200/70 text-[11px] leading-snug">
+                        ⚠ Entrada solar limitada en {e.nombre} a {e.capW.toLocaleString('es-AR')} W (máximo del equipo)
+                      </p>
+                    ))}
+                  </div>
+                )}
               </div>
             )}
           </div>
@@ -1555,7 +1590,7 @@ export default function Calculadora() {
                 <span className="text-white text-sm font-semibold">⚡ Corte de luz</span>
                 {corteOn && (
                   <span className="text-orange-300 text-xs font-semibold">
-                    desde las {corteHora.toString().padStart(2, '0')}:00
+                    desde las {corteHoraFmt}
                   </span>
                 )}
               </div>
@@ -1575,18 +1610,24 @@ export default function Calculadora() {
               <div className="mt-4 pt-4 border-t border-bluetti-border space-y-3">
                 <div className="flex items-center justify-between gap-3">
                   <span className="text-bluetti-cyan/80 text-xs uppercase tracking-wider">Hora del corte</span>
-                  <select
-                    value={corteHora}
-                    onChange={e => setCorteHora(Number(e.target.value))}
-                    className="bg-black/30 border border-bluetti-border rounded-lg px-3 py-1.5 text-white text-sm focus:outline-none focus:border-bluetti-cyan"
-                  >
-                    {Array.from({ length: 24 }, (_, h) => (
-                      <option key={h} value={h}>{h.toString().padStart(2, '0')}:00</option>
-                    ))}
-                  </select>
+                  <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
+                    <button
+                      onClick={() => setCorteHora(h => Math.max(0, h - 0.5))}
+                      disabled={corteHora <= 0}
+                      className="w-8 h-8 rounded-lg bg-bluetti-border hover:bg-red-900/40 text-bluetti-cyan/80 hover:text-red-400 text-base font-bold flex items-center justify-center transition-all disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:bg-bluetti-border disabled:hover:text-bluetti-cyan/80"
+                    >−</button>
+                    <span className="text-white font-bold text-sm w-14 text-center">
+                      {corteHoraFmt}
+                    </span>
+                    <button
+                      onClick={() => setCorteHora(h => Math.min(23.5, h + 0.5))}
+                      disabled={corteHora >= 23.5}
+                      className="w-8 h-8 rounded-lg bg-bluetti-border hover:bg-bluetti-cyan hover:text-bluetti-bg text-bluetti-cyan/80 text-base font-bold flex items-center justify-center transition-all disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:bg-bluetti-border disabled:hover:text-bluetti-cyan/80"
+                    >+</button>
+                  </div>
                 </div>
                 <p className="text-orange-300/70 text-[11px] leading-snug">
-                  Antes de las {corteHora.toString().padStart(2, '0')}:00 la red abastece el consumo (la batería solo recibe carga solar). Después del corte, la batería toma el control. La autonomía mostrada en cada modelo cuenta desde ese momento.
+                  Antes de las {corteHoraFmt} la red abastece el consumo (la batería solo recibe carga solar). Después del corte, la batería toma el control. La autonomía mostrada en cada modelo cuenta desde ese momento.
                 </p>
               </div>
             )}
