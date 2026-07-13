@@ -1541,8 +1541,7 @@ export default function Calculadora() {
                     >−</button>
                     <span className="text-bluetti-cyan font-bold text-base w-6 text-center">{solarPaneles}</span>
                     <button
-                      onClick={() => setSolarPaneles(p => Math.min(60, p + 1))}
-                      disabled={solarPaneles >= 60}
+                      onClick={() => setSolarPaneles(p => p + 1)}
                       className="w-8 h-8 rounded-lg bg-bluetti-border hover:bg-bluetti-cyan hover:text-bluetti-bg text-bluetti-cyan/80 font-bold flex items-center justify-center transition-all disabled:opacity-30"
                     >+</button>
                   </div>
