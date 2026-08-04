@@ -4,10 +4,10 @@ import CatalogoCarousel from '../components/CatalogoCarousel'
 import { ScrollReveal, StaggerGroup, StaggerItem } from '../components/ScrollReveal'
 
 // Orden de los modelos en el catálogo (el RV5 va después de los blancos EP2000/EP760)
-const MODELO_ORDER = ['es125x', 'es60', 'ep2000', 'ep760', 'rv5', 'apex300', 'ac200pl', 'ac180p', 'elite300', 'elite400']
+const MODELO_ORDER = ['es125x', 'es60', 'ep2000', 'ep760', 'hv6k', 'hv10k', 'rv5', 'apex300', 'ac200pl', 'ac180p', 'elite300', 'elite400']
 
 // Orden de las baterías en el catálogo
-const BATERIA_ORDER = ['b700', 'b500', 'b4810', 'b300k']
+const BATERIA_ORDER = ['b700', 'b500', 'hb500', 'b4810', 'b300k']
 
 const ordenarPor = (lista, orden) =>
   [...lista].sort((a, b) => {

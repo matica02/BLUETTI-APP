@@ -5,9 +5,13 @@ const MODELOS = [
   { id: 'es60',    nombre: 'ES60',      maxUnidades: 6, tieneBaterias: false },
   { id: 'ep2000',  nombre: 'EP2000',    maxUnidades: 3, tieneBaterias: true, maxBaterias: 7,  minBaterias: u => u > 1 ? 2 : 4, batNombre: 'B700',   kwhBase: 0,     kwhBat: 7.37   },
   { id: 'ep760',   nombre: 'EP760',     maxUnidades: 1, tieneBaterias: true, maxBaterias: 4,  minBaterias: 2, batNombre: 'B500',   kwhBase: 0,     kwhBat: 4.96   },
+  { id: 'hv6k',    nombre: 'HV6K',      maxUnidades: 1, tieneBaterias: true, maxBaterias: 64, minBaterias: 1, batNombre: 'HB500',  kwhBase: 0,     kwhBat: 5.12   },
+  { id: 'hv10k',   nombre: 'HV10K',     maxUnidades: 1, tieneBaterias: true, maxBaterias: 64, minBaterias: 2, batNombre: 'HB500',  kwhBase: 0,     kwhBat: 5.12   },
   { id: 'apex300', nombre: 'APEX 300',  maxUnidades: 3, tieneBaterias: true, maxBaterias: 6,  minBaterias: 0, batNombre: 'B300K',  kwhBase: 2.76,  kwhBat: 2.76   },
   { id: 'ac200pl', nombre: 'AC200P L',  maxUnidades: 1, tieneBaterias: true, maxBaterias: 2,  minBaterias: 0, batNombre: 'B300K',  kwhBase: 2.304, kwhBat: 2.76   },
   { id: 'ac180p',  nombre: 'AC180P',    maxUnidades: 1, tieneBaterias: false,                                                      kwhBase: 1.44                  },
+  { id: 'elite300', nombre: 'Elite 300', maxUnidades: 1, tieneBaterias: false,                                                     kwhBase: 3.0144                },
+  { id: 'elite400', nombre: 'Elite 400', maxUnidades: 1, tieneBaterias: false,                                                     kwhBase: 3.84                  },
   { id: 'rv5',     nombre: 'RV5',       maxUnidades: 1, tieneBaterias: true, maxBaterias: 24, minBaterias: 2, batNombre: 'B4810',  kwhBase: 0,     kwhBat: 5.12   },
 ]
 
@@ -22,9 +26,13 @@ const MAX_SOLAR_W = {
   es60:   76800,
   ep2000: 30000,
   ep760:  9000,
+  hv6k:   6500,
+  hv10k:  14000,
   apex300: 2400,
   ac200pl: 1200,
   ac180p:  500,
+  elite300: 1200,
+  elite400: 1000,
   rv5:    1800,
 }
 

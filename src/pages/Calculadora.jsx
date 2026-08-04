@@ -298,9 +298,13 @@ const MODELOS = [
   { id: 'es60', nombre: 'ES60' },
   { id: 'ep2000', nombre: 'EP2000' },
   { id: 'ep760', nombre: 'EP760' },
+  { id: 'hv6k', nombre: 'HV6K' },
+  { id: 'hv10k', nombre: 'HV10K' },
   { id: 'apex300', nombre: 'APEX 300' },
   { id: 'ac200pl', nombre: 'AC200P L' },
   { id: 'ac180p', nombre: 'AC180P' },
+  { id: 'elite300', nombre: 'Elite 300' },
+  { id: 'elite400', nombre: 'Elite 400' },
   { id: 'rv5', nombre: 'RV5' },
 ]
 
@@ -309,9 +313,13 @@ const MAX_SOLAR_W = {
   es60:   76800,
   ep2000: 30000,
   ep760:  9000,
+  hv6k:   6500,
+  hv10k:  14000,
   apex300: 2400,
   ac200pl: 1200,
   ac180p:  500,
+  elite300: 1200,
+  elite400: 1000,
   rv5:    1800,
 }
 
@@ -320,9 +328,13 @@ const MODEL_CFG = {
   es60:    { paralelo: { min: 1, max: 6 },  bat: null },
   ep2000:  { paralelo: { min: 1, max: 3 },  bat: { tipo: 'B700',  min: u => u > 1 ? 4 : 2, max: 7 } },
   ep760:   { paralelo: null,                bat: { tipo: 'B500',  min: 2, max: 4  } },
+  hv6k:    { paralelo: null,                bat: { tipo: 'HB500', min: 1, max: 64 } },
+  hv10k:   { paralelo: null,                bat: { tipo: 'HB500', min: 2, max: 64 } },
   apex300: { paralelo: { min: 1, max: 3 },  bat: { tipo: 'B300K', min: 0, max: 6  } },
   ac200pl: { paralelo: null,                bat: { tipo: 'B300K', min: 0, max: 2  } },
   ac180p:  { paralelo: null,                bat: null },
+  elite300: { paralelo: null,               bat: null },
+  elite400: { paralelo: null,               bat: null },
   rv5:     { paralelo: null,                bat: { tipo: 'B4810', min: 2, max: 24 } },
 }
 
@@ -342,9 +354,13 @@ function calcCapacity(modelId, unidades, baterias) {
     case 'rv5':     return { kWh: totalBat * 5.12, kW: 5 }
     case 'ep2000':  return { kWh: totalBat * 7.37, kW: arr.reduce((a, n) => a + ep2000Kw(n), 0) }
     case 'ep760':   return { kWh: totalBat * 4.96, kW: 7.6 }
+    case 'hv6k':    return { kWh: totalBat * 5.12, kW: 6.2 }
+    case 'hv10k':   return { kWh: totalBat * 5.12, kW: 10 }
     case 'apex300': return { kWh: unidades * 2.76 + totalBat * 2.76, kW: unidades * 3.84 }
     case 'ac200pl': return { kWh: 2.304 + totalBat * 2.76, kW: 2.4 }
     case 'ac180p':  return { kWh: 1.44, kW: 1.8 }
+    case 'elite300': return { kWh: 3.0144, kW: 2.4 }
+    case 'elite400': return { kWh: 3.84, kW: 2.6 }
     default:        return { kWh: 0, kW: 0 }
   }
 }
@@ -1134,6 +1150,8 @@ export default function Calculadora() {
         if (m.id === 'es60' && effectiveKw < 30) return false
         if (m.id === 'ep2000' && effectiveKw < 7.6) return false
         if (m.id === 'ep760' && effectiveKw <= 3.8) return false
+        if (m.id === 'hv6k' && effectiveKw <= 3.1) return false
+        if (m.id === 'hv10k' && effectiveKw <= 5) return false
         return effectiveKw <= maxKwForModel(m.id)
       })
       .sort((a, b) => {
@@ -1812,6 +1830,8 @@ export default function Calculadora() {
                       if (m.id === 'es60' && effectiveKw < 30) return false
                       if (m.id === 'ep2000' && effectiveKw < 7.6) return false
                       if (m.id === 'ep760' && effectiveKw <= 3.8) return false
+                      if (m.id === 'hv6k' && effectiveKw <= 3.1) return false
+                      if (m.id === 'hv10k' && effectiveKw <= 5) return false
                       return effectiveKw <= maxKwForModel(m.id)
                     })
                     .sort((a, b) => {

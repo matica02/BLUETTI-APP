@@ -48,6 +48,20 @@ const CFG = {
       min: 0,
     },
   },
+  hv6k: {
+    paralelo: null,
+    baterias: {
+      tipos: [{ id: 'hb500', nombre: 'HB500', kWh: 5.12, max: 64 }],
+      min: 1,
+    },
+  },
+  hv10k: {
+    paralelo: null,
+    baterias: {
+      tipos: [{ id: 'hb500', nombre: 'HB500', kWh: 5.12, max: 64 }],
+      min: 2,
+    },
+  },
 }
 
 // Potencia del EP2000 por unidad según cantidad de baterías: 2→10.5kW, 3→15.5kW, 4+→20kW
@@ -67,6 +81,8 @@ function calcTotals(id, unidades, cantArr, tipoKwh) {
     case 'ep760': return { kWh: totalBat * 4.96, kW: 7.6 }
     case 'apex300': return { kWh: unidades * 2.76 + totalBat * 2.76, kW: unidades * 3.84 }
     case 'ac200pl': return { kWh: 2.304 + totalBat * tipoKwh, kW: 2.4 }
+    case 'hv6k': return { kWh: totalBat * tipoKwh, kW: 6.2 }
+    case 'hv10k': return { kWh: totalBat * tipoKwh, kW: 10 }
     default: return { kWh: 0, kW: 0 }
   }
 }
@@ -81,6 +97,8 @@ function isBase(id, unidades, cantArr) {
     case 'ep760': return allEqual(2)
     case 'apex300': return unidades === 1 && allEqual(0)
     case 'ac200pl': return allEqual(0)
+    case 'hv6k': return allEqual(1)
+    case 'hv10k': return allEqual(2)
     default: return true
   }
 }

@@ -365,6 +365,161 @@
     ]
   },
   {
+    "id": "hv6k",
+    "nombre": "HV6K",
+    "color": "blanco",
+    "imgScale": 0.7,
+    "tagline": "Inversor Off-Grid Monofásico 6,2 kW",
+    "subtitulo": "Inversor Solar para Sistemas de Almacenamiento Residencial",
+    "descripcion": "Cuando la red eléctrica es inestable o inexistente, muchos hogares necesitan generar y almacenar su propia energía sin depender de la compañía eléctrica — pero los inversores off-grid convencionales suelen limitar la potencia disponible o complicar la instalación solar.\nEl BLUETTI HV6K es un inversor off-grid monofásico de 6.200 W (pico de 12.400 VA) con entrada solar de hasta 6.500 W y un amplio rango MPPT de 90–450 Vdc, pensado para trabajar junto a baterías de expansión HB500 (hasta 64 unidades, 327,68 kWh) en sistemas residenciales de generación y respaldo autónomo.\nCon onda sinusoidal pura, conmutación a batería en menos de 10 ms, certificación IP21 y filtro de polvo lavable y removible, el HV6K controla y monitorea todo el sistema desde la app o la pantalla LCD integrada, siendo compatible con baterías de litio y de plomo-ácido.",
+    "categoria": "Residencial — Monofásico",
+    "tipoRed": "Off-Grid",
+    "imagen": "hv6k.png.webp",
+    "imagenes": ["hb500.png.webp"],
+    "perfilUsuario": "Propietarios de viviendas sin acceso a la red eléctrica o con cortes frecuentes que buscan un sistema solar off-grid monofásico, escalable con baterías HB500, para cubrir el consumo total del hogar.",
+    "casosDeUso": [
+      {
+        "etiqueta": "Vivienda Off-Grid",
+        "descripcion": "6.200 W continuos y 12.400 VA de pico cubren el consumo de una casa completamente desconectada de la red."
+      },
+      {
+        "etiqueta": "Autoconsumo Solar",
+        "descripcion": "Entrada solar de hasta 6.500 W con rango MPPT de 90–450 Vdc para aprovechar al máximo el arreglo fotovoltaico."
+      },
+      {
+        "etiqueta": "Respaldo ante Cortes",
+        "descripcion": "Conmutación a batería en menos de 10 ms para proteger equipos sensibles durante interrupciones de suministro."
+      },
+      {
+        "etiqueta": "Sistema Escalable",
+        "descripcion": "Compatible con hasta 64 baterías HB500 en paralelo, alcanzando 327,68 kWh de capacidad total."
+      },
+      {
+        "etiqueta": "Zonas Rurales / Granjas",
+        "descripcion": "Ideal para instalaciones alejadas de la red donde la generación solar autónoma es la única alternativa viable."
+      }
+    ],
+    "specs": {
+      "potenciaSalidaAC": "6.200 W nominal, pico 12.400 VA (5 s)",
+      "entradaSolarMax": "6.500 W",
+      "tensionNominalPV": "320 Vdc",
+      "rangoMPPT": "90–450 Vdc",
+      "tensionMaxPV": "500 Vdc",
+      "corrienteMaxEntradaPV": "18 A",
+      "corrienteCargaDescarga": "118 A",
+      "tensionBateriaNominal": "51,2 V",
+      "estrategiaCarga": "Auto-adaptable a BMS de batería de litio",
+      "corrienteEntradaAC": "27 A",
+      "corrienteSurgeAC": "54 A (5 s)",
+      "tensionEntradaAC": "230 Vac ±5%",
+      "frecuencia": "50/60 Hz",
+      "formaOnda": "Onda sinusoidal pura",
+      "fase": "Monofásica",
+      "conexionRed": "Off-Grid",
+      "switchoverUPS": "≤10 ms",
+      "proteccion": "IP21",
+      "eficienciaMax": ">95% (DC-AC)",
+      "temperaturaOperacion": "10°C a 50°C",
+      "humedad": "5% a 95%",
+      "conectividad": "RS232/RS485, App/LCD",
+      "certificaciones": "IEC 61683, EN 55032, EN 55035, IEC 62109",
+      "peso": "10,4 kg",
+      "dimensiones": "300 × 115 × 435 mm",
+      "garantia": "2 años"
+    },
+    "highlights": [
+      "6.200 W de potencia continua con pico de 12.400 VA (5 s)",
+      "Entrada solar de hasta 6.500 W con rango MPPT de 90–450 Vdc",
+      "Onda sinusoidal pura y conmutación a batería en menos de 10 ms",
+      "Escalable con baterías HB500: hasta 64 unidades, 327,68 kWh totales",
+      "Diseño con filtro de polvo removible y lavable — certificación IP21",
+      "Control y monitoreo por app o pantalla LCD integrada",
+      "Compatible con baterías de litio y plomo-ácido",
+      "Garantía de 2 años"
+    ],
+    "accesoriosCompatibles": [
+      { "nombre": "HB500 (batería de expansión 5,12 kWh)", "id": "hb500" }
+    ]
+  },
+  {
+    "id": "hv10k",
+    "nombre": "HV10K",
+    "color": "blanco",
+    "imgScale": 0.7,
+    "tagline": "Inversor Off-Grid Monofásico 10 kW",
+    "subtitulo": "Inversor Solar para Sistemas de Almacenamiento Residencial",
+    "descripcion": "Cuando la red eléctrica es inestable o inexistente y la demanda del hogar supera lo que un inversor chico puede sostener, hace falta un equipo off-grid de mayor potencia sin resignar la calidad de la energía entregada.\nEl BLUETTI HV10K es un inversor off-grid monofásico de 10.000 W (pico de 20.000 VA) con entrada solar de hasta 14.000 W y el mismo rango MPPT amplio de 90–450 Vdc, diseñado para trabajar junto a baterías de expansión HB500 (mínimo 2, hasta 64 unidades, 327,68 kWh) en sistemas residenciales de mayor consumo.\nCon onda sinusoidal pura, conmutación a batería en menos de 10 ms, certificación IP21 y filtro de polvo lavable y removible, el HV10K se controla y monitorea desde la app o la pantalla LCD integrada, siendo compatible con baterías de litio y de plomo-ácido.",
+    "categoria": "Residencial — Monofásico",
+    "tipoRed": "Off-Grid",
+    "imagen": "hv10k.png.webp",
+    "imagenes": ["hv10k-2.webp.avif"],
+    "perfilUsuario": "Propietarios de viviendas de mayor consumo o proyectos rurales sin acceso a la red eléctrica que buscan un sistema solar off-grid monofásico de alta potencia, escalable con baterías HB500.",
+    "casosDeUso": [
+      {
+        "etiqueta": "Vivienda Off-Grid de Alta Demanda",
+        "descripcion": "10.000 W continuos y 20.000 VA de pico cubren hogares grandes o equipos con arranque exigente."
+      },
+      {
+        "etiqueta": "Autoconsumo Solar",
+        "descripcion": "Entrada solar de hasta 14.000 W para maximizar el aprovechamiento de arreglos fotovoltaicos grandes."
+      },
+      {
+        "etiqueta": "Respaldo ante Cortes",
+        "descripcion": "Conmutación a batería en menos de 10 ms para proteger equipos sensibles durante interrupciones de suministro."
+      },
+      {
+        "etiqueta": "Sistema Escalable",
+        "descripcion": "Compatible con un mínimo de 2 y hasta 64 baterías HB500 en paralelo, alcanzando 327,68 kWh de capacidad total."
+      },
+      {
+        "etiqueta": "Granjas / Proyectos Rurales",
+        "descripcion": "Alta potencia y capacidad para proyectos que exceden el consumo doméstico básico."
+      }
+    ],
+    "specs": {
+      "potenciaSalidaAC": "10.000 W nominal, pico 20.000 VA (5 s)",
+      "entradaSolarMax": "14.000 W",
+      "tensionNominalPV": "320 Vdc",
+      "rangoMPPT": "90–450 Vdc",
+      "tensionMaxPV": "500 Vdc",
+      "corrienteMaxEntradaPV": "22 A × 2",
+      "corrienteCargaDescarga": "230 A",
+      "tensionBateriaNominal": "51,2 V",
+      "estrategiaCarga": "Auto-adaptable a BMS de batería de litio",
+      "corrienteEntradaAC": "43,5 A",
+      "corrienteSurgeAC": "87 A (5 s)",
+      "tensionEntradaAC": "230 Vac ±5%",
+      "frecuencia": "50/60 Hz",
+      "formaOnda": "Onda sinusoidal pura",
+      "fase": "Monofásica",
+      "conexionRed": "Off-Grid",
+      "switchoverUPS": "≤10 ms",
+      "proteccion": "IP21",
+      "eficienciaMax": ">95% (DC-AC)",
+      "temperaturaOperacion": "10°C a 50°C",
+      "humedad": "5% a 95%",
+      "conectividad": "RS232/RS485, App/LCD",
+      "certificaciones": "IEC 61683, EN 55032, EN 55035, IEC 62109",
+      "peso": "16,3 kg",
+      "dimensiones": "322 × 141 × 497 mm",
+      "notaBaterias": "Requiere un mínimo de 2 baterías HB500",
+      "garantia": "2 años"
+    },
+    "highlights": [
+      "10.000 W de potencia continua con pico de 20.000 VA (5 s)",
+      "Entrada solar de hasta 14.000 W con rango MPPT de 90–450 Vdc",
+      "Onda sinusoidal pura y conmutación a batería en menos de 10 ms",
+      "Escalable con baterías HB500: desde 2 hasta 64 unidades, 327,68 kWh totales",
+      "Diseño con filtro de polvo removible y lavable — certificación IP21",
+      "Control y monitoreo por app o pantalla LCD integrada",
+      "Compatible con baterías de litio y plomo-ácido",
+      "Garantía de 2 años"
+    ],
+    "accesoriosCompatibles": [
+      { "nombre": "HB500 (batería de expansión 5,12 kWh)", "id": "hb500" }
+    ]
+  },
+  {
     "id": "apex300",
     "nombre": "APEX 300",
     "tagline": "Estación de Energía Versátil y Escalable",
@@ -584,7 +739,6 @@
   },
   {
     "id": "elite300",
-    "comingSoon": true,
     "nombre": "Elite 300",
     "tagline": "Estación de Energía Portátil Compacta",
     "subtitulo": "Potencia y autonomía para el hogar y la ruta",
@@ -654,7 +808,6 @@
   },
   {
     "id": "elite400",
-    "comingSoon": true,
     "nombre": "Elite 400",
     "tagline": "Estación de Energía Portátil Sobre Ruedas",
     "subtitulo": "3.840 Wh con ruedas y manija telescópica",
@@ -1061,6 +1214,82 @@
       "Compatible con acoplamiento de CA y CC para integración solar",
       "Ideal para casas, villas pequeñas y granjas",
       "Garantía de 10 años"
+    ],
+    "accesoriosCompatibles": []
+  },
+  {
+    "id": "hb500",
+    "nombre": "HB500",
+    "color": "blanco",
+    "imgScale": 0.7,
+    "tagline": "5,12 kWh",
+    "subtitulo": "Módulo de Batería LiFePO₄ para HV6K / HV10K",
+    "descripcion": "Los inversores off-grid HV6K y HV10K necesitan baterías de expansión confiables para escalar la capacidad de almacenamiento según el consumo del hogar o proyecto.\nLa HB500 es el módulo de batería LiFePO₄ (litio-ferrofosfato) diseñado para esta línea: aporta 5,12 kWh por unidad con celdas certificadas UL 1973, y permite combinar hasta 64 unidades en paralelo para alcanzar 327,68 kWh de capacidad total.\nCon más de 6.000 ciclos de vida útil, protección IP20, montaje en pared o piso, conectividad Bluetooth y comunicación CAN/RS485, y compatibilidad con las principales marcas de inversores, la HB500 ofrece un almacenamiento modular y escalable para sistemas residenciales y proyectos de mayor escala.",
+    "categoria": "Batería",
+    "compatibleCon": "HV6K / HV10K",
+    "equipoCompatible": [
+      { "nombre": "HV6K", "id": "hv6k" },
+      { "nombre": "HV10K", "id": "hv10k" }
+    ],
+    "imagen": "hb500.png.webp",
+    "perfilUsuario": "Propietarios de sistemas HV6K o HV10K que necesitan ampliar la capacidad de almacenamiento de su instalación off-grid de forma modular, agregando unidades HB500 según el consumo y la autonomía requerida.",
+    "casosDeUso": [
+      {
+        "etiqueta": "Energía del Hogar",
+        "descripcion": "Almacena la energía solar generada por el sistema HV6K/HV10K, con 5,12 kWh por unidad de batería."
+      },
+      {
+        "etiqueta": "Capacidad Escalable",
+        "descripcion": "Combiná hasta 64 unidades para lograr hasta 327,68 kWh de capacidad total según tus necesidades."
+      },
+      {
+        "etiqueta": "Respaldo ante Cortes",
+        "descripcion": "Reserva energía para sostener las cargas esenciales del hogar durante interrupciones de suministro."
+      },
+      {
+        "etiqueta": "Instalación Flexible",
+        "descripcion": "Montaje en pared o piso, adaptándose al espacio disponible en la instalación."
+      },
+      {
+        "etiqueta": "Segura y Duradera",
+        "descripcion": "Celdas LiFePO₄ certificadas UL 1973 con más de 6.000 ciclos de vida útil."
+      }
+    ],
+    "specs": {
+      "modelo": "HB500 (batería de expansión para HV6K / HV10K)",
+      "tipo": "Batería modular LiFePO4 (litio-ferrofosfato)",
+      "tensionNominal": "51,2 V",
+      "capacidadNominal": "100 Ah",
+      "energiaNominal": "5,12 kWh",
+      "tensionOperacion": "44,8–57,6 V",
+      "corrienteCargaNominal": "50 A",
+      "corrienteDescargaNominal": "50 A",
+      "corrienteCargaMax": "80 A",
+      "corrienteDescargaMax": "100 A",
+      "corrienteDescargaPico": "150 A (2 min)",
+      "ciclosVida": "6,000+",
+      "profundidadDescarga": "≥95%",
+      "temperaturaCarga": "0°C a 55°C",
+      "temperaturaDescarga": "-20°C a 55°C",
+      "proteccion": "IP20",
+      "dimensiones": "402,6 × 158,7 × 708,5 mm",
+      "peso": "51 kg",
+      "unidadesMaxParalelo": "Hasta 64 unidades (327,68 kWh totales)",
+      "conectividad": "Bluetooth",
+      "interfazComunicacion": "CAN/RS485",
+      "almacenamientoDatos": "Disco rígido opcional, hasta 5 años de registros",
+      "certificados": "UN38.3, CE-EMC, UL (celdas)",
+      "garantia": "3 años"
+    },
+    "highlights": [
+      "5,12 kWh de capacidad por unidad con celdas LiFePO4 certificadas UL 1973",
+      "Escalable hasta 64 unidades en paralelo: 327,68 kWh de capacidad total",
+      "Más de 6.000 ciclos de vida útil y profundidad de descarga ≥95%",
+      "Protección IP20 con montaje flexible en pared o piso",
+      "Conectividad Bluetooth y comunicación CAN/RS485",
+      "Registro histórico de operación de hasta 5 años (disco opcional)",
+      "Compatible con las principales marcas de inversores del mercado",
+      "Garantía de 3 años"
     ],
     "accesoriosCompatibles": []
   },

@@ -9,8 +9,8 @@ import ExpansionConfigurator from '../components/ExpansionConfigurator'
 import { CATEGORIA_LABELS, CATEGORIA_COLORS, TIPO_RED_COLORS, COLOR_OVERRIDES } from '../data/categorias'
 import { ScrollReveal } from '../components/ScrollReveal'
 
-const modelsWithManual = ['rv5', 'ep2000', 'ep760', 'apex300', 'ac200pl', 'charger1', 'ac180p', 'ems', 'b300k', 'b700', 'elite300', 'elite400']
-const modelsWithFlyer = ['rv5', 'ep2000', 'ep760', 'apex300', 'ac200pl', 'es125x', 'es60', 'charger1', 'ac180p', 'b300k', 'b4810', 'b500', 'b700', 'elite400']
+const modelsWithManual = ['rv5', 'ep2000', 'ep760', 'apex300', 'ac200pl', 'charger1', 'ac180p', 'ems', 'b300k', 'b700', 'elite300', 'elite400', 'hv6k', 'hv10k']
+const modelsWithFlyer = ['rv5', 'ep2000', 'ep760', 'apex300', 'ac200pl', 'es125x', 'es60', 'charger1', 'ac180p', 'b300k', 'b4810', 'b500', 'b700', 'elite400', 'hv6k', 'hv10k', 'hb500']
 const modelsWithAppManual = ['ep760', 'ep2000']
 const modelsWithInstallGuide = ['ep760', 'ep2000']
 const modelsWithParallelGuide = ['ep2000']
@@ -31,7 +31,7 @@ function getImgContentRect(img) {
   const iw = r.height * aspect
   return { left: (r.width - iw) / 2, top: 0, width: iw, height: r.height }
 }
-const modelsWithoutVideo = ['ems', 'es60', 'b300k', 'b4810', 'b500', 'b700', 'elite300', 'elite400']
+const modelsWithoutVideo = ['ems', 'es60', 'b300k', 'b4810', 'b500', 'b700', 'elite300', 'elite400', 'hv6k', 'hv10k', 'hb500']
 
 const installationVideos = {
   rv5: [
